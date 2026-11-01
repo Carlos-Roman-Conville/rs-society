@@ -389,7 +389,7 @@ gated by its REPORT verdict (Cognition's COG-16 pattern), never on every change.
 | SOC-Q5 | Class as a computed classification only (never stored on a person, never read by a mechanism), like government types? | yes |
 | SOC-Q6 | The first demonstration's analogue: a late-fourteenth-century English parish (H1, development only), with mutual-aid and religious fraternities; craft guilds wait for P5 Economy, political factions for P8 Government? | yes |
 | SOC-Q7 | DUP-61: "what the town knows" is Knowledge & Technology's (an aggregate over minds and records) on Society's network? | yes (Society builds no stock) |
-| SOC-Q8 | Approve DUP-58, DUP-59 and DUP-60 as proposed in `OVERLAPS-BATCH-2B.md`, with the refinements here (affordance port; the religious community as a view; preference transmission as content) | yes |
+| SOC-Q8 | Approve DUP-58, DUP-59 and DUP-60 as proposed in `OVERLAPS-BATCH-2B.md`, with the refinements here (affordance port; the religious community as a view; preference transmission as content) | **decided (Rex, 2026-10-31): batch 2b approved** (owners as proposed; DUP-61 to K&T, which also settles SOC-Q7). Society agreed the acceptance tests with amendments (DUP-58 +no money in Society state, +no kind-label reads; DUP-59 +one household per person; DUP-60 +no trust on ties, +network writes no content), sent to the registry keeper |
 
 ## 6. After approval: the package and the first units (draft, not queued)
 
