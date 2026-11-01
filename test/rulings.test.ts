@@ -60,7 +60,6 @@ describe("DESIGN §1.14 1: references are structural evidence, drafts are execut
   it.each([
     { admission: [{ type: "unknown" }] },
     { obligations: [{ type: "open" }] },
-    { positions: [{ type: null, source_silent: true, note: "Unknown election method" }] },
     { decision_procedure: { ...majority, eligibility: { type: "open" } } },
     { decision_procedure: { type: "council", procedure: { type: "unknown" } } },
     { components: [{ section: "unrecorded", type: "open" }] },

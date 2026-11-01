@@ -6,15 +6,15 @@
 - 2837: Shared records, Kernel ids and composable charter validation.
 - 2838: Communication network, clocks, exposure, decay and observer measures.
 - 2839: 24 sourced historical charter compositions and vocabulary gaps.
-- 2840: Reference verification; 27 executable-validation todos remain blocked.
+- 2840: Reference verification; 27 reference rows annotated and covered in `test/charter-reference.test.ts` (5054).
 - 2841: Organisation authority, obligations and atomic resource/view ports.
 - 2842: Collective choice, explicit tie-breaks and pairwise cycle witnesses.
 - 2843: Intention-driven founding/lifecycle and observer-only institution label.
 - 2844: Independent invariant check in CHECK.md; unit lists not checked.
 - 2913: Null diagnostics, typed institution evidence and declared-parameter DUP-58 (3) check.
 - 5053: All five DESIGN §1.14 rulings implemented and covered in `test/rulings.test.ts`.
-  Gate: 266 tests passed, including DUP-58/DUP-60; typecheck passed. Additional charter null/reference
-  checks: 422 passed, 27 existing todos for 5054.
+- 5054: `source_silent` annotations on all 27 reference rows; per-row `validateReference` and fixture-filled
+  `validateCharter` coverage in `test/charter-reference.test.ts` (166 tests, no todos).
 
 - 2982–2984: Fixture village reference, deterministic generator and CHECK-3 review.
 - 2992: Male/female spouse pairs preserve sex totals; default village regenerated, age structure retained.
@@ -25,17 +25,11 @@ Details, API conventions and verification limits: README.md.
 
 ## Next
 
-- 5054: Annotate historical references and validate their structural evidence plus completed fixture drafts.
 - Charter research fixes: source/vocabulary gaps and executable inputs without invented history.
 - Affordance port with Cognition, requiring the Cognition keeper's agreement.
 - D-SOC-1 bench (waits on the Cognition affordance port) and independent-data validation.
 
 ## Blocked
-
-**2840 / 5054 reference validation:** historical rows still need source-silent annotations and known
-component types before passing `validateReference`; executable drafts additionally need all missing inputs,
-admission, `founding: { window, min_members }`, and explicit majority `base`. The 27 reference-validation todos
-remain for unit 5054. Unit 5053 leaves `data/` unchanged. The null exceptions were fixed by 2913.
 
 5053 API notes: the old `founding.minimum` field is replaced by `min_members`, with no alias/default.
 Council majorities carry `base` on their nested majority procedure; council scope is applied first.

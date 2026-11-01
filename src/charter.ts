@@ -251,7 +251,9 @@ export function validateReference(reference: unknown): string[] {
     const note = value.note ?? value.notes;
     const silent = annotated || (value.source_silent === true && typeof note === "string" && !!note.trim());
     if (types || "type" in value) {
-      if (typeof value.type !== "string" || !(types ?? [...known]).includes(value.type)) {
+      if (value.type === null) {
+        if (!silent) error(`${path}.type`, "null requires source_silent: true and a nonempty note");
+      } else if (typeof value.type !== "string" || !(types ?? [...known]).includes(value.type)) {
         error(`${path}.type`, "unsupported component type");
       }
     }

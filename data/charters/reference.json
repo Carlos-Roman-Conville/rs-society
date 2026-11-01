@@ -25,7 +25,9 @@
         "amount": 2,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "quarterage 2d, four times a year, due before the masters' account day",
         "stated_schedule": "quarterly",
@@ -38,7 +40,9 @@
         "amount": 20,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "feast on the Sunday after St James's day; each attendee 'appears to pay 20d' (reading uncertain)",
         "stated_schedule": "yearly",
@@ -51,7 +55,9 @@
         "activity": "assembly of masters and brethren",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "four times a year",
         "label": "researched"
@@ -80,7 +86,9 @@
         "activity": "annual feast",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "Sunday after St James's day",
         "label": "researched"
@@ -91,7 +99,9 @@
         "type": null,
         "term": null,
         "stated": "wardens collect payments and render an annual account the day after the feast; how chosen and for how long: not stated",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "How chosen and for how long: not stated."
       },
       {
         "section": "sanction",
@@ -100,14 +110,18 @@
         "procedure": null,
         "stated": "40s for a chosen warden who refuses office when warned",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "a member who rebels against the award of wardens and wise members, or is riotous or contentious, is expelled until he amends",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -144,7 +158,9 @@
           },
           "quorum": {
             "type": "count",
-            "value": null
+            "value": null,
+            "source_silent": true,
+            "note": "Quorum threshold not recorded in the source return."
           }
         },
         "stated": "admission on assembly day 'with the assent of all' (reading: unanimity of those present)",
@@ -156,7 +172,9 @@
         "amount": null,
         "stated": "entry fee agreed between the masters and the entrant; no figure",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "obligation",
@@ -164,7 +182,9 @@
         "amount": 3,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "quarterage 3d per quarter; a married couple pays 6d; a single woman pays as a brother",
         "stated_schedule": "quarterly",
@@ -188,7 +208,9 @@
         "repayment_period": null,
         "stated": "loans from the box keepers against a pledge or sureties from within the brotherhood, capped; cap and repayment period not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Cap and repayment period not stated."
       },
       {
         "section": "benefit",
@@ -197,7 +219,9 @@
         "amount": null,
         "stated": "the box pays a poor member's burial; sum not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Sum not stated."
       },
       {
         "section": "position",
@@ -205,7 +229,9 @@
         "type": null,
         "term": null,
         "stated": "masters for the next year chosen on St Katherine's day (that afternoon or the following Sunday); by whom: not stated",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "By whom: not stated."
       },
       {
         "section": "position",
@@ -213,7 +239,9 @@
         "type": null,
         "term": null,
         "stated": "four men hold the goods (one keeps the box, one the key, two collect quarterage) and account on St Katherine's day before all members or six of the wisest",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "amendment",
@@ -224,7 +252,9 @@
         },
         "quorum": {
           "type": "count",
-          "value": null
+          "value": null,
+          "source_silent": true,
+          "note": "Quorum threshold not recorded in the source return."
         },
         "stated": "wardens may not make new statutes without the whole brotherhood's assent on assembly day (reading: unanimity)",
         "label": "researched"
@@ -266,7 +296,9 @@
         "amount": 3,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "quarterage 3d; a married couple 6d per quarter; a single woman as a brother",
         "stated_schedule": "quarterly",
@@ -279,7 +311,9 @@
         "activity": "assembly on oath",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "attendance on oath on pain of a 40d fine",
         "stated_schedule": "four fixed days a year: feast of Fabian and Sebastian, Sundays after Easter, Midsummer and Michaelmas",
@@ -302,7 +336,9 @@
         "repayment_period": null,
         "stated": "pledges or sureties drawn only from the brotherhood; sum and term as for return II (not stated)",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Sum and term as for return II (not stated)."
       },
       {
         "section": "benefit",
@@ -311,7 +347,9 @@
         "amount": null,
         "stated": "poor members are buried from the box; sum not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Sum not stated."
       },
       {
         "section": "position",
@@ -319,7 +357,9 @@
         "type": null,
         "term": "yearly",
         "stated": "four good men keep the goods and account on St Fabian's day before all members or six of the wisest; replaced yearly unless the company finds them more useful in office",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "sanction",
@@ -328,14 +368,18 @@
         "procedure": null,
         "stated": "40d for absence from an assembly day or a burial without a 'verray enchesoun'",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "a thief, common quarreller or person of bad repute, to the company's discredit, is expelled without delay",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "amendment",
@@ -346,7 +390,9 @@
         },
         "quorum": {
           "type": "count",
-          "value": null
+          "value": null,
+          "source_silent": true,
+          "note": "Quorum threshold not recorded in the source return."
         },
         "stated": "wardens need the whole brotherhood's assent, given on one of the four assembly days",
         "label": "researched"
@@ -379,7 +425,9 @@
         "amount": 0.25,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "weekly farthing per member to aid a poor brother or sister (farthing = 1/4 d)",
         "stated_schedule": "weekly",
@@ -392,7 +440,9 @@
         "activity": "feast of St George with candles",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "yearly, St George's day",
         "label": "researched"
@@ -403,7 +453,9 @@
         "activity": "requiem mass",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "yearly, the day after the feast",
         "label": "researched"
@@ -415,7 +467,9 @@
         "amount": null,
         "stated": "aid to a poor brother or sister from the weekly fund; amount not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not stated."
       }
     ],
     "unmapped": [
@@ -444,7 +498,9 @@
         "activity": "mass on Trinity Monday after Pentecost",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "yearly",
         "label": "researched"
@@ -455,7 +511,9 @@
         "activity": "annual feast",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "yearly",
         "label": "researched"
@@ -497,7 +555,9 @@
         "activity": "assembly on Holy Thursday with a candle",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "yearly",
         "label": "researched"
@@ -508,7 +568,9 @@
         "activity": "requiem",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "yearly, the Friday after",
         "label": "researched"
@@ -528,7 +590,9 @@
         "type": null,
         "term": null,
         "stated": "officers chosen at a meeting in Easter week; by whom: not stated",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "By whom: not stated."
       }
     ],
     "unmapped": [
@@ -567,7 +631,9 @@
         "activity": "principal mass at St Augustine's",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "yearly, Sunday before his feast",
         "label": "researched"
@@ -606,7 +672,9 @@
         "amount": null,
         "stated": "house fees: alderman 4d, clerk 2d, dean 2d; no single total stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "obligation",
@@ -614,7 +682,9 @@
         "activity": "general meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "three meetings a year; absence without leave costs a pound of wax",
         "stated_schedule": "three times a year, more if needed",
@@ -626,7 +696,9 @@
         "type": null,
         "term": null,
         "stated": "alderman, skeuyn, dean and clerk; election not stated in the return",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Election not stated in the return."
       },
       {
         "section": "position",
@@ -634,7 +706,9 @@
         "type": null,
         "term": null,
         "stated": "the dean summons the brethren; failing to summon costs 3d per brother",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "sanction",
@@ -643,7 +717,9 @@
         "procedure": null,
         "stated": "an alderman who refuses office is fined 3s",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -652,7 +728,9 @@
         "procedure": null,
         "stated": "a dean who refuses office is fined 12d; the skeuyn's fine is garbled in the OCR (one pass read 3s or 4s, not certain)",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -661,14 +739,18 @@
         "procedure": null,
         "stated": "dean's failure to summon costs 3d per brother",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "breaking the counsel of the gild costs two stone of wax or expulsion",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -698,7 +780,9 @@
         "amount": null,
         "stated": "newcomers pay a fee; the OCR figure is garbled (\"Y.8.\"), one pass read 5s and another 1s, so none is recorded",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "obligation",
@@ -706,7 +790,9 @@
         "activity": "general meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "four times a year",
         "label": "researched"
@@ -717,7 +803,9 @@
         "activity": "annual feast and solemn mass",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "feast of St Thomas after Midsummer",
         "label": "researched"
@@ -727,7 +815,9 @@
         "type": "expulsion",
         "procedure": null,
         "stated": "anyone guilty of false witness, theft or wrongdoing is expelled for life",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -764,7 +854,9 @@
         "activity": "general meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "four times a year",
         "label": "researched"
@@ -775,7 +867,9 @@
         "type": null,
         "term": null,
         "stated": "clerk paid 3s 4d",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -783,14 +877,18 @@
         "type": null,
         "term": null,
         "stated": "dean paid 2s",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "expulsion after repeated breaches",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -823,7 +921,9 @@
         "activity": "general meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "absence costs 1d to the light",
         "stated_schedule": "four times a year",
@@ -835,7 +935,9 @@
         "amount": null,
         "stated": "house fees: alderman 1d, clerk 1/2d, wax 1/2d, dean 1/2d",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "sanction",
@@ -844,7 +946,9 @@
         "procedure": null,
         "stated": "a false charge against a brother costs 2d",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -853,7 +957,9 @@
         "procedure": null,
         "stated": "noise during feasts: rod penance or 3d",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -862,7 +968,9 @@
         "procedure": null,
         "stated": "sleeping, or hogging the ale cup, costs 1d",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -871,14 +979,18 @@
         "procedure": null,
         "stated": "entering the ale chamber without leave is fined; the numeral is garbled in the OCR",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "betraying gild counsel costs a pound of wax or expulsion",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -917,7 +1029,9 @@
         "activity": "general meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "absence without excuse costs half a pound of wax",
         "stated_schedule": "three times a year",
@@ -948,7 +1062,9 @@
         "procedure": null,
         "stated": "late arrival after prime costs 1d",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -957,7 +1073,9 @@
         "procedure": null,
         "stated": "sleeping during drink, or staying after the alderman rises: no legible clause found in the OCR, so no fine is recorded",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "position",
@@ -965,7 +1083,9 @@
         "type": null,
         "term": null,
         "stated": "officers chosen by picked men; stewards provide sureties and account at the general meeting",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       }
     ],
     "unmapped": [
@@ -997,7 +1117,9 @@
         "amount": null,
         "stated": "entry house fees: alderman 2d, clerk 1d, dean 1d, wax 1d, plus sureties",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "obligation",
@@ -1005,7 +1127,9 @@
         "amount": 0.5,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "a halfpenny per meeting for three candles",
         "stated_schedule": "per meeting (four a year)",
@@ -1018,7 +1142,9 @@
         "activity": "general meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "Sundays after Michaelmas, Epiphany and St Barnabas, and after drinking",
         "stated_schedule": "four times a year",
@@ -1040,7 +1166,9 @@
         "procedure": null,
         "stated": "entering the ale chamber without leave is fined to the light; the numeral is garbled in the OCR",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -1070,7 +1198,9 @@
         "activity": "general meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "missing both costs an obol",
         "stated_schedule": "two meetings a year",
@@ -1083,7 +1213,9 @@
         "amount": null,
         "stated": "burial at gild cost if the member lacks means; sum not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Sum not stated."
       }
     ],
     "unmapped": [
@@ -1121,7 +1253,9 @@
         "activity": "general meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "St John's day, after Michaelmas, Christmas and after Holy Cross Day",
         "stated_schedule": "four times a year",
@@ -1142,7 +1276,9 @@
         "type": null,
         "term": null,
         "stated": "alderman, two stewards and a clerk chosen by picked men",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       }
     ],
     "unmapped": [
@@ -1170,7 +1306,9 @@
         "amount": 0.25,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "a farthing at mass, another to alms",
         "stated_schedule": "at the annual mass",
@@ -1183,7 +1321,9 @@
         "activity": "evensong on St Peter's day with a 6 lb wax torch",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "yearly",
         "label": "researched"
@@ -1195,7 +1335,9 @@
         "amount": null,
         "stated": "hardship aid: the OCR shows \"iiij.\" but its unit is garbled, so no amount is recorded",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "position",
@@ -1203,7 +1345,9 @@
         "type": null,
         "term": null,
         "stated": "alderman William Mark and beadle John Skultoun",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       }
     ],
     "unmapped": [
@@ -1232,12 +1376,16 @@
         "amount": null,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "members charge their houses a proportionate rent payable to the gild; rate not stated",
         "stated_schedule": "not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Rate not stated."
       },
       {
         "section": "benefit",
@@ -1246,7 +1394,9 @@
         "amount": null,
         "stated": "a ruined member is helped, but only on three separate occasions; amount not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not stated."
       },
       {
         "section": "benefit",
@@ -1255,7 +1405,9 @@
         "amount": null,
         "stated": "help after false imprisonment; amount not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not stated."
       },
       {
         "section": "benefit",
@@ -1264,7 +1416,9 @@
         "amount": null,
         "stated": "a girl member entering religion or marrying receives a dowry if her parents cannot provide it; amount not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not stated."
       },
       {
         "section": "position",
@@ -1272,7 +1426,9 @@
         "type": null,
         "term": null,
         "stated": "one warden",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -1280,7 +1436,9 @@
         "type": null,
         "term": null,
         "stated": "seven priests, singers and choristers",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       }
     ],
     "unmapped": [
@@ -1318,7 +1476,9 @@
         "amount": 3,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "quarterage of 3d",
         "stated_schedule": "quarterly",
@@ -1331,7 +1491,9 @@
         "amount": 12,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "annual feast: 12d for a man, 8d for a wife, same for each guest",
         "stated_schedule": "yearly",
@@ -1344,7 +1506,9 @@
         "activity": "quarterly meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "non-attendance costs half a pound of wax",
         "stated_schedule": "three quarterly meetings",
@@ -1357,7 +1521,9 @@
         "amount": null,
         "stated": "poverty aid only for members of at least seven years' standing, after investigation and public hearing at a quarterly meeting; amount not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not stated."
       },
       {
         "section": "benefit",
@@ -1367,7 +1533,9 @@
         "repayment_period": null,
         "stated": "loans of forty shillings, or four or five marks, for one to three months, against security (480d = 40s; 640-800d = 4-5 marks)",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Repayment period not recorded in the source return."
       },
       {
         "section": "benefit",
@@ -1375,7 +1543,9 @@
         "activity": "annual feast",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "yearly",
         "label": "researched"
@@ -1386,7 +1556,9 @@
         "type": null,
         "term": null,
         "stated": "wardens elected at the annual feast, half from fishmongers and half from parishioners",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "admission",
@@ -1403,7 +1575,9 @@
         "type": "expulsion",
         "procedure": null,
         "stated": "expulsion for evil life or for failure to pay quarterage",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -1412,7 +1586,9 @@
         "procedure": null,
         "stated": "a priest absent beyond 40 days a year pays a penny a day over the limit",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -1453,7 +1629,9 @@
         "amount": 3,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "3d quarterly",
         "stated_schedule": "quarterly",
@@ -1466,7 +1644,9 @@
         "activity": "assembly",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "absence fined 40d",
         "stated_schedule": "four assembly days yearly",
@@ -1489,7 +1669,9 @@
         "repayment_period": null,
         "stated": "Gild Book: loans of 20s (240d), or two marks, for up to a quarter-year, against sufficient silver or gold security; repayment period of a quarter-year not applied to clock units",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Repayment period not recorded in the source return."
       },
       {
         "section": "benefit",
@@ -1498,7 +1680,9 @@
         "amount": null,
         "stated": "a brother without means is buried from the common box",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "position",
@@ -1506,7 +1690,9 @@
         "type": null,
         "term": null,
         "stated": "masters chosen yearly from the parish (term of one year; clock units not applied)",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -1514,7 +1700,9 @@
         "type": null,
         "term": null,
         "stated": "two sufficient men keep the box, with a clerk (Gild Book); in 1389 four or six trusted men",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "sanction",
@@ -1523,14 +1711,18 @@
         "procedure": null,
         "stated": "refusing office: 10s; 20s if chosen again the next year",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "thieves, common gamblers or brawlers, or those of bad repute, are expelled; so are those who reveal the council's business to the gild's harm, unless they pay the fine",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "amendment",
@@ -1541,7 +1733,9 @@
         },
         "quorum": {
           "type": "count",
-          "value": null
+          "value": null,
+          "source_silent": true,
+          "note": "Quorum threshold not recorded in the source return."
         },
         "stated": "wardens could not make new statutes without the assent of all the brethren at an assembly",
         "label": "researched"
@@ -1577,7 +1771,9 @@
         "type": null,
         "term": null,
         "stated": "a governor elected; members swear not to act against the governing twelve",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "benefit",
@@ -1586,7 +1782,9 @@
         "amount": null,
         "stated": "funeral costs for poor members whose conduct had been approved; amount not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not stated."
       }
     ],
     "unmapped": [
@@ -1616,7 +1814,9 @@
         "amount": null,
         "stated": "joining required an entrance fee; amount not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not stated."
       },
       {
         "section": "obligation",
@@ -1624,7 +1824,9 @@
         "amount": 1,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "each brother gave a penny (or wax equivalent) three days before St Peter's mass",
         "stated_schedule": "yearly",
@@ -1638,7 +1840,9 @@
         "role": "steward",
         "term": null,
         "stated": "the steward held decision-making authority; he called everyone to attend a corpse and gave leave for extra guests",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "benefit",
@@ -1647,7 +1851,9 @@
         "amount": null,
         "stated": "if a brother fell sick within sixty miles, fifteen men were to fetch him",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       }
     ],
     "unmapped": [
@@ -1685,7 +1891,9 @@
         "amount": 12,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "1s every fourth Monday: 10d into the box, 2d spent at the house where the box is kept",
         "stated_schedule": "every fourth Monday",
@@ -1752,7 +1960,9 @@
         "activity": "Whitsun-week church service and dinner",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "members pay 1s 4d for the dinner; the minister receives 10s 6d (126d) from the box",
         "stated_schedule": "yearly, Tuesday of Whitsun week",
@@ -1764,7 +1974,9 @@
         "activity": "Whitsun feast and church",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "members within 18 miles must attend decently dressed and sober, or forfeit 6d and still pay 1s 4d; farther than 18 miles, forfeit 6d but pay nothing",
         "stated_schedule": "yearly",
@@ -1780,11 +1992,15 @@
         },
         "quorum": {
           "type": "count",
-          "value": null
+          "value": null,
+          "source_silent": true,
+          "note": "Quorum threshold not recorded in the source return."
         },
         "term": null,
         "stated": "clerk serves one year, elected on the anniversary by a majority of members present; paid 14s a year from the box",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -1792,7 +2008,9 @@
         "type": null,
         "term": null,
         "stated": "a president and stewards are named; election and term not in the summarised passage",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "sanction",
@@ -1801,7 +2019,9 @@
         "procedure": null,
         "stated": "the clerk is fined 1s for absence at seven o'clock without a deputy",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -1810,14 +2030,18 @@
         "procedure": null,
         "stated": "6d forfeit for a Whitsun feast breach (drunk, unclean or absent)",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "a member who takes up a barred trade is expelled unless impressed or balloted; a clerk who neglects his duties is fined 1s or excluded; members who try to subvert Church or State are excluded",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -1852,7 +2076,9 @@
         "amount": null,
         "stated": "admission fine: the OCR prints \"ys. 6d.\" (a garbled first numeral), so no amount is recorded; no person above 36 can be admitted",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "obligation",
@@ -1860,7 +2086,9 @@
         "amount": 12,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "meets monthly: 10d goes to the box and 2d is spent in liquor",
         "stated_schedule": "monthly",
@@ -1873,7 +2101,9 @@
         "activity": "monthly meeting",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "monthly",
         "label": "researched"
@@ -1902,7 +2132,9 @@
         "type": null,
         "term": null,
         "stated": "two stewards serve in rotation every three months",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -1910,7 +2142,9 @@
         "type": null,
         "term": null,
         "stated": "a master audits the accounts",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -1918,7 +2152,9 @@
         "type": null,
         "term": "indefinite",
         "stated": "a permanent clerk keeps the books",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -1938,12 +2174,16 @@
           },
           "quorum": {
             "type": "count",
-            "value": null
+            "value": null,
+            "source_silent": true,
+            "note": "Quorum threshold not recorded in the source return."
           }
         },
         "term": null,
         "stated": "a committee of seven, chosen quarterly, settles disputes (voting rule not stated; simple majority is a reading)",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Simple majority is a reading)."
       }
     ],
     "unmapped": [
@@ -1980,7 +2220,9 @@
         "amount": 6,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "fortnightly contribution of six pfennigen",
         "stated_schedule": "fortnightly",
@@ -1993,7 +2235,9 @@
         "amount": 1,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "quarterly payment of one groschen",
         "stated_schedule": "quarterly",
@@ -2006,7 +2250,9 @@
         "activity": "fortnightly meeting opened with a religious service and a social cup",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "late arrivals are fined",
         "stated_schedule": "fortnightly",
@@ -2019,7 +2265,9 @@
         "amount": null,
         "stated": "sick members receive support, which must be repaid if they recover; amount not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not stated."
       },
       {
         "section": "benefit",
@@ -2028,7 +2276,9 @@
         "amount": null,
         "stated": "burial paid for by the fraternity; sum not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Sum not stated."
       },
       {
         "section": "position",
@@ -2036,7 +2286,9 @@
         "type": null,
         "term": null,
         "stated": "two elders preside; annually elected masters' deputies must be present for decisions",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "sanction",
@@ -2045,7 +2297,9 @@
         "procedure": null,
         "stated": "fines for drinking, gaming, insults and late arrival; amounts not stated",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amounts not stated."
       }
     ],
     "unmapped": [
@@ -2084,12 +2338,16 @@
         "amount": null,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "a monthly contribution is required (a month missed is fined) but the amount is never stated",
         "stated_schedule": "monthly",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Schedule anchor dates not recorded in the return."
       },
       {
         "section": "obligation",
@@ -2097,7 +2355,9 @@
         "activity": "monthly club night",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "meetings on the first Saturday of each month, 7 to 9 o'clock",
         "stated_schedule": "monthly (first Saturday)",
@@ -2128,7 +2388,9 @@
         "event": "death_of_wife",
         "stated": "at the death of a member's wife each member pays 6d; the total depends on the membership",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "position",
@@ -2140,11 +2402,15 @@
         },
         "quorum": {
           "type": "count",
-          "value": null
+          "value": null,
+          "source_silent": true,
+          "note": "Quorum threshold not recorded in the source return."
         },
         "term": null,
         "stated": "one master, held one year; the master and wardens nominate and 'the whole body' votes him in (voting rule not stated; simple majority is a reading)",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Simple majority is a reading)."
       },
       {
         "section": "position",
@@ -2152,7 +2418,9 @@
         "type": null,
         "term": null,
         "stated": "two wardens, who advance in turn (the elder succeeds the master); a new warden is taken from the council",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -2172,12 +2440,16 @@
           },
           "quorum": {
             "type": "count",
-            "value": null
+            "value": null,
+            "source_silent": true,
+            "note": "Quorum threshold not recorded in the source return."
           }
         },
         "term": null,
         "stated": "twelve council members sit with the master and wardens (voting rule not stated; simple majority is a reading)",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Simple majority is a reading)."
       },
       {
         "section": "amendment",
@@ -2200,7 +2472,9 @@
           },
           "quorum": {
             "type": "count",
-            "value": null
+            "value": null,
+            "source_silent": true,
+            "note": "Quorum threshold not recorded in the source return."
           }
         },
         "stated": "the master, wardens and council may make bye-laws or new articles not touching the King's prerogative (voting rule not stated; simple majority is a reading)",
@@ -2213,7 +2487,9 @@
         "procedure": null,
         "stated": "a master or warden who refuses office forfeits 5s to the box, or is excluded",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -2222,7 +2498,9 @@
         "procedure": null,
         "stated": "a member who misses one month's contribution forfeits 2d (4d for two months)",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -2231,14 +2509,18 @@
         "procedure": null,
         "stated": "a council member who ignores a call to a meeting forfeits 6d (4d in an urgent case)",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "a member three months behind with no contribution or message is excluded; so is one who works for pay on benefit if proved, conceals an infirmity at entry, or proposes to dissolve the society",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -2285,7 +2567,9 @@
         "amount": 18,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "monthly",
         "stated": "monthly payment of 1s 6d for the eight-shilling class (1s 2d for the six-shilling class, 9d for the four-shilling class)",
@@ -2298,7 +2582,9 @@
         "activity": "monthly club night at 7 o'clock",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "meetings on the first Saturday of each month; late arrival is fined",
         "stated_schedule": "monthly (first Saturday)",
@@ -2320,7 +2606,9 @@
         "event": "death_of_member",
         "stated": "a death allowance rising with years of membership; the first-class table is illegible in the OCR, so no single amount is recorded",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "benefit",
@@ -2329,7 +2617,9 @@
         "event": "death_of_wife",
         "stated": "at a member's wife's funeral each member pays 3d; the total depends on the membership",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "position",
@@ -2337,7 +2627,9 @@
         "type": null,
         "term": null,
         "stated": "one master serves one year only; the election of the new warden and assistants is at the yearly general meeting (method not stated)",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "The election of the new warden and assistants is at the yearly general meeting (method not stated)."
       },
       {
         "section": "position",
@@ -2345,7 +2637,9 @@
         "type": null,
         "term": null,
         "stated": "two wardens; the elder succeeds the master and the younger the elder; a new warden is taken from the assistants",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -2365,12 +2659,16 @@
           },
           "quorum": {
             "type": "count",
-            "value": null
+            "value": null,
+            "source_silent": true,
+            "note": "Quorum threshold not recorded in the source return."
           }
         },
         "term": null,
         "stated": "twelve assistants form the committee, chosen from the whole society or in rotation as they stand in the book, and may not serve two years running (voting rule not stated; simple majority is a reading)",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Simple majority is a reading)."
       },
       {
         "section": "position",
@@ -2378,7 +2676,9 @@
         "type": null,
         "term": null,
         "stated": "a clerk keeps the accounts and receives £1 a year from the box",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -2386,7 +2686,9 @@
         "type": null,
         "term": null,
         "stated": "eleven arbitrators chosen annually on the general night, whose majority decision settles disputes (how they are chosen is not stated)",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Eleven arbitrators chosen annually on the general night, whose majority decision settles disputes (how they are chosen is not stated)."
       },
       {
         "section": "amendment",
@@ -2397,7 +2699,9 @@
         },
         "quorum": {
           "type": "count",
-          "value": null
+          "value": null,
+          "source_silent": true,
+          "note": "Quorum threshold not recorded in the source return."
         },
         "stated": "the articles may be altered 'by the consent of the major part of the society', and new articles must conform to the act of parliament (reading: simple majority of all members)",
         "label": "researched"
@@ -2409,7 +2713,9 @@
         "procedure": null,
         "stated": "a master or warden who refuses office forfeits 5s; an assistant forfeits 1s",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -2418,7 +2724,9 @@
         "procedure": null,
         "stated": "a contribution paid late forfeits 2d (4d for a second lateness)",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -2427,14 +2735,18 @@
         "procedure": null,
         "stated": "a member who does not remove his hat in the club room forfeits 2d",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "enlisting, working while on benefit, feigned or concealed sickness, felony, fraud or petty larceny, or three missed contribution nights leads to exclusion",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
@@ -2487,7 +2799,9 @@
           },
           "quorum": {
             "type": "count",
-            "value": null
+            "value": null,
+            "source_silent": true,
+            "note": "Quorum threshold not recorded in the source return."
           }
         },
         "stated": "no person is admitted without the consent of the majority (reading: simple majority of those present)",
@@ -2499,7 +2813,9 @@
         "amount": 16,
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated_schedule": "every six weeks (reading)",
         "stated": "1s 4d towards the public fund at each six-weekly meeting, plus 2d for the box-keeper's house (reading: Art. IV once says 'weekly')",
@@ -2512,7 +2828,9 @@
         "activity": "six-weekly box night",
         "schedule": {
           "first": null,
-          "period": null
+          "period": null,
+          "source_silent": true,
+          "note": "Parameter not recorded in the source return."
         },
         "stated": "stewards and members attend each six-weekly meeting; a late payer forfeits 2d, then 6d, and is excluded for a third default",
         "stated_schedule": "every six weeks (reading)",
@@ -2525,7 +2843,9 @@
         "event": "sickness",
         "stated": "after twelve months a sick member is paid weekly by the stewards; the rate is garbled in the OCR and no amount is recorded",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Amount not recorded in the source return."
       },
       {
         "section": "benefit",
@@ -2551,7 +2871,9 @@
         "type": null,
         "term": null,
         "stated": "two stewards chosen by roll call for a half-year, who collect and count the contributions; a man who declines pays 18d and is chosen again",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -2559,7 +2881,9 @@
         "type": null,
         "term": null,
         "stated": "a clerk is paid £1 10s a year; neglect is fined 6d",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -2567,7 +2891,9 @@
         "type": null,
         "term": null,
         "stated": "a beadle gives notice of funerals and pays the fines of members he fails to warn, or is excluded",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -2575,7 +2901,9 @@
         "type": null,
         "term": null,
         "stated": "William Wilson, landlord of the Sun, keeps the box and records under security approved by the majority",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Office election procedure and term length not recorded in the return."
       },
       {
         "section": "position",
@@ -2595,12 +2923,16 @@
           },
           "quorum": {
             "type": "count",
-            "value": null
+            "value": null,
+            "source_silent": true,
+            "note": "Quorum threshold not recorded in the source return."
           }
         },
         "term": null,
         "stated": "a committee of thirteen men including the clerk and stewards, 'annually appointed by the clerk', decides all affairs (voting rule not stated; simple majority is a reading)",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Simple majority is a reading)."
       },
       {
         "section": "sanction",
@@ -2609,7 +2941,9 @@
         "procedure": null,
         "stated": "a man chosen steward who declines forfeits 18d",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -2618,7 +2952,9 @@
         "procedure": null,
         "stated": "swearing or blasphemy forfeits 2d an offence",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -2627,7 +2963,9 @@
         "procedure": null,
         "stated": "striking another member forfeits 2s 6d, with exclusion for that night",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
@@ -2636,14 +2974,18 @@
         "procedure": null,
         "stated": "disclosing the society's secrets to a non-member forfeits 12d",
         "label": "researched",
-        "unit": "penny (English d.)"
+        "unit": "penny (English d.)",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       },
       {
         "section": "sanction",
         "type": "expulsion",
         "procedure": null,
         "stated": "exclusion for a third default in payment, for joining another society or enlisting in the King's service, for theft or a grave crime not cleared, and for being found away from home in benefit hours",
-        "label": "researched"
+        "label": "researched",
+        "source_silent": true,
+        "note": "Decision procedure for this rule not recorded in the return."
       }
     ],
     "unmapped": [
