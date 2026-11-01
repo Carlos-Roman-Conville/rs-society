@@ -1,37 +1,26 @@
 # HANDOFF: society
 
 ## State
-- 5194: DESIGN section 1.15 bench rerun, 30 seeds x 5 conditions; contact resets, perceived-peer forecasts, open ballots and illness-only diagnostic. D1-D4/D3b PASS, D5-D7 FAIL. Relief foundings baseline/high/no-shocks/illness-only=720/435/1075/969; no tuning. Gate: 25 tests/3 files + tsc; absent-results check: 7 pass/2 artifact checks skip. See REPORT.md and DIAGNOSIS.md.
-- 5193: open ballots via optional charter `decision_interval` (positive safe integer Kernel ms). `attempt(propose, { decision })` opens; `attend`/`support`/`oppose`/`abstain` target the proposal id; `advanceTo` closes at proposal time + interval, in mint order. No interval preserves same-tick decisions. `test/open-proposals.test.ts`.
-- 5193: interval attendance, current eligibility, leave/death exclusions, observable close results and amendment application; admission/split/merge consume closed approvals with their existing explicit intentions. `store.proposals` and `store.attendance` are detached affordance inputs. Gate: 113 tests/5 files + tsc; 28 new tests.
-- 5163: D-SOC-1 transport/evidence rerun; D1-D4/D3b PASS, D5-D7 FAIL; see DIAGNOSIS.md. Gate 22 tests/3 files + tsc; no src/numeric tuning.
-- 5162: numeric obligation/benefit `propose`/`action: "amend"`; validated, amendment procedure; offers/change/tallies; dues/claims use amended charter. `test/amendment.test.ts`.
-- 5162 changed #propose to share proposalProcedure with offers (admit proposals use the admission vote; elect/sanction with no position or bad index now refuse instead of falling back to decision_procedure); awaiting keeper ruling (review fix 46).
-- 2836-2844: Approved DESIGN; scaffold/smoke/fences; records/Kernel ids/composable validation; network/clocks/exposure/decay/observers; 24 sourced compositions/vocabulary gaps; reference verification; authority/obligations/atomic resource-view ports; choice/ties/cycle witnesses; intention-led founding/lifecycle, observer-only institution label; CHECK.md invariants (unit lists unchecked).
-- 2913: Null diagnostics, typed institution evidence, declared-parameter DUP-58 (3) check.
-- 2982-2984/2992: deterministic village reference/generator, CHECK-3; spouses preserve sex totals; regenerated default preserves ages.
-- 2995-2997: 27 charters, 24 OCR-rechecked via WebFetch windows (not each character); independent Great Hucklow 1787, Tideswell 1764, Glass-Makers Newcastle 1755.
-- 5053-5055: five DESIGN 1.14 rulings tested (`rulings.test.ts`); 27 `source_silent` references, per-row validateReference/fixture-filled validateCharter (`charter-reference.test.ts`: 166 tests, no todos); keeper OK null types (1.14.1, 5c470ea). `src/affordance.ts`/`society.affordance.offer`; households/migration typed empty.
-- 5056-5057: bench host/fixture beliefs; Cognition devDependency `file:../cognition`, chosen drafts; D3b refusal at `pay`; household ledger/evidence; 30 seeds x 4 conditions, 250 minds, 5 fixture years. D1-D4/D3b PASS, D5-D7 FAIL; prior gate 17 tests/3 files + tsc. Limits: bench/d-soc-1/REPORT.md.
+- 5194: DESIGN 1.15: 30 seeds x 5; D1-D4/D3b PASS, D5-D7 FAIL, no tuning. See bench/d-soc-1/{REPORT,DIAGNOSIS}.md. Gate: 25 tests/3 files + tsc; absent: 7 pass/2 skip.
+- 5193: optional decision_interval (positive safe integer Kernel ms); propose { decision } opens, attend/support/oppose/abstain target proposal id, advanceTo closes in mint order; absent interval=same tick. Detached store.proposals/attendance; test/open-proposals.test.ts.
+- 5162: numeric obligation/benefit amendments, offers/tallies/dues/claims; test/amendment.test.ts. #propose now shares offers' proposalProcedure: admit uses admission vote; elect/sanction without position or valid index refuse, no decision_procedure fallback. Awaiting keeper ruling (fix 46); see DESIGN 1.15 / bench/d-soc-1/DIAGNOSIS.md.
+- 5163: transport/evidence: same verdicts, no src/tuning; DESIGN 1.15 / bench/d-soc-1/DIAGNOSIS.md.
+- 2836-2844: see CHECK.md / DESIGN (unit lists unchecked).
+- 2913-2997: diagnostics/DUP-58 (3), village/CHECK-3 (sex totals/default ages preserved); 27 charters, 24 OCR window-checked, not characterwise; independent Hucklow/Tideswell/Newcastle sources. See CHECK.md / DESIGN.
+- 5053-5057: DESIGN 1.14 rulings/reference validation tested (166/no todos); null types keeper OK (5c470ea); affordance.offer, households/migration typed empty. Cognition file:../cognition devDependency; bench fixtures/evidence: bench/d-soc-1/REPORT.md.
 - 5065: kernel pinned at v0.1.1 from the mirror, 9fd4997
 
 ## Next
-- Research source/vocabulary gaps; no invented history.
-- Follow up the remaining D5-D7 mechanisms after the DESIGN section 1.15 rerun; then independent-data validation. See REPORT.md and DIAGNOSIS.md.
+- Research source/vocabulary gaps, no invented history; D5-D7 mechanisms then independent-data validation; see bench/d-soc-1/DIAGNOSIS.md.
 
 ## Blocked
-- D5 (5194): bench uses cross-tick ballots; sparse expressed attendance/votes, neutral term appraisal and the missing paired-transfer experiment remain. No manufactured votes; structural benefit removal unsupported. See bench/d-soc-1/DIAGNOSIS.md.
-- D6/D7 (5194): section 1.15.3 retains purse squeeze and affordability; reversed insurance directions remain diagnostic fixture findings. No hazard/cost/seed tuning; see bench/d-soc-1/DIAGNOSIS.md.
-- D6 age/ties (5194): contact resets and perceived inside-contact retention are implemented. Cadence, censoring/composition and missing organisational life-cycle mechanisms still limit yardsticks; see bench/d-soc-1/DIAGNOSIS.md.
-- Bench host lacks split/secession transport.
-- Cognition live-link hazard I-1048 until release tag.
+- D5: sparse expressed attendance/votes, neutral term appraisal, missing paired-transfer experiment; no manufactured votes; structural benefit removal unsupported.
+- D6/D7: retain purse squeeze/affordability (DESIGN 1.15.3); reversed insurance directions are fixture findings, no hazard/cost/seed tuning. Contact resets/inside-peer retention done; cadence, censoring/composition and missing life-cycle mechanisms limit age/ties. See bench/d-soc-1/DIAGNOSIS.md.
+- Bench lacks split/secession transport; Cognition live-link hazard I-1048 until release tag.
 
 ## Gotchas
-- 5194: large output is local at `bench/d-soc-1/results/results.json`, gitignored; old tracked output removed without history rewriting. Rebuild with `npm run bench:dsoc1`. Artifact-dependent report/hash tests skip when absent; source/report structure checks always run.
-- 5194: each realised contact resets both minds through Cognition at contact time, delivered on the next host tick. Timed ballot attempts complete immediately; closure is a separate observation. Ballots open at the fixed horizon are censored, never auto-filled. Two-quarter interval and peer-count forecast are labelled fixtures, not researched values.
-- 5193: interval is [proposal.t, closesAt); close precedes obligations due at that boundary. Procedure/duration captured at opening; active membership/offices rechecked for votes and close. Proposer's accepted opening survives their departure; removed members cannot restore that ballot by rejoining. One expressed ballot/person; duplicates refused. Admission/lifecycle consumers pass the original proposal identity/content, not a newly dated proposal.
-- Generator test `.mjs` resolves `scripts/build-village.d.mts`.
-- Compiler-API: 60_000 timeout/cached program. Fence bans grievance/unrest/rebellion/legitimacy/source_credibility/mind.belief even in src comments; imports @rex/kernel/relative only. kernel.json: processes/reads/writes.
-- Components: type, ignore kind/name; arrays: events/ports/procedures. Transfer/goods ports: settlement.ledger/economy.inventory; occupation fact port, kin Society relations. Missing numbers null/invalid, no defaults.
-- validateCharter: typed drafts, admission required; others optional; filling/amendment decision union; indefinite terms. Money never Society state.
-- 5053 API: founding.minimum -> min_members, no alias/default; council majority base nested, scope first. validateReference: section-tagged/charter rows; null needs source_silent:true + ancestor/component note(s); unknown types fail. Classifier in barrel. Rate/hour limiters: 30-day verified unchanged. Decay: max active half-life; kindless ties retain last until pruning.
+- 5194: bench/d-soc-1/results/results.json: gitignored; rebuild: npm run bench:dsoc1. Old 89 MB blob stays in history; rewriting is Rex's call. Artifact/hash tests skip if absent; structure checks run. Contacts reset both minds at contact time, delivered next tick; ballot attempts immediate, closure separate; horizon ballots censored, never filled. Two-quarter interval/peer-count forecasts are fixtures (fix 49).
+- 5193: [proposal.t, closesAt); close before boundary obligations; procedure/duration captured at opening, membership/offices rechecked at vote/close. Accepted opening survives proposer's departure (awaiting keeper ruling, fix 49); removed members cannot restore ballot by rejoining. One expressed ballot/person; consumers reuse original proposal identity/content.
+- Generator .mjs: scripts/build-village.d.mts; compiler API: 60_000/cached program. Fences incl. comments: codex/RULES.md; kernel.json: processes/reads/writes.
+- Components: type, not kind/name; events/ports/procedures arrays. Ports/fences/null numbers: codex/RULES.md; occupation fact port, kin Society relations.
+- validateCharter: typed drafts, only admission required; filling/amendment decision union, indefinite terms. founding.minimum -> min_members (no alias/default); council majority base nested, scope first. validateReference: section-tagged/charter rows; null: source_silent:true + ancestor/component notes; unknown types fail; classifier exported. Rate/hour limiters: 30-day verified. Decay: max active half-life; kindless ties retain last until pruning.
