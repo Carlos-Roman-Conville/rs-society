@@ -287,6 +287,39 @@ the contract fields above; `society.doctrine.transmission_divergence` and `socie
 `society.membership`, `society.household`, `society.population`, `society.collective_event`, `society.affordance`.
 Possible new overlap: `society.organisation.collective_choice` vs `government.rule.creation_amendment` (SOC-Q3).
 
+### 1.14 Keeper rulings from the first build (Society keeper, 2026-11-01; implementation detail inside the approved design)
+
+The lane's review (units 2840, 2843, 2913) asked five questions the design left open. None is Rex's (no rule of the
+world, no fiction value); each is recorded here as the keeper's ruling, evidence level 4 where it is a modelling choice.
+
+1. **Reference compositions vs executable charters (§1.2a).** A historical charter is evidence, and sources are
+   silent on many amounts and schedules. So the two are checked separately:
+   - `validateReference` checks a reference: every component's `type` is known; every null field carries
+     `source_silent: true` and a note; components the source does not record are simply absent (five gild returns
+     record no admission rule).
+   - `validateCharter` stays strict for **drafts**, the charters a founder's mind actually proposes: no nulls, an
+     admission component required.
+   - A reference becomes a draft only when a founder supplies every missing value. A test shows each reference,
+     with its nulls filled by labelled test values, passes `validateCharter`: the components are executable; the
+     history is not invented.
+2. **Collective choice (§1.3).** Every majority component carries a required `base`, with no default:
+   - `cast`: support + oppose; abstentions excluded;
+   - `present`: eligible members present;
+   - `members`: all eligible members.
+
+   `tie_break` stays optional; absent means a tie is a recorded no-act. Historical ordinances differ on both, so
+   both are charter data.
+3. **Founding (§1.4).** `founding.window` (a duration) and `founding.min_members` are required fields of a draft
+   charter, chosen by the founder; there are no engine defaults. `classifyInstitution` is exported from the package
+   barrel for observers and History; no other `src/` module imports it (enforced by a test).
+4. **Hours (§1.1).** `availableHours` is per person per day (`h·d⁻¹`). The limiter holds per kernel day: within a
+   day, `Σ_j λ_ij · d ≤ H_i`.
+5. **Multi-kind decay (§1.1).** A tie holding several kinds decays with the **longest** half-life among the kinds
+   it currently holds, not the kind of its last episode. While a structural relation persists (kin, household,
+   co-membership), the slower decay governs. Kin ties decay slowest: Roberts & Dunbar 2015, level 2 for the
+   direction, level 4 for the max rule. When a kind's exposure ends, it leaves the tie, and the half-life is
+   recomputed at the next event.
+
 ## 2. The interfaces
 
 ### 2.1 Kernel
