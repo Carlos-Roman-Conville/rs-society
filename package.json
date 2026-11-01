@@ -1,0 +1,24 @@
+{
+  "name": "@rex/society",
+  "version": "0.0.1",
+  "description": "The society engine: the transmission network, organisations as actors, institution formation, collective action. Acts on what people do, never on what they think. A pure function of its inputs plus kernel streams; no game imports.",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "bench": "vitest run bench",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@rex/kernel": "file:../kernel"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "~6.0.2",
+    "vitest": "^5.0.5"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
