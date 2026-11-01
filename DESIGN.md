@@ -371,6 +371,30 @@ numbers until the signs come out right would be tuning. So:
 4. **No new mechanism to fix a sign.** Liability of newness and tie-driven retention stay yardsticks (D6): reported,
    never engineered.
 
+### 1.17 Payment acceptance conventions — `society.convention.payment_acceptance` (Rex-approved design: HQ/handoffs/economy/MULTI-ECONOMY-DESIGN.md v2, with Society's amendments 1–5, 2026-11-01)
+
+A specialisation of `society.norm.sanction` (§1.9), not a new gear. Measured from behaviour, never from willingness
+(which is Cognition's, `cognition.valuation.payment_acceptance`).
+
+- **Inputs (port, host-adapted from Economy's events):** completed exchange records `{day, legs: [{to, asset}]}`
+  (a party *took* asset `m` when a leg moves `m` to it) and refusal records `{day, refusedBy, asset, reason:
+  "not-accepted"}`. Group membership from Society's own ids (organisation, household) or a residence set the
+  caller passes from Settlement's residents query; never an island or place label.
+- **Formula:** `acceptance(group, asset, window)` = (members whose latest observation of `asset` in the window is a
+  take) / (members with any take or `not-accepted` refusal of `asset` in the window). A member's latest observation
+  decides (revealed current acceptance; keeper ruling, evidence level 4). `null` when no member was observed. A null
+  or missing `window` refuses with an error (no default).
+- **Output:** quantity `society.payment_acceptance_share` (unit 1, nullable) on an out port: a view for hosts,
+  reports and tests. It is **never fed into minds**; minds learn acceptance from exchanges they observe and
+  testimony on the network (IF-46 amendment B).
+- **Network:** each completed exchange is a contact of tie kind `trade` between its parties on the one network
+  (§1.1, DUP-60); its λ0, α and half-life are inputs (null refuses). No second network.
+- **Norms:** a refusal is an observable event. A sanction occurs only as a named person's or organisation's own act
+  through §1.9 and charter rules; nothing penalises a refusal automatically. No meter, no threshold.
+- **Tests (MULTI-ECONOMY §8, Society's row):** pure function of exchange and refusal records, replay-exact; null when
+  unobserved and refusal on a null window; no mind state read (fence); trade ties only as a tie kind on the one
+  network; no sanction without a named actor's act; changing a share changes no price, balance or transfer.
+
 ## 2. The interfaces
 
 ### 2.1 Kernel
