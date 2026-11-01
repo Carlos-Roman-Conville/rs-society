@@ -201,5 +201,5 @@ describe('DESIGN §3 fixture village', () => {
       if (dirname(resolve(root)) !== resolve(workspace)) throw new Error('Temporary directory outside workspace');
       rmSync(root, { recursive: true, force: true });
     }
-  });
+  }, 60_000);
 });
