@@ -15,6 +15,12 @@
 - 5053: All five DESIGN §1.14 rulings implemented and covered in `test/rulings.test.ts`.
 - 5054: `source_silent` annotations on all 27 reference rows; per-row `validateReference` and fixture-filled
   `validateCharter` coverage in `test/charter-reference.test.ts` (166 tests, no todos).
+- 5057: D-SOC-1 fixture study on the 5056 host: `npm run bench:dsoc1`, 30 fixed seeds in four paired
+  conditions, all 250 village residents with baseline minds, five fixture years, household ledger accounting,
+  component-product drafts chosen by Cognition, and saved per-run evidence. Read `bench/d-soc-1/REPORT.md`
+  for acceptance; a passing report-integrity test does not override a FAIL verdict.
+  Verification: full 120-run bench completed; the requested gate's three test files passed all 17 tests;
+  `npx tsc --noEmit` passed. `src/`, DESIGN and Cognition were not modified.
 
 - 2982–2984: Fixture village reference, deterministic generator and CHECK-3 review.
 - 2992: Male/female spouse pairs preserve sex totals; default village regenerated, age structure retained.
@@ -27,9 +33,41 @@ Details, API conventions and verification limits: README.md.
 
 - Charter research fixes: source/vocabulary gaps and executable inputs without invented history.
 - Affordance port with Cognition, requiring the Cognition keeper's agreement.
-- D-SOC-1 bench (waits on the Cognition affordance port) and independent-data validation.
+- D-SOC-1 acceptance blockers below, then independent-data validation.
 
 ## Blocked
+
+5057 D-SOC-1 limits and follow-up (no `src/` changes made by this unit):
+
+- Final study: D1/D2/D3/D3b/D4 PASS; D5/D6/D7 FAIL. D7's network knockout has zero cross-household
+  organisation snapshots, but removing shocks raises relief-chartered foundings from 1,017 to 1,549
+  (required direction is lower). The fixture permits solitary founding and forecasts social rewards even
+  without shocks, while illness/harvest costs reduce the purse available for founding consent. This protocol
+  therefore does not establish shock-driven mutual-insurance demand. No parameter was changed to reverse it.
+- D6 is a graded failure: high illness gives 646 relief foundings versus 1,017 baseline; older dissolution
+  hazard is 0.04164 versus 0.00413 per org-quarter for the young; duration/inside-tie correlation is -0.28196.
+  Overlap (-0.17428), occupation and kin homophily have the expected signs. These short-run, censored fixture
+  measurements do not validate the historical yardsticks. D3b does have 14 baseline wrong-term payment
+  refusals; all 9,833 attempted-action refusals across the study reach minds, with no unresolved intentions.
+- D5 cannot test an incumbent lowering dues or increasing relief: the schema has amendment procedures,
+  but `OrganisationStore.#propose` only executes act/dissolve/elect/sanction. A charter-amendment execution
+  path with an expressed proposal, ballots and transactional effects needs a separate source unit. The host
+  must then transport those intentions. Ordinary joins/exits are not counted as amendment-induced competition.
+- The current host does not transport split/secession decisions; the study does not manufacture disputes,
+  ballots, splits or dissolution to make expected phenomena appear. Singleton exits/deaths can dissolve actors.
+- The fixture is deliberately limited: four component-product drafts, eight known-organisation topics per
+  mind, quarterly rotating adult decisions, no births/migration/aging. It forecasts social rewards without
+  passing positive-interaction reset tags, and sends testimony without reinforcing network ties. Outcome
+  episodes are encoded; charter-term latent learning remains only in the existing three-person regression.
+  These are explicit model/host limitations, not empirical conclusions about fraternities. Extending them is
+  separate model work; do not alter their values to make D4-D6 pass.
+- Initial wiring checks caught undeclared belief supports and an unbounded Gaussian safety appraisal.
+  The study now declares ignorant topic priors at initialization and uses the baseline categorical safety
+  appraisal. Hazard, purse, contact and choice parameters were not adjusted to yardsticks. The final 120 runs
+  use one fixed protocol. The bench-only sparse runner calls the unchanged Cognition reducer and is checked
+  against the stock runner; completed diagnostics are compacted without changing beliefs, needs or episodes.
+
+The older integration notes below describe the state at 5053; the 5056 host and 5057 bench now exist.
 
 5053 API notes: the old `founding.minimum` field is replaced by `min_members`, with no alias/default.
 Council majorities carry `base` on their nested majority procedure; council scope is applied first.

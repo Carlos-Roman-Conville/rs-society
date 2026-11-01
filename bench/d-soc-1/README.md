@@ -1,5 +1,33 @@
 # D-SOC-1 host: Society ↔ Cognition (IF-46)
 
+## Full fixture study (5057)
+
+`npm run bench:dsoc1` runs 30 fixed seeds in four paired conditions (baseline,
+higher illness, no network, no shocks), using all 250 people in the committed
+60-household village. It writes `REPORT.md` and `results.json`. Runtime is longer
+than the report test; four isolated simulation processes run concurrently.
+`npm run typecheck` and `npx vitest run test/dsoc1-report.test.ts` verify the
+committed evidence. A recorded FAIL is allowed by the integrity test and remains
+a failed demonstration: read the report and HANDOFF rather than treating a green
+integrity test as P6 acceptance.
+
+`fixtures.ts` labels the unsupported Life, Economy and Settlement assumptions,
+the five-year horizon and the subjective action vocabulary. `study.ts` composes
+draft candidates from components for Cognition to choose and uses the existing
+host for consent and every social attempt. Reference charters are not a menu.
+`models.ts` gives every mind hunger, safety and social-connection needs with the
+unmodified baseline cognitive parameters. All beliefs begin ignorant of charter
+terms; eight organisation-topic slots and four draft-component slots declare
+learnable support in advance. Unknown topics stay ignorant. The topic bindings
+are host identity bookkeeping, not writes into mind beliefs. `ledger.ts` aliases
+person accounts to household purses and closes all flows through an external
+sector account. `report.ts` computes gates and graded signs from the saved runs.
+
+The older three-person fixture below remains an interface regression example,
+separate from the full study. The host now optionally accepts `drafts(person)`
+so a mind can choose among component-product found offers; existing callers of
+the single `draft(person)` callback retain their original behavior.
+
 `host.ts` maps `offers()` to Cognition action definitions and binds emitted action
 ids back to the original Society intentions. Numeric term leaves use dotted paths
 (for example `charter.obligations.0.amount`); role names and other structured

@@ -17,9 +17,16 @@ it is the pattern in who links to whom, which organisations exist, and what trav
 npm install
 npm test          # vitest run
 npm run typecheck # tsc --noEmit
+npm run bench:dsoc1 # 30 seeds x 4 conditions; writes D-SOC-1 report and evidence
 ```
 
 `test/fence.test.ts` checks the fence over `src/`.
+
+The fixture village study is in `bench/d-soc-1/REPORT.md`; its protocol and
+limitations are in `bench/d-soc-1/README.md`. `test/dsoc1-report.test.ts` checks
+the saved evidence, current source hash, seed coverage and reported verdicts.
+A truthful FAIL in the report remains a failed acceptance gate even when that
+integrity test passes. The full study is a separate bench, not part of unit tests.
 
 ## Package state and charter validation
 

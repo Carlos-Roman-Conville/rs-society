@@ -8,7 +8,8 @@
   "scripts": {
     "test": "vitest run",
     "bench": "vitest run bench",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "bench:dsoc1": "tsx bench/d-soc-1/run.ts"
   },
   "dependencies": {
     "@rex/kernel": "file:../kernel"
@@ -16,6 +17,7 @@
   "devDependencies": {
     "@rex/cognition": "file:../cognition",
     "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
     "typescript": "~6.0.2",
     "vitest": "^5.0.5"
   },

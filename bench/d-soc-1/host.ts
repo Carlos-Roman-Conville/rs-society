@@ -1,7 +1,7 @@
 import { EventBus, Scheduler, qualify } from "@rex/kernel";
 import type { ProcessContext, RandomStreams } from "@rex/kernel";
 import { MindsRunner, createMindsState, perceive } from "@rex/cognition";
-import type { ActionDefinition, Intention, MindConfig, MindInput, PerceptionParams, Stimulus } from "@rex/cognition";
+import type { ActionDefinition, Intention, MindConfig, MindInput, MindsConfig, MindsState, PerceptionParams, Stimulus } from "@rex/cognition";
 import { FORMATION_PROCESS, offers } from "../../src/index.ts";
 import type { AffordanceState, AttemptContext, CommunicationNetwork, ContactOpportunity, FoundIntention,
   FoundingCircle, LedgerPort, OrganisationEvent, OrganisationStore, PersonId, SocialIntention,
@@ -58,6 +58,10 @@ export interface HostOptions {
   readonly perception: PerceptionParams;
   readonly model: (offer: SocialOffer) => ActionModel;
   readonly draft: (person: PersonId) => { target: string; payload: FoundIntention["payload"] };
+  /** Optional component-product drafts: Cognition chooses among these offers. */
+  readonly drafts?: (person: PersonId) => readonly { target: string; payload: FoundIntention["payload"] }[];
+  /** Bench storage strategy; the default remains Cognition's baseline runner. */
+  readonly runnerFactory?: (state: MindsState, configs: MindsConfig) => MindsRunner;
   readonly tick: (host: DSoc1Host, contacts: readonly ContactOpportunity<never>[]) => void;
   readonly feedback: (result: OrganisationEvent | undefined, intention: Intention) => readonly Stimulus[];
   readonly snapshot?: () => Partial<AffordanceState>;
@@ -89,7 +93,8 @@ export class DSoc1Host {
       if (this.configs[row.input.config]) throw new Error("Each person requires a distinct host configuration");
       this.configs[row.input.config] = row.config;
     }
-    this.runner = new MindsRunner(createMindsState(options.seed), this.configs);
+    this.runner = options.runnerFactory?.(createMindsState(options.seed), this.configs)
+      ?? new MindsRunner(createMindsState(options.seed), this.configs);
     for (const row of options.people) {
       if (this.mindIds.has(row.person)) throw new Error("Duplicate host person");
       this.mindIds.set(row.person, this.runner.run({ type: "addMind", mind: row.input }).added!);
@@ -148,10 +153,10 @@ export class DSoc1Host {
       attendance: [], proposals: [], foundingCircles: this.foundingCircles,
       network: { known: [], ties: this.network.ties() }, ledger: this.options.ledger, facts: {}, unavailable: [],
       ...this.options.snapshot?.() };
-    const offered = offers(person, ctx.t, snapshot).map((offer) => {
-      if (offer.kind !== "found") return offer;
-      const draft = this.options.draft(person);
-      return { ...offer, target: draft.target, payload: draft.payload };
+    const offered = offers(person, ctx.t, snapshot).flatMap((offer) => {
+      if (offer.kind !== "found") return [offer];
+      const drafts = this.options.drafts?.(person) ?? [this.options.draft(person)];
+      return drafts.map((draft) => ({ ...offer, target: draft.target, payload: draft.payload }));
     });
     const bound = mapOffers(offered, this.options.model, this.actionIds);
     this.bindings.push({ person, t: ctx.t, offers: structuredClone(offered) });
