@@ -14,7 +14,9 @@
 5. **Money is never Society state.** Dues, relief and spending are transfers on Settlement's ledger through a port
    (`settlement.ledger_row` / `settlement.balance_changes`), committed in one kernel transaction with the Society
    event. Goods move through Economy's inventories through a port. Tests use a stub port; `src/` never imports an
-   engine.
+   engine. Transfer ports are `settlement.ledger` (money) and `economy.inventory` (goods).
+   `test/fence.test.ts` bans `mind.belief`, `source_credibility`, `grievance`, `unrest`, `rebellion`
+   and `legitimacy` in `src/`, even inside comments.
 6. `src/` imports only `@rex/kernel` and its own files. Never an engine, a game or pirate-ship. Bench fixtures live
    in `bench/` and import `src/`, never the reverse.
 7. **No constants invented.** Every parameter (`λ0_k`, `α_k`, `T_k`, `w_min`, …) is an input; a missing one is
