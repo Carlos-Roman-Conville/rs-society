@@ -1,6 +1,11 @@
 {
   "processes": [
     {
+      "id": "society.convention.payment_acceptance",
+      "reads": ["economy.exchange_records", "economy.refusal_records", "society.membership", "society.household"],
+      "writes": ["society.payment_acceptance_share"]
+    },
+    {
       "id": "society.affordance.offer",
       "reads": ["society.organisation", "society.membership", "society.comm_network", "society.meeting_attendance", "mind.intention", "settlement.balance_changes"],
       "writes": ["society.affordance"]
@@ -26,6 +31,7 @@
         "society.membership",
         "society.meeting_attendance",
         "mind.episode",
+        "economy.exchange_records",
         "mind.intention",
         "mind.available_hours"
       ],

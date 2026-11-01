@@ -2,6 +2,7 @@ export * from "./types.ts";
 export { validateCharter, validateReference } from "./charter.ts";
 export { classifyInstitution } from "./institution.ts";
 export * from "./network.ts";
+export * from "./acceptance.ts";
 export * from "./choice.ts";
 export type { OpenProposal } from "./open-proposals.ts";
 export type { AmendmentTarget, AmendmentPayload } from "./amendment.ts";

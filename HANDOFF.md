@@ -1,6 +1,7 @@
 # HANDOFF: society
 
 ## State
+- 5288: payment acceptance (§1.17), observer out port and network.recordExchange implemented; independent behaviour checks remain unit 5289.
 - 5242: DESIGN 1.16 sourced compositions (252) and meeting summons, D-SOC-1 only. REFUSED: 9 null economy rows, 0/150 runs (30 seeds x 5); D lines FAIL/not demonstrated. Bench exits 1 on purpose. Prior gate: 26 tests pass/2 historical checks skip; tsc passes. See bench/d-soc-1/DIAGNOSIS.md (below: DIAGNOSIS).
 - 5194: historical DESIGN 1.15 rerun: D1-D4/D3b PASS, D5-D7 FAIL, no tuning; DIAGNOSIS / REPORT.md.
 - 5193: open proposals/attendance, decision_interval (absent=same tick); DESIGN 1.15 / test/open-proposals.test.ts.
@@ -20,6 +21,7 @@
 - No split/secession bench transport; Cognition live-link hazard I-1048 until release tag.
 
 ## Gotchas
+- 5288: acceptance(group, asset, {from,to}, records) uses inclusive day bounds; equal-day observations use supplied mint order (last wins). records is an observation array for explicit members, or {observations,membership,households} with id-to-members snapshot Maps. Host ports: economy.exchange_records / economy.refusal_records. recordExchange takes completed legs (all parties represented as recipients) at network.now; each pair retains one trade exposure until avoidance.
 - 5242: bench writes gitignored results/sourced-refusal.json + REFUSED reports; preserves old results.json. Tests check refusal; 30-seed protocol unchanged. composition.ts exclusions/source IDs, single-payment relief and deduplicated summons (no supplied votes/attendance): DIAGNOSIS 1.16.
 - bench/d-soc-1/results/results.json is gitignored; rebuild with npm run bench:dsoc1 (currently refuses). Old 89 MB blob stays in history; rewriting is Rex's call. Artifact/hash tests skip if absent; structure checks run.
 - 5194: contacts reset both minds now, delivered next tick; ballot attempts immediate, closure separate; horizon ballots censored, never filled. Two-quarter interval/peer-count forecasts are fixtures (fix 49).

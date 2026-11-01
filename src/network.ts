@@ -1,5 +1,6 @@
 import { DAY, simTime, type Counters, type RandomStreams, type SimTime } from "@rex/kernel";
 import { mintId, type OrgId, type Parameter, type PersonId, type TieId, type TieKind } from "./types.ts";
+import type { ExchangeRecord } from "./acceptance.ts";
 
 export const NETWORK_PROCESS = "society.network.communication";
 
@@ -232,6 +233,36 @@ export class CommunicationNetwork {
     this.#strengthen(tie, selected);
     tie.t_last = t;
   }
+  /** DESIGN §1.17: a completed exchange is a trade episode in both directions.
+   * Host delivers it at network.now after consuming earlier opportunities.
+   * Each distinct party pair supplies one contact exposure, retained until avoid.
+   * Repeated legs do not multiply contacts; all pairs use person mint order.
+   */
+  recordExchange(record: ExchangeRecord): void {
+    const t = simTime(record.day * DAY);
+    this.#at(t); this.#kind("trade");
+    const parties = [...new Set(record.legs.map((leg) => leg.to))].sort(compare);
+    if (parties.length < 2) throw new Error("a completed exchange requires at least two distinct parties");
+    for (const person of parties) this.#person(person);
+    const pairs: Pair[] = [];
+    for (const i of parties) for (const j of parties) if (i !== j) pairs.push({ i, j });
+    const participating = new Set(parties);
+    const rows: ExposureRow[] = [];
+    for (const tie of this.#ties.values()) for (const [kind, x] of tie.exposures) {
+      const replaces = kind === "trade" && participating.has(tie.i) && participating.has(tie.j);
+      rows.push({ i: tie.i, j: tie.j, kind, x: x.structural + (replaces ? 0 : x.sought) });
+    }
+    this.#checkExposures([...rows, ...pairs.map((pair) => ({ ...pair, kind: "trade" as const, x: 1 }))]);
+    for (const { i, j } of pairs) {
+      const existing = this.#find(i, j);
+      if (existing) this.#decay(existing);
+      const tie = this.#ensure(i, j, "trade");
+      tie.exposures.get("trade")!.sought = 1;
+      this.recordEpisode(i, j, t, "trade");
+    }
+    this.#rates();
+  }
+
   #strengthen(tie: TieState, kind: TieKind): void {
     this.#decay(tie);
     // DESIGN §1.1, saturating reinforcement (Granovetter; model approximation).
