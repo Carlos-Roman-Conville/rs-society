@@ -6,7 +6,7 @@
 - 2837: Shared records, Kernel ids and composable charter validation.
 - 2838: Communication network, clocks, exposure, decay and observer measures.
 - 2839: 24 sourced historical charter compositions and vocabulary gaps.
-- 2840: Reference verification; 24 executable-validation todos remain blocked.
+- 2840: Reference verification; 27 executable-validation todos remain blocked.
 - 2841: Organisation authority, obligations and atomic resource/view ports.
 - 2842: Collective choice, explicit tie-breaks and pairwise cycle witnesses.
 - 2843: Intention-driven founding/lifecycle and observer-only institution label.
@@ -30,7 +30,7 @@ Details, API conventions and verification limits: README.md.
 
 ## Blocked
 
-**2840 reference validation:** all 24 `data/charters/reference.json` rows fail `validateCharter` as faithful
+**2840 reference validation:** all 27 `data/charters/reference.json` rows fail `validateCharter` as faithful
 compositions (null schedules and amounts where the source is silent, missing admission components on five gild
 returns, `procedure: null` on sanctions/amendments, and positions with `type: null` — the validator throws on null
 `procedure.type`). See `test/charter-reference.test.ts` (`it.todo` per entry id with the first error bundle). Unblock
