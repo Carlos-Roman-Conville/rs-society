@@ -1,6 +1,24 @@
 # D-SOC-1 host: Society ↔ Cognition (IF-46)
 
-## Full fixture study (5194)
+## Sourced study (5242, DESIGN §1.16)
+
+The current command intentionally refuses before simulation: nine required
+`economy.json` rows are null. It exits 1, writes `results/sourced-refusal.json`
+(gitignored), and regenerates REPORT/DIAGNOSIS with 0/150 completed runs. Any
+existing results.json belongs to the previous §1.15 study and is preserved as
+historical evidence. The tests check the explicit refusal; they do not reuse
+those results as a sourced rerun. Research blockers are in HANDOFF.md.
+
+`fixtures.ts` loads economy rows with named errors and stated quarterly
+arithmetic. `composition.ts` combines sourced English-pence components across
+references (252 compositions); null amounts and incomplete procedures are not
+offered. Schedules supported by this quarterly host are quarterly/yearly.
+Every due meeting summons its current members for one decision each, merged
+with ordinary rotating and pending-founder slots. Minds can wait; attendance
+and ballots remain expressed actions. Weekly relief recurrence, historical
+qualifying periods and complete sourced amendment rules remain unavailable.
+
+## Protocol and previous §1.15 study (5194)
 
 `npm run bench:dsoc1` runs 30 fixed seeds in five paired conditions (baseline,
 higher illness, no network, no shocks, and the diagnostic illness-only knockout), using all 250 people in the committed
@@ -17,7 +35,7 @@ draft candidates from components for Cognition to choose and uses the existing
 host for consent and every social attempt. Reference charters are not a menu.
 `models.ts` gives every mind hunger, safety and social-connection needs with the
 unmodified baseline cognitive parameters. All beliefs begin ignorant of charter
-terms; eight organisation-topic slots and four draft-component slots declare
+terms; eight organisation-topic slots and one slot per sourced composition declare
 learnable support in advance. Unknown topics stay ignorant. The topic bindings
 are host identity bookkeeping, not writes into mind beliefs. `ledger.ts` aliases
 person accounts to household purses and closes all flows through an external

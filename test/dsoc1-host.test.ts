@@ -1,16 +1,51 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { meetingMembers } from "../bench/d-soc-1/meetings.ts";
 import { DSoc1Host, mapOffers } from "../bench/d-soc-1/host.ts";
 import { BELIEFS, fixtureMemory, fixtureMind, fixtureModel, KINDS, mean } from "../bench/d-soc-1/beliefs.ts";
 import { FIXTURE, runThreePerson } from "../bench/d-soc-1/fixture.ts";
 import { streams } from "@rex/kernel";
 import { categorical } from "@rex/cognition";
 import { OrganisationStore, type SocialOffer } from "../src/index.ts";
-import { a, charter, foundFixture, network, setup, vote } from "./lifecycle-fixture.ts";
+import { a, b, c, charter, foundFixture, network, setup, vote } from "./lifecycle-fixture.ts";
 
 // fixture (test only): seeds and numeric comparisons, not empirical calibration.
 describe("D-SOC-1 host / IF-46 (PLATFORM §11b level 2)", () => {
+  it("summons every member at meetings while each mind can stay away (§1.16.3)", () => {
+    // fixture (test only): a and b are outside c's ordinary rotating slot.
+    const { ledger, views } = setup();
+    const store = new OrganisationStore({ start: 0, counters: {}, ledger, views,
+      capabilities: { events: [], ports: ["settlement.ledger"], procedures: ["simple_majority"] } });
+    foundFixture(store, [a, b], { ...charter, benefits: [
+      { type: "meeting", activity: "assembly", schedule: { first: 2, period: 2 } },
+      { type: "meeting", activity: "second meeting", schedule: { first: 2, period: 2 } },
+    ] });
+    const decisions: string[] = [];
+    const host = new DSoc1Host({ seed: 27, period: 1, random: streams(27), organisation: store,
+      network: network([a, b, c]), ledger, people: [a, b, c].map((person) => ({ person, ...fixtureMind(person, []) })),
+      perception: { k: 0, weberFractions: { sight: 0.02, sound: 0.02, touch: 0.02, report: 0.02 } },
+      draft: () => { throw new Error("No draft needed"); }, drafts: () => [], feedback: () => [],
+      model: (offer) => ({ ...fixtureModel(offer), preconditions: [{ id: "fixture stay away", probability: () => 0 }] }),
+      tick: (current) => {
+        const selected = new Set([c, ...meetingMembers(store.organisations(), current.now)]);
+        for (const person of [a, b, c].filter((p) => selected.has(p))) {
+          decisions.push(`${current.now}/${person}`); current.decide(person);
+        }
+      },
+    });
+    host.scheduler.runUntil(3);
+    expect(decisions).toEqual([`1/${c}`, `2/${a}`, `2/${b}`, `2/${c}`, `3/${c}`]);
+    expect(store.attendance).toEqual([]);
+    expect(store.proposals).toEqual([]);
+    expect(host.runner.state.minds.flatMap((m) => m.decisions).every((d) => d.intention.action === "fixture.wait")).toBe(true);
+    expect(host.bindings.filter((r) => r.person === a || r.person === b).every((r) => r.offers.some((o) => o.kind === "attend"))).toBe(true);
+    const attendanceOnly = [{ charter: { obligations: [{ type: "attendance" as const, activity: "assembly", schedule: { first: 2, period: 2 } }] }, members: [{ person: b }] }];
+    expect(meetingMembers(attendanceOnly, 1)).toEqual([]);
+    expect(meetingMembers(attendanceOnly, 4)).toEqual([b]);
+    expect(meetingMembers([{ ...attendanceOnly[0], members: [] }], 4)).toEqual([]);
+  });
+
   it("maps every offer one-to-one, retaining handles and host payloads with only numeric terms", () => {
     const offered: SocialOffer[] = KINDS.map((kind) => ({ person: FIXTURE.people[0], kind, t: 0,
       target: kind === "support" ? "proposal.0001" : FIXTURE.org,

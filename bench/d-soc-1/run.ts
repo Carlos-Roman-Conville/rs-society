@@ -1,12 +1,24 @@
 import { execFile } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { FIXTURES as F } from "./fixtures.ts";
+import { FIXTURES as F, economyErrors } from "./fixtures.ts";
 import { renderReport } from "./report.ts";
 import { renderDiagnosis } from "./diagnose.ts";
 import { CONDITIONS } from "./study.ts";
 import type { Condition, StudyResult } from "./study.ts";
 
+import { refusalEvidence, renderRefusalReport, renderRefusalDiagnosis } from "./refusal.ts";
+
+// Validate the complete paired protocol before launching workers. A knockout
+// cannot bypass missing baseline inputs and masquerade as a sourced rerun.
+if (economyErrors().length) {
+  mkdirSync(new URL("./results/", import.meta.url), { recursive: true });
+  writeFileSync(new URL("./results/sourced-refusal.json", import.meta.url), JSON.stringify(refusalEvidence(), null, 2) + "\n");
+  writeFileSync(new URL("./REPORT.md", import.meta.url), renderRefusalReport());
+  writeFileSync(new URL("./DIAGNOSIS.md", import.meta.url), renderRefusalDiagnosis());
+  console.error(`D-SOC-1 §1.16 refused: ${F.calendar.seeds.length * CONDITIONS.length} planned runs, 0 completed.\n${economyErrors().join("\n")}`);
+  process.exit(1);
+}
 const controller = new AbortController();
 function worker(seed: number, condition: Condition): Promise<StudyResult> {
   return new Promise((resolve, reject) => execFile(process.execPath,

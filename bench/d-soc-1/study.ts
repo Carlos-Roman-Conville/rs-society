@@ -4,7 +4,9 @@ import { CommunicationNetwork, OrganisationStore } from "../../src/index.ts";
 import type { Charter, FoundIntention, OrgId, OrganisationEvent, PersonId, SharedHours } from "../../src/index.ts";
 import village from "../../data/fixtures/village/village.json" with { type: "json" };
 import { BELIEFS, mean, readyStimulus, termStimulus } from "./beliefs.ts";
-import { COMPANY, FIXTURES as F } from "./fixtures.ts";
+import { COMPANY, FIXTURES as F, sourcedEconomy } from "./fixtures.ts";
+import { compose, AMENDMENT_AMOUNTS } from "./composition.ts";
+import { meetingMembers } from "./meetings.ts";
 import { DSoc1Host } from "./host.ts";
 import { studyPorts } from "./ledger.ts";
 import { clamp, studyMind, studyModel } from "./models.ts";
@@ -33,25 +35,6 @@ export interface StudyResult {
   networkContacts: number; positiveInteractions: number; openBallots: number;
 }
 
-/** Component product, not named reference forms. Cognition selects the found
- * offer whose payload contains this composition, then separately chooses join. */
-function compose(person: PersonId, step: number): Draft[] {
-  return F.charter.dues.flatMap((dues, d) => F.charter.sickRelief.map((relief, r) => {
-    const charter: Charter = {
-      decision_interval: F.charter.foundingWindowPeriods * F.calendar.period,
-      founding: { window: F.charter.foundingWindowPeriods * F.calendar.period, min_members: F.charter.minMembers },
-      admission: [{ type: "open" }],
-      obligations: [{ type: "dues", amount: dues, schedule: { first: (step + 1) * F.calendar.period, period: F.calendar.period } }],
-      benefits: [...(relief ? [{ type: "transfer" as const, event: "illness", amount: relief }] : []),
-        { type: "meeting", activity: F.charter.meeting, schedule: { first: step * F.calendar.period, period: F.calendar.period } }],
-      decision_procedure: { type: "simple_majority", base: "members", electorate: "all_members", eligibility: { type: "members" },
-        quorum: { type: "count", value: F.charter.quorum } },
-    };
-    return { target: `draft.${person}.${step}.${d}.${r}`, payload: {
-      charter: { ...charter, amendment: structuredClone(charter.decision_procedure) },
-      founders: [person], purpose: "fixture household mutual aid and company" } };
-  }));
-}
 const terms = (charter: Charter) => ({
   dues: charter.obligations?.find((o) => o.type === "dues")?.amount ?? 0,
   relief: charter.benefits?.filter((b) => b.type === "transfer").find((b) => b.event === "illness")?.amount ?? 0,
@@ -59,6 +42,7 @@ const terms = (charter: Charter) => ({
 const signature = (charter: Charter) => JSON.stringify(terms(charter));
 
 export function runStudy(seed: number, condition: Condition, steps: number = F.calendar.steps): StudyResult {
+  const economy = sourcedEconomy(); // Refuse before creating any state or drawing RNG.
   const random = streams(seed), ports = studyPorts(village.households), period = F.calendar.period;
   const people = village.persons.map((p) => p.id as PersonId), alive = new Set(people);
   const adults = village.persons.filter((p) => p.age >= F.calendar.adultAge).map((p) => p.id as PersonId);
@@ -113,7 +97,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
   const topics = new Map<PersonId, Map<string, string>>();
   function topic(person: PersonId, target: string, allocate = false): string {
     target = host.openProposals.find((p) => p.id === target)?.proposal.target ?? target;
-    if (target.startsWith("draft.")) return `draft-option.${target.split(".").slice(-2).join(".")}`;
+    if (target.startsWith("draft.")) return `draft-option.${target.split(".").at(-1)}`;
     const known = topics.get(person) ?? new Map<string, string>();
     if (allocate && !known.has(target) && known.size < F.cognition.organisationTopics) {
       known.set(target, `known-org.${known.size}`); topics.set(person, known);
@@ -127,7 +111,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
     runnerFactory: (state, configs) => new StudyMindsRunner(state, configs),
     people: people.map((person) => ({ person, ...studyMind(person) })),
     perception: { k: 0, weberFractions: { sight: F.cognition.weber, report: F.cognition.weber, sound: F.cognition.weber, touch: F.cognition.weber } },
-    draft: () => { throw new Error("Study uses component-product drafts"); },
+    draft: () => { throw new Error("Study uses sourced component compositions"); },
     drafts: (person) => {
       if (host.foundingCircles.some((c) => c.status === "open" && c.intention.person === person)) return [];
       const submitted = new Set(host.foundingCircles.map((c) => c.intention.target));
@@ -135,8 +119,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
     },
     amendments: (offer) => {
       if (offer.payload?.action !== "amend") return [];
-      const values = offer.payload.section === "obligations" ? F.charter.dues
-        : [...F.charter.dues, ...F.charter.sickRelief.filter((value) => value > 0)];
+      const values = offer.payload.section === "obligations" ? AMENDMENT_AMOUNTS.obligations : AMENDMENT_AMOUNTS.benefits;
       return values.filter((value) => value !== offer.terms.value)
         .map((value) => ({ ...offer, payload: { ...offer.payload, value } }));
     },
@@ -181,35 +164,50 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
       for (const tie of network.ties()) for (const p of [tie.i, tie.j]) rates.set(p, (rates.get(p) ?? 0) + tie.lambda * F.network.contactHours);
       for (const rate of rates.values()) { result.maxRateHours = Math.max(result.maxRateHours, rate); if (rate > F.network.hours + 1e-9) result.hourErrors++; }
 
-      // fixture Economy: all income/consumption is a transfer with the external
-      // sector; even death leaves the estate on this closed ledger.
+      // DESIGN §1.16: sourced quarterly flows; retain household purse and
+      // ledger transfers. Keep the periodic harvest stand-in: source frequency
+      // per quarter accumulates uniformly; a whole-event boundary marks the
+      // affected quarter. This rounding adds no stochastic mechanism or rate.
+      const badHarvest = Math.floor(step * economy.harvest) > Math.floor((step - 1) * economy.harvest);
       for (const household of village.households) {
         if (!household.members.some((m) => alive.has(m.person as PersonId))) continue;
-        const income = condition !== "no-shocks" && step % F.economy.badHarvestEvery === 0 ? F.economy.badHarvestIncome : F.economy.income;
-        ports.ledger.transfer("fixture.external", household.id, income, "fixture income");
-        const consumption = Math.min(F.economy.subsistence, ports.ledger.balance(household.id));
-        if (consumption > 0) ports.ledger.transfer(household.id, "fixture.external", consumption, "fixture subsistence");
+        // fixture occupation assignment: existing three post classes map to
+        // labourer household, carpenter and smallholder; keeper must research
+        // the actual post classes. Never invent a wage for a missing class.
+        const workers = village.posts.filter((p) => household.members.some((m) => m.person === p.person) && alive.has(p.person as PersonId));
+        const income = workers.reduce((total, worker) => {
+          const occupation = occupations.get(worker.person)!;
+          const factor = occupation === 2 && badHarvest && condition !== "no-shocks" ? economy.harvestRatio : 1;
+          return total + economy.income[occupation] * factor;
+        }, 0);
+        if (income > 0) ports.ledger.transfer("fixture.external", household.id, income, "fixture income");
+        for (const [amount, reason] of [[economy.subsistence, "fixture subsistence"], [economy.rent, "fixture rent"]] as const) {
+          const cost = Math.min(amount, ports.ledger.balance(household.id));
+          if (cost > 0) ports.ledger.transfer(household.id, "fixture.external", cost, reason);
+        }
       }
       const ill = new Set<PersonId>(), died: string[] = [];
       for (const person of people) {
         // fixture Life draws stay paired even in no-shocks and after a death.
         const draws = random.get("fixture.life.hazards", person), sickness = draws(), death = draws();
         if (!alive.has(person) || condition === "no-shocks") continue;
-        if (sickness < (condition === "illness-only" ? 0 : condition === "high-illness" ? F.life.highIllness : F.life.illness)) {
+        if (sickness < (condition === "illness-only" ? 0 : condition === "high-illness" ? economy.highIllness : economy.illness)) {
           ill.add(person); result.illnesses++;
-          const cost = Math.min(F.economy.illnessCost, ports.ledger.balance(person));
+          const cost = Math.min(economy.illnessCost, ports.ledger.balance(person));
           if (cost > 0) ports.ledger.transfer(person, "fixture.external", cost, "fixture illness cost");
           for (const org of organisation.memberships(person)) organisation.claim({ org, person, eventId: `illness.${step}.${person}`, event: "illness", t: current.now });
         }
-        if (death < F.life.death) {
+        if (death < economy.death) {
           alive.delete(person); died.push(person); result.deaths++; organisation.removePerson(person, "death"); network.cutPerson(person);
         }
       }
       // A fixed rotating attention schedule, independent of wealth, illness,
       // organisation count and all verdicts. Every resident has a baseline mind;
-      // only adults deliberate; pending founders additionally hear consent calls.
+      // adults rotate; all meeting members and pending founders additionally
+      // receive their summons/consent opportunities.
       const selected = new Set<PersonId>(Array.from({ length: F.calendar.decisionsPerStep }, (_, i) => adults[((step - 1) * F.calendar.decisionsPerStep + i) % adults.length]));
       const scheduled = new Set(selected);
+      for (const person of meetingMembers(organisation.organisations(), current.now)) selected.add(person);
       for (const circle of current.foundingCircles) if (circle.status === "open") selected.add(circle.intention.person);
       const purses = village.households.map((h) => ports.ledger.balance(h.id));
       result.shockTrace.push({ t: current.now, ill: [...ill], died, alive: alive.size,
@@ -269,7 +267,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
       }
       current.resolveProposals();
       // Independent observer accounting, every host step (including all dues
-      // dates, since every draft uses this same explicit quarterly cadence).
+      // dates, including sourced yearly dates on the quarterly clock).
       const events = organisation.events, roster = organisation.organisations();
       for (const event of events.slice(eventCursor)) {
         if (event.intentions.some((i) => i.payload?.action === "amend")) result.amendmentTrace.push(event);

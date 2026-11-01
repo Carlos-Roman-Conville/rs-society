@@ -1,13 +1,14 @@
 import { categorical, DEFAULT_COGNITIVE_PARAMS, evaluateNeeds, gaussian, setBelief } from "@rex/cognition";
 import type { Mind } from "@rex/cognition";
 import type { SocialOffer } from "../../src/index.ts";
+import { COMPOSITIONS } from "./composition.ts";
 import { BELIEFS, fixtureMind, mean, ready } from "./beliefs.ts";
 import { COMPANY, FIXTURES as F, NEEDS } from "./fixtures.ts";
 import type { ActionModel } from "./host.ts";
 
 export const clamp = (x: number) => Math.min(1, Math.max(0, x));
 
-export const TOPICS = [...F.charter.dues.flatMap((_, d) => F.charter.sickRelief.map((_, r) => `draft-option.${d}.${r}`)),
+export const TOPICS = [...COMPOSITIONS.map((_, index) => `draft-option.${index}`),
   ...Array.from({ length: F.cognition.organisationTopics }, (_, i) => `known-org.${i}`)];
 export function studyMind(id: string) {
   const row = fixtureMind(id, TOPICS);
