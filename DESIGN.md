@@ -1,7 +1,9 @@
 # Society: design (P6, Society keeper, 2026-10-31)
 
-**Status: proposed, not approved.** Written in week one per `HQ/handoffs/controller/NEW_ENGINE_BRIEF.md`; nothing
-builds before Rex's approval marker unit exists in the `society` lane. Every item is marked **(Rex)** = Rex's
+**Status: approved (Rex, 2026-10-31):** SOC-Q1 to SOC-Q8 as proposed, with one refinement on SOC-Q2 in Rex's
+words: *"Historical charter forms are reference components, not an exhaustive menu of possible institutions. Novel
+organizations must be able to emerge from valid combinations of underlying mechanisms."* (§1.2a). Written in week one
+per `HQ/handoffs/controller/NEW_ENGINE_BRIEF.md`; the `society` lane is released. Every item is marked **(Rex)** = Rex's
 decision, **proposed** = the Society keeper's proposal, or **open** = a question for Rex or another owner (§5 lists
 the SOC-Q items). Evidence levels are PLATFORM.md §4: (1) physical or mathematical law, (2) empirically supported
 statistical relationship, (3) historical observation and interpretation, (4) simplified simulation approximation,
@@ -101,17 +103,35 @@ Kinds are labels for observers; mechanisms read rules and members, never the kin
 | Inputs | founding, joining, leaving, paying, attending, expelling and proposal **intentions** (`mind.intention`, Cognition); collective-choice results (§1.3); formation, merger, split and dissolution events (§1.4); deaths and departures (Life, §1.8) |
 | Outputs | `society.organisation` records `{ id, founded_at, founders[], members[] {person, role, joined_at, standing}, rules (data, below), positions[] {role, holder, term}, meeting schedule, doctrine/charter record ref, resource claims }`; `society.membership` (person → organisations); `society.organisation_event` (founded, joined, left, expelled, office changed, act performed, dissolved); **affordances** offered to minds (join `X` on these terms; attend; pay; stand for a position) through the Cognition candidate port (§2.2) |
 | State | the records above; nothing economic (accounts and holdings are Economy's view keyed by the same id; premises, titles and posts are Settlement's) |
-| Rules as data (proposed) | `admission` (open, sponsored by `n` members, by vote, by kinship, by occupation, by fee), `obligations` (dues per period as a transfer on Settlement's ledger, attendance, service, exclusivity with named other organisations), `benefits` (claims members may make: relief in sickness, burial, loans, worship, protection, trade privileges; each is paid through the engine that owns it), `decision_procedure` (§1.3), `positions` and how they are filled, `sanctions` (fine, suspension, expulsion), `amendment` procedure. A rule set is chosen by founders and accepted by joiners; amended only by its own amendment procedure |
+| Rules as data (§1.2a) | `admission` (open, sponsored by `n` members, by vote, by kinship, by occupation, by fee), `obligations` (dues per period as a transfer on Settlement's ledger, attendance, service, exclusivity with named other organisations), `benefits` (claims members may make: relief in sickness, burial, loans, worship, protection, trade privileges; each is paid through the engine that owns it), `decision_procedure` (§1.3), `positions` and how they are filled, `sanctions` (fine, suspension, expulsion), `amendment` procedure. A rule set is chosen by founders and accepted by joiners; amended only by its own amendment procedure |
 | Formulation | an organisation exists while it has ≥1 member and has not dissolved; membership changes only by an accepted intention (join under admission, leave at will unless a rule binds and is enforced by members), death, or expulsion through §1.3; obligations fall due on the kernel clock; an unpaid obligation is recorded, and any sanction is a §1.3 act chosen by members, never automatic |
 | Dependencies | Kernel; Cognition (intentions, the affordance port); Settlement (money: dues and benefits are transfers on `settlement.ledger_row` / `settlement.balance_changes`, the one home of money; meeting place, legal records); Economy (goods through its inventories; the organisation's holdings view); §1.1, §1.3, §1.4 |
 | Timescale | event-driven; obligations on their own schedule (per rule data) |
 | Invariants | **one organisation id across Society, Economy and Settlement** (DUP-58 test 1); creation, merger, split and dissolution happen only in Society and propagate to the two views (test 2); no Economy or Settlement mechanism decides membership or leadership (test 3); an organisation owns no money in Society's state (conservation stays with Settlement's ledger); **no mechanism reads the kind label**; a religious community is an organisation (§1.10), never a second store |
 | Sources, evidence | the organisation as a nexus of members' commitments, not a unitary agent: Coleman 1974 *Power and the Structure of Society*, 1990 *Foundations of Social Theory* (level 3); voluntary associations' membership dynamics: McPherson 1983 *ASR* "An ecology of affiliation"; Popielarz & McPherson 1995 *AJS* (level 2); historical fraternities and guilds as mutual-aid and religious organisations: Rosser 2015 *The Art of Solidarity in the Middle Ages*; Barron 1985 "The parish fraternities of medieval London"; Ogilvie 2019 *The European Guilds*; van Leeuwen 2016 *Mutual Insurance 1550–2015* (level 3) |
-| Approximations | members are individuals (an organisation as a member of another is a later extension, open); one charter per organisation; rule data drawn from documented organisations (SOC-Q2) |
+| Approximations | members are individuals (an organisation as a member of another is a later extension, open); one charter per organisation; charters are compositions of executable components, historical charters are reference compositions (§1.2a, Rex 2026-10-31) |
 | Validation tests | **verification:** membership accounting closes (members(t+1) = members(t) + joins − leaves − deaths − expulsions − departures); one id across three engines; no money in Society state. **validation:** §3 demonstration tests D1–D7; membership duration rises with the member's ties inside the organisation and falls with niche overlap (Popielarz & McPherson 1995, documented sign) |
 | Consumers | Cognition (affordances, outcome events), Economy (`economy.org.organisation` becomes the economic view), Settlement (`settlement.business.open` points at its owning actor), Government (`government.authority.acquisition_delegation` reads `society.organisation_event`), K&T (organisations as record-keepers), History |
 | **Rate limiter** | members' time and money: obligations compete for the same hours (§1.1 limiter) and the same household budget (Economy), so organisations compete for members as a consequence; admission rules limit entry |
 | **Failure mode** | an act whose cost no member funds does not happen (recorded as failed for want of resources); an organisation whose last member dies or leaves dissolves (event with cause); a rule set that cannot be evaluated (missing data) blocks the founding, logged, never silently simplified |
+
+### 1.2a Charters are compositions of components (Rex, 2026-10-31, on SOC-Q2)
+
+A charter is never picked from a list of historical types. It is a **composition** of rule components, each of which
+is a mechanism the engines can execute: an admission component (open, sponsorship by `n` members, vote, kinship,
+occupation, fee), an obligation component (a periodic transfer on Settlement's ledger, attendance at a scheduled
+meeting, service hours, exclusivity toward named organisations), a benefit component (a conditional claim paid by an
+owning engine: a ledger transfer on a stated event such as sickness or death, a scheduled meeting with a named
+activity, a loan), a decision procedure (§1.3), a position component (role, how filled, term), a sanction component
+(fine, suspension, expulsion) and an amendment component. **A composition is valid when every component's inputs
+exist and are executable** (the event a benefit is conditioned on is one some engine emits; the transfer it pays is a
+ledger move; the vote it requires has a §1.3 procedure); validity is checked by a schema validator, never by
+membership in a list of known forms. Historical charters (the 1388–89 returns, guild ordinances, friendly-society
+rules) are **reference compositions**: decomposed into components, they supply the component vocabulary, labelled
+examples, and validation baselines; they never bound what founders may compose. A founder's draft charter is any valid
+composition the founder's mind generates (Cognition proposes; parameters such as dues amounts are the founder's
+choice); novel organisations are therefore any valid composition no historical charter used. Extending the vocabulary
+(a new component type) is a design change reviewed like any mechanism.
 
 ### 1.3 Collective choice inside an organisation — `society.organisation.collective_choice` (new, proposed)
 
@@ -391,13 +411,13 @@ gated by its REPORT verdict (Cognition's COG-16 pattern), never on every change.
 
 | # | Question | Keeper's proposal |
 |---|---|---|
-| SOC-Q1 | Does Society act only on what people **do** (intentions, acts, episodes) and never read minds' beliefs? Two registered rows (doctrine, religious community) read `mind.belief` today | yes: Society never reads a belief; doctrine is a record carried as content; communities are organisations; the two rows drop the input |
-| SOC-Q2 | An organisation's rules (admission, dues, benefits, decision procedure): a **menu of documented forms** as data (from historical charters, via Catalogue) that founders choose and combine, or must the rule forms themselves emerge from minds inventing them? | a researched menu, combinable, never assigned; invention of new forms is a later, level-5 extension |
-| SOC-Q3 | The line between an organisation's own rules and law: authority over people who joined and may leave is Society's; over a territory or non-members is Government's. Agree? (Also: who decides an inheritance when custom and law differ: law where enforced, custom otherwise) | yes; the registry records it as a boundary with Government (new overlap if Government disagrees) |
-| SOC-Q4 | Demography (DUP-41): design now, move from `realism/population.ts` only when the Life keeper agrees after the split? | yes; Life keeps every hazard, Society the population as a social fact |
-| SOC-Q5 | Class as a computed classification only (never stored on a person, never read by a mechanism), like government types? | yes |
-| SOC-Q6 | The first demonstration's analogue: a late-fourteenth-century English parish (H1, development only), with mutual-aid and religious fraternities; craft guilds wait for P5 Economy, political factions for P8 Government? | yes |
-| SOC-Q7 | DUP-61: "what the town knows" is Knowledge & Technology's (an aggregate over minds and records) on Society's network? | yes (Society builds no stock) |
+| SOC-Q1 | Does Society act only on what people **do** (intentions, acts, episodes) and never read minds' beliefs? Two registered rows (doctrine, religious community) read `mind.belief` today | yes: Society never reads a belief; doctrine is a record carried as content; communities are organisations; the two rows drop the input **decided (Rex, 2026-10-31): as proposed** |
+| SOC-Q2 | An organisation's rules (admission, dues, benefits, decision procedure): a **menu of documented forms** as data (from historical charters, via Catalogue) that founders choose and combine, or must the rule forms themselves emerge from minds inventing them? | a researched menu, combinable, never assigned; invention of new forms is a later, level-5 extension **decided (Rex, 2026-10-31): as proposed — refined: historical charter forms are reference components, not an exhaustive menu; novel organisations emerge from valid combinations of underlying mechanisms (§1.2a)** |
+| SOC-Q3 | The line between an organisation's own rules and law: authority over people who joined and may leave is Society's; over a territory or non-members is Government's. Agree? (Also: who decides an inheritance when custom and law differ: law where enforced, custom otherwise) | yes; the registry records it as a boundary with Government (new overlap if Government disagrees) **decided (Rex, 2026-10-31): as proposed** |
+| SOC-Q4 | Demography (DUP-41): design now, move from `realism/population.ts` only when the Life keeper agrees after the split? | yes; Life keeps every hazard, Society the population as a social fact **decided (Rex, 2026-10-31): as proposed** |
+| SOC-Q5 | Class as a computed classification only (never stored on a person, never read by a mechanism), like government types? | yes **decided (Rex, 2026-10-31): as proposed** |
+| SOC-Q6 | The first demonstration's analogue: a late-fourteenth-century English parish (H1, development only), with mutual-aid and religious fraternities; craft guilds wait for P5 Economy, political factions for P8 Government? | yes **decided (Rex, 2026-10-31): as proposed** |
+| SOC-Q7 | DUP-61: "what the town knows" is Knowledge & Technology's (an aggregate over minds and records) on Society's network? | yes (Society builds no stock) **decided (Rex, 2026-10-31): as proposed** |
 | SOC-Q8 | Approve DUP-58, DUP-59 and DUP-60 as proposed in `OVERLAPS-BATCH-2B.md`, with the refinements here (affordance port; the religious community as a view; preference transmission as content) | **decided (Rex, 2026-10-31): batch 2b approved**; DUP-58 and DUP-59 agreed by all parties with Economy's correction (money is on Settlement's ledger) and Settlement's (businesses keep their ids, pointing at one actor); DUP-60 waits on Reality — (owners as proposed; DUP-61 to K&T, which also settles SOC-Q7). Society agreed the acceptance tests with amendments (DUP-58 +no money in Society state, +no kind-label reads; DUP-59 +one household per person; DUP-60 +no trust on ties, +network writes no content), sent to the registry keeper |
 
 ## 6. After approval: the package and the first units (draft, not queued)
@@ -430,4 +450,5 @@ Sornette, Hill & Dunbar 2005 *Proc. R. Soc. B* 272.
 
 | Date | What |
 |---|---|
+| 2026-10-31 | **Approved (Rex):** SOC-Q1–Q8 as proposed, SOC-Q2 refined (§1.2a: charters as compositions of executable components). Lane released |
 | 2026-10-31 | Design written (Society keeper, first turn): fence and the "acts, not thoughts" principle; 13 mechanism sections led by the network and organisations; interfaces; D-SOC-1 with seven acceptance tests and D-SOC-2 as the cliodynamic yardstick; validation plan; SOC-Q1–Q8. Not approved; nothing queued |
