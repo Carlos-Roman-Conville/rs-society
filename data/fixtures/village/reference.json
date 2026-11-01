@@ -5,7 +5,11 @@
     "unit": "households",
     "period": null,
     "place": null,
-    "source": {"citation": "none usable; see SOURCES.md (2982) searched line", "url": null, "pages": null},
+    "source": {
+      "citation": "none usable; see SOURCES.md (2982) searched line",
+      "url": null,
+      "pages": null
+    },
     "evidence": 0,
     "notes": "1377 poll-tax counts found (Northamptonshire vill mean 40 taxpayers, Ongar Hundred, Wiltshire) count taxpayers over 14, not households, and no readable source converts them. Not estimated."
   },
@@ -21,7 +25,7 @@
       "pages": "Table 3, p.67 of the repository PDF"
     },
     "evidence": 3,
-    "notes": "NOT the 1380s: the earliest readable listing-based figure is 1650-1749. Same table gives 4.57 for 1750-1821 and houseful size (with boarders, lodgers, visitors) 4.43 and 4.81. Laslett's own 4.75 for 1574-1821 (HFPT 1972 ch. 4) was seen only second-hand in a Local Population Studies article and is not used. Read from a PDF text extraction; check against the PDF before relying on it."
+    "notes": "NOT the 1380s: the earliest readable listing-based figure is 1650-1749. Same table gives 4.57 for 1750-1821 and houseful size (with boarders, lodgers, visitors) 4.43 and 4.81. Laslett's own 4.75 for 1574-1821 (HFPT 1972 ch. 4) was seen only second-hand in a Local Population Studies article and is not used. (2991) verified: page 67 of the repository PDF, Table 3 row \"Mean household size\" reads 4.17 (1650-1749) and 4.57 (1750-1821)."
   },
   {
     "key": "household_size_distribution",
@@ -29,7 +33,11 @@
     "unit": "share of households by size 1..10+",
     "period": null,
     "place": null,
-    "source": {"citation": "none usable; see SOURCES.md (2982) searched line", "url": null, "pages": null},
+    "source": {
+      "citation": "none usable; see SOURCES.md (2982) searched line",
+      "url": null,
+      "pages": null
+    },
     "evidence": 0,
     "notes": "Laslett 1972 Table 4.3 holds it but the full text is lending-only on archive.org. Readable papers give only shares of individuals (e.g. 40 percent in households of six or more, 1911), not of households."
   },
@@ -39,7 +47,11 @@
     "unit": "share of households",
     "period": null,
     "place": null,
-    "source": {"citation": "none usable; see SOURCES.md (2982) searched line", "url": null, "pages": null},
+    "source": {
+      "citation": "none usable; see SOURCES.md (2982) searched line",
+      "url": null,
+      "pages": null
+    },
     "evidence": 0,
     "notes": "The readable paper gives Hammel-Laslett classes for 1851-1911 only, not the pre-industrial period."
   },
@@ -49,7 +61,11 @@
     "unit": "share by five-year age group",
     "period": null,
     "place": null,
-    "source": {"citation": "none usable; see SOURCES.md (2982) searched line", "url": null, "pages": null},
+    "source": {
+      "citation": "none usable; see SOURCES.md (2982) searched line",
+      "url": null,
+      "pages": null
+    },
     "evidence": 0,
     "notes": "Wrigley and Schofield 1981 tables found only as publisher and Google Books landing pages, no readable table."
   },
@@ -59,7 +75,11 @@
     "unit": "males per 100 females",
     "period": null,
     "place": null,
-    "source": {"citation": "none usable; see SOURCES.md (2982) searched line", "url": null, "pages": null},
+    "source": {
+      "citation": "none usable; see SOURCES.md (2982) searched line",
+      "url": null,
+      "pages": null
+    },
     "evidence": 0,
     "notes": "Only a prose mention of Wall's sex ratios (ages 10+, 24 communities) without values."
   }
