@@ -1,6 +1,11 @@
 {
   "processes": [
     {
+      "id": "society.affordance.offer",
+      "reads": ["society.organisation", "society.membership", "society.comm_network", "society.meeting_attendance", "mind.intention", "settlement.balance_changes"],
+      "writes": ["society.affordance"]
+    },
+    {
       "id": "society.institution.formation_dissolution",
       "reads": ["mind.intention", "society.comm_network", "society.organisation", "society.membership"],
       "writes": ["society.organisation", "society.membership", "society.organisation_event"]

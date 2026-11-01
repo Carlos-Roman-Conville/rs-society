@@ -248,3 +248,27 @@ D-SOC-1 validation yardsticks; no empirical validation is claimed here.
 
 Verification of the five keeper rulings: `npx vitest run test/rulings.test.ts`. This includes a seeded 30-day
 check of rate-hours and realised offered hours on each kernel day, plus active-kind decay transitions.
+
+## Social offers (DESIGN §1.13, §2.2 / IF-46)
+
+`offers(person, t, state)` is the read-only projection for `society.affordance.offer`, the single writer of
+`society.affordance`. Supply current organisation records (including membership), unpaid obligations,
+attendance, pending proposals and founding circles, directed known-person pairs and network ties, a ledger
+balance reader, current admission facts, and unavailable persons. Advance the owning stores to `t` first.
+The host owns pending intention collections and marks resolved proposals/circles; this function caches nothing.
+Results name their source row and identity, retain its terms, and carry action arguments in `payload` where
+needed. Records are detached and emitted in numeric mint order within each source collection.
+
+Admission components are conjunctive; a vote requirement offers an application without predicting approval.
+Members can leave and pay actual unpaid dues, while active members can attend scheduled meetings, propose
+under chartered procedures, and express eligible ballots on open proposals. Quorum and collective outcomes
+remain attempt-time checks. A generic `found` candidate targets the formation process until the caller supplies
+a fresh draft identity, charter, named founders and purpose; it never creates a draft or actor. Founding joins
+name an open circle within its window. Contact seeking targets known persons (including incident tie endpoints);
+the caller supplies explicit kind and exposure arguments when invoking the network. Avoidance names an outgoing
+tie. Household and migration extension functions are typed but return nothing because those mechanisms are unbuilt.
+
+Offering is not choosing. Cognition chooses an intention, and `OrganisationStore.attempt` checks current true
+state again. The host must deliver charter knowledge separately through observations/testimony; descriptive
+offer terms do not establish what a mind knows. Verification: `npx vitest run test/affordance.test.ts`, including
+offer → stub choice → admission and a stale offer refused after the applicant can no longer pay.
