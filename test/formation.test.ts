@@ -261,7 +261,7 @@ describe("formation and dissolution (DESIGN §1.4)", () => {
     }
     expect(sites).toEqual(["formation.ts"]); expect(insertions).toEqual(["organisation.ts"]);
     expect("create" in setup().store).toBe(false);
-  });
+  }, 60_000);
   it("registers exactly one formation/dissolution process", () => {
     const manifest = JSON.parse(readFileSync(new URL("../kernel.json", import.meta.url), "utf8"));
     expect(manifest.processes.filter((p: { id: string }) => p.id === FORMATION_PROCESS)).toHaveLength(1);

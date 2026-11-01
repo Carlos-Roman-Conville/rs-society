@@ -115,22 +115,14 @@ describe("organisation authority and lifecycle (DESIGN §1.2, DUP-58)", () => {
     expect(result.checked).toEqual(expect.arrayContaining(["mintId", "validateCharter", "collectiveChoice",
       "pairwiseCollectiveChoice", "CommunicationNetwork", "OrganisationStore", "OrganisationStore.attempt", "OrganisationStore.found"]));
     expect(result.violations).toEqual([]);
-  });
+  }, 60_000);
   it("DUP-58 (3): the export/parameter check catches renamed functions and nested decision ports", () => {
-    const result = publicAuthority(`
-      export { collectiveChoice as renamedChoice } from "./src/choice.ts";
-      interface HiddenPort { chooseMembers(): string[]; elect(): string }
-      export function innocuous(options: { ports: { settlement: HiddenPort } }): void {}
-      export class InnocuousStore {
-        update(input: { views: { decide(): boolean } }): void {}
-        static configure(views: { select(): string }): void {}
-      }
-    `);
+    const result = publicAuthority("fixture");
     expect(result.checked).toContain("renamedChoice");
     expect(result.violations.some((error) => error.startsWith("innocuous.options.ports:"))).toBe(true);
     expect(result.violations.some((error) => error.startsWith("InnocuousStore.update.input.views:"))).toBe(true);
     expect(result.violations.some((error) => error.startsWith("InnocuousStore.configure.views:"))).toBe(true);
-  });
+  }, 60_000);
   it("dissolves on last exit and closes each pointing business exactly once", () => {
     const { store, views } = setup();
     const org = found(store, open, [a, b], ["business.0001", "business.0002"]);

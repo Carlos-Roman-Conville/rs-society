@@ -19,24 +19,41 @@ const contracts: Record<string, Record<string, string>> = {
     serviceHours: "(person: PersonId, org: OrgId, activity: string, from: number, to: number) => number" },
 };
 
-/** Resolve the barrel (including aliases/export-star), then inspect declared
- * function, constructor and public method parameters, including nested options.
- * Optional synthetic exports let the test prove that new authority is rejected.
- */
-export function publicAuthority(extraExports?: string): { checked: string[]; violations: string[] } {
-  const root = resolve(import.meta.dirname, "..");
-  const entry = resolve(root, extraExports === undefined ? "src/index.ts" : "authority-fixture.ts");
-  const configPath = resolve(root, "tsconfig.json");
-  const config = ts.readConfigFile(configPath, ts.sys.readFile);
+const root = resolve(import.meta.dirname, "..");
+const publicEntry = resolve(root, "src/index.ts");
+const fixtureEntry = resolve(root, "authority-fixture.ts");
+// Synthetic exports preserve the negative control without changing the public barrel.
+const fixtureExports = `
+      export { collectiveChoice as renamedChoice } from "./src/choice.ts";
+      interface HiddenPort { chooseMembers(): string[]; elect(): string }
+      export function innocuous(options: { ports: { settlement: HiddenPort } }): void {}
+      export class InnocuousStore {
+        update(input: { views: { decide(): boolean } }): void {}
+        static configure(views: { select(): string }): void {}
+      }
+    `;
+let cachedProgram: ts.Program | undefined;
+
+function getProgram(): ts.Program {
+  if (cachedProgram) return cachedProgram;
+  const config = ts.readConfigFile(resolve(root, "tsconfig.json"), ts.sys.readFile);
   const { options } = ts.parseJsonConfigFileContent(config.config, ts.sys, root);
   const host = ts.createCompilerHost(options);
-  if (extraExports !== undefined) {
-    const getSourceFile = host.getSourceFile.bind(host);
-    host.getSourceFile = (file, language, onError, create) => resolve(file) === entry
-      ? ts.createSourceFile(entry, extraExports, language, true)
-      : getSourceFile(file, language, onError, create);
-  }
-  const program = ts.createProgram([entry], options, host);
+  const getSourceFile = host.getSourceFile.bind(host);
+  host.getSourceFile = (file, language, onError, create) => resolve(file) === fixtureEntry
+    ? ts.createSourceFile(fixtureEntry, fixtureExports, language, true)
+    : getSourceFile(file, language, onError, create);
+  cachedProgram = ts.createProgram([publicEntry, fixtureEntry], options, host);
+  return cachedProgram;
+}
+
+/** Resolve the barrel (including aliases/export-star), then inspect declared
+ * function, constructor and public method parameters, including nested options.
+ * The fixture entry lets the test prove that new authority is rejected.
+ */
+export function publicAuthority(target: "public" | "fixture" = "public"): { checked: string[]; violations: string[] } {
+  const entry = target === "public" ? publicEntry : fixtureEntry;
+  const program = getProgram();
   const checker = program.getTypeChecker();
   const source = program.getSourceFile(entry)!;
   const checked: string[] = [], violations: string[] = [];

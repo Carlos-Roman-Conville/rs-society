@@ -36,6 +36,7 @@ inventing history.
 and the Cognition port agreement remain pending; this task does not change the spec or research data.
 
 ## Gotchas
+- A test that uses the TypeScript compiler API sets an explicit timeout (60_000) and reuses one cached program.
 - The fence test fails on the words `grievance`, `unrest`, `rebellion`, `legitimacy`, `source_credibility` and
   `mind.belief` anywhere in `src/`, comments included.
 - `src/` may import only `@rex/kernel` and relative paths.
