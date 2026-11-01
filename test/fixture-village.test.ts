@@ -5,35 +5,56 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import ts from 'typescript';
 import { mintId } from '../src/types.ts';
-import { FIXTURE, apportion, generateVillage, readReference, serialize, villagePath } from '../scripts/build-village.mjs';
+import {
+  FIXTURE,
+  apportion,
+  generateVillage,
+  readReference,
+  serialize,
+  villagePath,
+  type AgeBand,
+  type FixtureEntry,
+  type HouseholdSizeBand,
+} from '../scripts/build-village.mjs';
 
 // All numeric expectations/seeds here are fixture (test only); tolerance is the task's 10% gate.
 const village = generateVillage();
 const reference = readReference();
-const value = (key: string) => reference.find(row => row.key === key).value ?? FIXTURE[key].value;
+const fixtureFallback = FIXTURE as Readonly<Record<string, FixtureEntry>>;
+const value = (key: string): unknown =>
+  reference.find(row => row.key === key)?.value ?? fixtureFallback[key].value;
 const people = new Map(village.persons.map(person => [person.id, person]));
 const edgeKey = (from: string, to: string, relation: string) => `${from}/${to}/${relation}`;
 const edges = new Set(village.kin.map(edge => edgeKey(edge.from, edge.to, edge.relation)));
 
 describe('DESIGN §3 fixture village', () => {
   it('conserves household counts, size distribution and the researched mean', () => {
-    expect(village.households).toHaveLength(value('households_per_parish'));
-    const mean = reference.find(row => row.key === 'mean_household_size').value;
-    if (mean !== null) expect(Math.abs(village.persons.length / village.households.length - mean) / mean).toBeLessThanOrEqual(0.1);
-    const sizes = value('household_size_distribution');
+    expect(village.households).toHaveLength(value('households_per_parish') as number);
+    const mean = reference.find(row => row.key === 'mean_household_size')!.value;
+    if (mean !== null && typeof mean === 'number') {
+      expect(Math.abs(village.persons.length / village.households.length - mean) / mean).toBeLessThanOrEqual(0.1);
+    }
+    const sizes = value('household_size_distribution') as readonly HouseholdSizeBand[];
     const counts = apportion(village.households.length, sizes);
     // Synthetic rounding reconciliation may move households between bins, by the population correction at most.
     const rawPopulation = counts.reduce((n, count, i) => n + count * sizes[i].size, 0);
-    const changes = sizes.reduce((n, row, i) => n + Math.abs(counts[i] - village.households.filter(h => h.members.length === row.size).length), 0);
+    const changes = sizes.reduce(
+      (n: number, row: HouseholdSizeBand, i: number) =>
+        n + Math.abs(counts[i]! - village.households.filter(h => h.members.length === row.size).length),
+      0,
+    );
     expect(changes).toBeLessThanOrEqual(2 * Math.abs(rawPopulation - village.persons.length));
-    for (const h of village.households) expect(sizes.some(row => row.size === h.members.length)).toBe(true);
+    for (const h of village.households) expect(sizes.some((row: HouseholdSizeBand) => row.size === h.members.length)).toBe(true);
   });
 
   it('apportions age structure and sex ratio from their declared inputs', () => {
-    const bands = value('age_structure_five_year');
+    const bands = value('age_structure_five_year') as readonly AgeBand[];
     const counts = apportion(village.persons.length, bands);
-    bands.forEach((band, i) => expect(village.persons.filter(p => p.age >= band.min && p.age <= band.max)).toHaveLength(counts[i]));
-    const males = Math.round(village.persons.length * value('sex_ratio') / (value('sex_ratio') + FIXTURE.ratio_unit.value));
+    bands.forEach((band: AgeBand, i: number) =>
+      expect(village.persons.filter(p => p.age >= band.min && p.age <= band.max)).toHaveLength(counts[i]),
+    );
+    const sexRatio = value('sex_ratio') as number;
+    const males = Math.round(village.persons.length * sexRatio / (sexRatio + FIXTURE.ratio_unit.value));
     expect(village.persons.filter(p => p.sex === 'male')).toHaveLength(males);
     expect(village.persons.filter(p => p.sex === 'female')).toHaveLength(village.persons.length - males);
     // Non-null reference rows override fallback fixtures rather than merely appearing in metadata.
@@ -145,12 +166,12 @@ describe('DESIGN §3 fixture village', () => {
     for (const key of village.sources) {
       const row = reference.find(row => row.key === key);
       expect(row).toBeDefined();
-      expect(village.provenance[key]).toBe(`${row.value === null ? 'FIXTURE' : 'reference'}.${key}`);
+      expect(village.provenance[key]).toBe(`${row!.value === null ? 'FIXTURE' : 'reference'}.${key}`);
     }
   }, 60_000);
 
   it('--check never writes for matching, differing or missing files and rejects invalid seeds', () => {
-    const root = mkdtempSync(new URL('../.village-test-', import.meta.url));
+    const root = mkdtempSync(fileURLToPath(new URL('../.village-test-', import.meta.url)));
     try {
       mkdirSync(join(root, 'scripts'));
       mkdirSync(join(root, 'data/fixtures/village'), { recursive: true });
