@@ -131,6 +131,8 @@ export type Amendment = DecisionProcedure;
  * kind/name are observer metadata only, including on individual components.
  */
 export interface Charter {
+  /** DESIGN §1.4: founder-supplied duration (Kernel milliseconds) and minimum. */
+  readonly founding?: { readonly window: Parameter; readonly minimum: Parameter };
   readonly kind?: string;
   readonly name?: string;
   readonly admission?: readonly Admission[];

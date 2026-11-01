@@ -74,6 +74,12 @@ export function validateCharter(charter: Charter, capabilities: CharterCapabilit
     if (!procedures.has(value.type)) error(path, `requires implemented procedure ${value.type}`);
   };
 
+  if (charter.founding) {
+    positive(charter.founding.window, "founding.window", true);
+    positive(charter.founding.minimum, "founding.minimum", true);
+    if (!Number.isSafeInteger(charter.founding.window)) error("founding.window", "requires safe integer milliseconds");
+    if (!Number.isSafeInteger(charter.founding.minimum)) error("founding.minimum", "requires a safe integer");
+  }
   if (!charter.admission?.length) error("admission", "requires at least one admission rule");
   charter.admission?.forEach((value, i) => {
     const path = `admission[${i}]`;

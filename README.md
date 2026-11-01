@@ -109,10 +109,19 @@ chartered lots. Adapters implement Kernel `Participant`: snapshots include balan
 and notification queues; restore must not throw. No adapter receives authority to edit members or offices.
 `get`, `organisations`, `memberships`, `events` and `obligations` return detached observations.
 
-`create({ intentions, charter, businesses })` accepts named `found` commitments from a founding circle
-already assembled by §1.4. It validates executable charter inputs, mints the Society id and notifies
-`views.onCreated(id)`. Reachability, founding windows and minimum founding sizes belong to the formation
-unit; this store does not invent them. Offices begin vacant and are filled by an election proposal.
+`found(intention, joins, network)` is the only creation entry point (the former `create` seam is removed).
+The `FoundIntention` names a unique draft identity in `target` and carries `{ charter, founders, purpose,
+businesses? }` in its payload. Every named founder, including the proposer, must express a `join` targeting
+that draft. The charter must supply `founding: { window, minimum }`: a positive integer duration in Kernel
+milliseconds and a positive integer membership minimum. The host accumulates joins and submits one resolved
+attempt; joins must fall within the inclusive interval `[intention.t, intention.t + window]`, never after
+the current clock. Incomplete submissions fail with `payload.errors` and `payload.missing`; a resolved draft
+identity cannot be reused. Founders must be mutually reachable over existing directed network ties, including
+paths through non-founders, with the network advanced to the store's clock. Single founders need no tie.
+The draft passes `validateCharter` and current adapter checks before insertion. Declared admission fees are
+charged to every founder through the ledger. The Society id, fees, event and `views.onCreated(id)` commit
+together. Offices begin vacant and are filled by an election proposal. Founding does not require sponsors or
+an admission vote by an organisation that does not yet exist; those admission components apply to later joins.
 
 Call `advanceTo(ctx.t)` from the host's Kernel process before delivering intentions at that time.
 No scheduling frequency is invented here: the host supplies its process period. All intervening dues
@@ -153,4 +162,36 @@ Passed dissolution or the last member's removal calls `closeBusiness` exactly on
 business and `onDissolved(id)`. All lifecycle notifications share the Kernel transaction.
 
 Verification: `npx vitest run test/organisation.test.ts`. Ports are interfaces with stub tests;
-real Settlement/Economy integration and formation policy remain separate units.
+real Settlement/Economy integration remains separate work.
+
+## Formation, splits and observer classification (DESIGN §1.4)
+
+Lifecycle algorithms live in `src/formation.ts`; `OrganisationStore` supplies private state access and the
+Kernel transaction boundary. `split({ source, successors, choices, cause }, decision)` requires a passed
+`{ action: "split", successors }` proposal under the source's current procedure. Successors must already have
+been founded by named intentions; the source can be one successor. Every current source member supplies
+exactly one current `join` targeting a listed successor or `leave` targeting the source. Transfers to existing
+successors check their admission rules, and conflicting overlapping memberships are refused. If an admission
+fails, all membership changes and transfers roll back. Vote-based admission requires a separate accepted
+join before the split, because this call carries only the source's split decision.
+
+`secede({ source, intention, joins, exits, cause }, network)` records the alternative route: a strict minority
+leaves by its own intentions and founds a successor through the same founding checks, without a majority vote.
+If founding is refused, the accepted exits remain effective and the failed founding records its errors.
+An adapter exception rolls back the whole call. Ordinary separate `leave` and `found` calls remain available.
+
+Both split routes retain causes and source intentions. Their event payload contains `resourceClaims` with
+the source, successor ids, source businesses and `status: "unsettled"`. This uses the specification's claims
+fallback; Economy and Settlement decide resource allocation. Society creates no balances or inventories.
+A split emptying the source also dissolves it. Merger and dissolution use the same lifecycle module and
+existing transactional view notifications.
+
+Observers import `classifyInstitution` from `@rex/society/institution`. It returns a boolean from occupied
+recognised positions with chartered succession, an actually applied sanction, and actually collected dues
+or admission fees. An approved but unfunded fine does not qualify. No other `src/` module imports this
+classifier, and it is deliberately absent from the mechanism barrel.
+
+Verification: `npx vitest run test/formation.test.ts test/institution.test.ts`. Tests check the creation
+boundary, founding consent/window/network, fees and rollback, split/merger membership conservation, and
+identical traces under true/false classifier stubs. Liability of newness and density dependence remain
+D-SOC-1 validation yardsticks; no empirical validation is claimed here.

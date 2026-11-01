@@ -1,4 +1,7 @@
 import { simTime, transaction, type Counters, type Participant, type RandomStreams } from "@rex/kernel";
+import { found, merge, split, secede, dissolve, SplitRefusal, type LifecycleHost, type FoundIntention,
+  type SplitInput, type SecessionInput } from "./formation.ts";
+import type { CommunicationNetwork } from "./network.ts";
 import { validateCharter } from "./charter.ts";
 import { collectiveChoice, type ChoiceEvent } from "./choice.ts";
 import type { InventoryPort, LedgerPort, OrganisationFacts, ViewsPort } from "./ports.ts";
@@ -62,6 +65,7 @@ interface State {
   claims: string[];
   decisions: string[];
   unavailable: PersonId[];
+  foundings: string[];
 }
 const compare = (a: string, b: string): number => {
   const x = /^(.*\.)(\d+)$/.exec(a), y = /^(.*\.)(\d+)$/.exec(b);
@@ -72,8 +76,8 @@ const ordered = <T extends string>(values: readonly T[]): T[] => [...new Set(val
 /** DESIGN §1.2, §2.2–2.3. Host advances this store with Kernel SimTime before
  * delivering acts. advanceTo visits every due time, so coarse clock steps do not
  * skip obligations. Accessors are detached: views cannot edit the actor store.
- * create is the storage seam for a founding circle already assembled by §1.4;
- * this unit does not decide reachability, founding windows or minimum sizes.
+ * found is the only insertion seam and resolves the founding circle.
+ * Lifecycle mutations and their external views commit in one transaction.
  */
 export class OrganisationStore {
   #state: State;
@@ -83,7 +87,7 @@ export class OrganisationStore {
   constructor(options: StoreOptions) {
     this.#options = { ...options, capabilities: structuredClone(options.capabilities) };
     this.#state = { now: simTime(options.start), counters: { ...options.counters }, organisations: [],
-      events: [], obligations: [], attendance: [], claims: [], decisions: [], unavailable: [] };
+      events: [], obligations: [], attendance: [], claims: [], decisions: [], unavailable: [], foundings: [] };
     // Published event objects are immutable internally; detach the append-only
     // log array without repeatedly cloning its entire historical payloads.
     this.#participant = { id: ORGANISATION_PROCESS,
@@ -144,31 +148,32 @@ export class OrganisationStore {
     if (!this.#options.streams && procedures.some((p) => p && needsLots(p))) errors.push("declared lots require Kernel streams");
     return errors;
   }
-  create(input: { intentions: readonly SocialIntention[]; charter: Charter; businesses?: readonly string[] }): OrganisationEvent {
+  found(intention: FoundIntention, joins: readonly SocialIntention[],
+    network: Pick<CommunicationNetwork, "now" | "ties">): OrganisationEvent {
     return this.#atomic(() => {
       const minted = mintId(this.#state.counters, "org"); this.#state.counters = minted.counters;
       const id = minted.id;
-      input.intentions.forEach((i) => this.#time(i));
-      if (!input.intentions.length || input.intentions.some((i) => i.kind !== "found" || this.#state.unavailable.includes(i.person))) {
-        return this.#refuse(id, "requires available founders' found intentions", input.intentions);
-      }
-      const founders = ordered(input.intentions.map((i) => i.person));
-      if (founders.length !== input.intentions.length) return this.#refuse(id, "duplicate founding intention", input.intentions);
-      const errors = this.#errors(input.charter);
-      if (errors.length) return this.#refuse(id, errors.join("; "), input.intentions);
-      const businesses = [...(input.businesses ?? [])].sort(compare);
+      const errors = this.#errors(intention.payload.charter);
+      const fees = (intention.payload.charter.admission ?? []).reduce((sum, rule) => sum + (rule.type === "fee" ? rule.amount! : 0), 0);
+      if (!Number.isFinite(fees)) errors.push("founding fees exceed finite range");
+      if (intention.payload.founders.some((person) => this.#options.ledger.balance(person) < fees)) errors.push("founder cannot pay admission fee");
+      if (this.#state.foundings.includes(intention.target)) errors.push("founding identity already resolved");
+      else this.#state.foundings.push(intention.target);
+      const businesses = intention.payload.businesses ?? [];
       if (new Set(businesses).size !== businesses.length || businesses.some((b) => !b.trim()
-        || this.#state.organisations.some((org) => org.businesses.includes(b)))) return this.#refuse(id, "business already points at an actor or is invalid", input.intentions);
-      const org: Organisation = { id, founded_at: this.now, founders, members: [], charter: structuredClone(input.charter),
-        positions: (input.charter.positions ?? []).map((p) => ({ role: p.position, holder: null, term: p.term!, until: null })),
-        schedule: [...(input.charter.obligations ?? []), ...(input.charter.benefits ?? [])]
-          .flatMap((r) => r.type === "attendance" || r.type === "meeting"
-            ? [{ activity: r.activity, first: r.schedule.first!, period: r.schedule.period! }] : []), businesses };
-      this.#state.organisations.push(org);
+        || this.#state.organisations.some((org) => org.businesses.includes(b)))) errors.push("business already points at an actor or is invalid");
+      const result = found(intention, joins, network, { id, now: this.now, capabilities: this.#options.capabilities, errors, unavailable: this.#state.unavailable });
+      const intentions = [intention, ...[...joins].sort((a, b) => compare(a.person, b.person))];
+      if (!result.organisation) return this.#emit(id, "refused", result.errors.join("; "), intentions,
+        { outcome: "failed", errors: result.errors, missing: result.missing, founding: intention.target });
+      for (const person of result.organisation.founders) {
+        if (fees) this.#options.ledger.transfer(person, id, fees, "founding admission fee");
+      }
+      this.#state.organisations.push(result.organisation);
       this.#state.organisations.sort((a, b) => compare(a.id, b.id));
-      this.#members(org, founders, []);
       this.#options.views.onCreated(id);
-      return this.#emit(id, "founded", "founders' commitments", input.intentions);
+      return this.#emit(id, "founded", "founders' commitments", intentions,
+        { founding: intention.target, purpose: intention.payload.purpose, admissionFeeCollected: fees });
     });
   }
 
@@ -295,7 +300,7 @@ export class OrganisationStore {
     if (fees > this.#options.ledger.balance(person)) return refuse("cannot pay admission fee");
     if (fees) this.#options.ledger.transfer(person, org.id, fees, "admission fee");
     this.#members(org, [person], []);
-    return this.#emit(org.id, "joined", "accepted join", [intention]);
+    return this.#emit(org.id, "joined", "accepted join", [intention], { admissionFeeCollected: fees });
   }
   #exclusive(org: Organisation, person: PersonId): boolean {
     const memberships = this.memberships(person);
@@ -421,6 +426,7 @@ export class OrganisationStore {
     if (sanction) {
       if (sanction.type === "expulsion") {
         this.#members(org, [], [person]);
+        this.#emit(org.id, "act", "sanction applied", result.intentions, { person, component, sanction });
         this.#emit(org.id, "expelled", "passed sanction", result.intentions, { person });
         if (!org.members.length) this.#dissolve(org, "last member expelled", result.intentions);
       } else if (sanction.type === "suspension") {
@@ -430,6 +436,7 @@ export class OrganisationStore {
         if (this.#options.ledger.balance(person) < sanction.amount!) return this.#refuse(org.id, "fine failed for want of resources", result.intentions);
         this.#options.ledger.transfer(person, org.id, sanction.amount!, "passed fine");
       }
+      if (sanction.type !== "expulsion") this.#emit(org.id, "act", "sanction applied", result.intentions, { person, component, sanction });
     }
     return structuredClone(result);
   }
@@ -445,37 +452,42 @@ export class OrganisationStore {
       return events;
     });
   }
-  #dissolve(org: Organisation, cause: string, intentions: readonly SocialIntention[] = []): OrganisationEvent {
-    this.#members(org, [], org.members.map((m) => m.person));
-    this.#state.organisations = this.#state.organisations.filter((o) => o.id !== org.id);
-    for (const business of org.businesses) this.#options.views.closeBusiness(business);
-    this.#options.views.onDissolved(org.id);
-    return this.#emit(org.id, "dissolved", cause, intentions);
+  #lifecycle(): LifecycleHost {
+    return {
+      now: this.now, organisations: this.#state.organisations, views: this.#options.views,
+      find: (id) => this.#find(id),
+      remove: (id) => { this.#state.organisations = this.#state.organisations.filter((org) => org.id !== id); },
+      members: (org, joins, removals) => this.#members(org, joins, removals),
+      emit: (id, kind, cause, intentions, payload) => this.#emit(id, kind, cause, intentions, payload),
+      refuse: (id, cause, intentions) => this.#refuse(id, cause, intentions),
+      choose: (org, request) => {
+        const result = this.#choice(org, request, org.charter.decision_procedure!);
+        this.#state.decisions.push(request.proposalId);
+        return result;
+      },
+      join: (org, intention) => this.#join(org, intention),
+    };
   }
-  /** Both current memberships decide on the same surviving actor/charter.
-   * Overlapping members retain the survivor's membership; source offices expire.
-   * Money remains entirely with the adapters, including merger settlement.
-   */
+  #dissolve(org: Organisation, cause: string, intentions: readonly SocialIntention[] = []): OrganisationEvent {
+    return dissolve(this.#lifecycle(), org, cause, intentions);
+  }
+  split(input: SplitInput, decision: DecisionRequest): OrganisationEvent {
+    try {
+      return this.#atomic(() => split(this.#lifecycle(), input, decision));
+    } catch (error) {
+      if (!(error instanceof SplitRefusal)) throw error;
+      return this.#atomic(() => this.#refuse(input.source, error.message,
+        [decision.proposal, ...decision.ballots, ...input.choices]));
+    }
+  }
+  secede(input: SecessionInput, network: Pick<CommunicationNetwork, "now" | "ties">): OrganisationEvent {
+    return this.#atomic(() => secede(input, {
+      ...this.#lifecycle(), source: this.#find(input.source),
+      attempt: (intention) => this.attempt(intention),
+      found: (intention, joins) => this.found(intention, joins, network),
+    }));
+  }
   merge(survivingId: OrgId, sourceId: OrgId, decisions: readonly [DecisionRequest, DecisionRequest]): OrganisationEvent {
-    return this.#atomic(() => {
-      const survivor = this.#find(survivingId), source = this.#find(sourceId);
-      if (!survivor || !source || survivor === source) return this.#refuse(survivingId, "merge requires two existing actors");
-      const results: ChoiceEvent[] = [];
-      for (const [i, org] of [survivor, source].entries()) {
-        const decision = decisions[i];
-        if (!org.charter.decision_procedure || decision.proposal.payload?.action !== "merge"
-          || decision.proposal.payload?.survivor !== survivingId || decision.proposal.payload?.source !== sourceId) return this.#refuse(org.id, "requires matching merger proposals and procedures");
-        results.push(this.#choice(org, decision, org.charter.decision_procedure));
-        this.#state.decisions.push(decision.proposalId);
-      }
-      if (results.some((r) => r.payload.outcome !== "accepted")) return this.#refuse(survivingId, "merger not passed by both organisations", results.flatMap((r) => r.intentions));
-      this.#members(survivor, source.members.map((m) => m.person).filter((p) => !survivor.members.some((m) => m.person === p)), []);
-      this.#members(source, [], source.members.map((m) => m.person));
-      survivor.businesses.push(...source.businesses);
-      survivor.businesses.sort(compare);
-      this.#state.organisations = this.#state.organisations.filter((o) => o.id !== sourceId);
-      this.#options.views.onMerged(sourceId, survivingId);
-      return this.#emit(survivingId, "merged", "passed merger in both organisations", results.flatMap((r) => r.intentions), { source: sourceId, survivor: survivingId });
-    });
+    return this.#atomic(() => merge(this.#lifecycle(), survivingId, sourceId, decisions));
   }
 }

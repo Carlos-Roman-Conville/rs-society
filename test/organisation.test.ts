@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { Scheduler, streams, type Counters } from "@rex/kernel";
 import { describe, expect, it } from "vitest";
+import { draft, joins, network } from "./lifecycle-fixture.ts";
 import { OrganisationStore, ORGANISATION_PROCESS, mintId, type AccountId, type Charter, type CharterCapabilities,
   type DecisionRequest, type InventoryPort, type LedgerPort, type OrganisationFacts, type OrgId,
   type PersonId, type SocialIntention, type ViewsPort } from "../src/index.ts";
@@ -67,9 +68,13 @@ function setup(facts?: OrganisationFacts) {
   return { store, ledger, views, inventory, random };
 }
 function found(store: OrganisationStore, charter = open, founders: PersonId[] = [a], businesses: string[] = []) {
-  const event = store.create({ intentions: founders.map((person) => ({ person, kind: "found", t: store.now })), charter, businesses });
+  const event = foundingAttempt(store, charter, founders, businesses);
   expect(event.kind).toBe("founded");
   return event.org;
+}
+function foundingAttempt(store: OrganisationStore, charter: Charter, founders: PersonId[] = [c], businesses: string[] = []) {
+  const intention = draft(store, founders, { ...charter, founding: { window: 1, minimum: 1 } }, businesses);
+  return store.found(intention, joins(intention), network(people, store.now));
 }
 function act(store: OrganisationStore, org: OrgId, person: PersonId, kind: SocialIntention["kind"], payload?: Record<string, unknown>) {
   return store.attempt({ person, kind, target: org, t: store.now, payload });
@@ -98,9 +103,9 @@ describe("organisation authority and lifecycle (DESIGN §1.2, DUP-58)", () => {
     store.get(org)!.members.splice(0);
     (store.organisations() as unknown[]).splice(0);
     expect(store.memberships(a)).toEqual([org]);
-    const refusal = store.create({ intentions: [{ person: c, kind: "found", t: 0 }], charter: {
+    const refusal = foundingAttempt(store, {
       admission: [{ type: "sponsored", members: 1 }],
-    } });
+    });
     expect(refusal).toMatchObject({ kind: "refused", cause: "admission requires current sponsor facts" });
     expect(store.organisations()).toHaveLength(1);
     expect(Object.getOwnPropertyNames(Views.prototype)).not.toContain("setMembers");
@@ -178,9 +183,10 @@ describe("attempts check true state at attempt time (IF-46 amendment A)", () => 
   it("combines current sponsorship, kinship and fee rules; departed sponsors and duplicates cannot count", () => {
     const { store, ledger } = setup({ sponsors: () => [a, a, b], kinship: (person, member) => person === c && member === a });
     const org = found(store, { admission: [{ type: "sponsored", members: 2 }, { type: "kinship", relation: "sibling" }, { type: "fee", amount: 3 }] }, [a, b]);
+    const foundingRows = ledger.snapshot();
     act(store, org, b, "leave");
     expect(act(store, org, c, "join").cause).toContain("sponsors");
-    expect(ledger.rows).toEqual([]);
+    expect(ledger.snapshot()).toEqual(foundingRows);
     // A separate circle with both current sponsors satisfies the same composition.
     const second = found(store, store.get(org)!.charter, [a, b]);
     expect(act(store, second, d, "join").cause).toContain("kinship");
@@ -192,7 +198,7 @@ describe("attempts check true state at attempt time (IF-46 amendment A)", () => 
     expect(store.memberships(c)).toEqual([]); expect(ledger.balance(c)).toBe(10);
     ledger.fail = false;
     expect(act(store, second, c, "join").kind).toBe("joined");
-    expect(ledger.balance(second)).toBe(3);
+    expect(ledger.balance(second)).toBe(9); // Two founders and the admitted member pay the declared fee.
   });
   it("vote admission runs collective choice with current membership and actual attendance", () => {
     const { store } = setup();
@@ -280,9 +286,9 @@ describe("obligations and resources (DESIGN §1.2, §2.3)", () => {
     expect(coarse.ledger.snapshot()).toEqual(fine.ledger.snapshot());
     expect(() => fine.store.advanceTo(19)).toThrow("reverse");
     expect(() => fine.store.advanceTo(20.5)).toThrow("integer");
-    const bad = fine.store.create({ intentions: [{ person: c, kind: "found", t: 20 }], charter: {
+    const bad = foundingAttempt(fine.store, {
       ...open, obligations: [{ type: "dues", amount: 1, schedule: { first: 21, period: 0.5 } }],
-    } });
+    });
     expect(bad.cause).toContain("integer milliseconds");
   });
   it("records unpaid dues without automatic sanctions and accepts an explicit later payment exactly once", () => {
@@ -419,7 +425,13 @@ describe("collective acts and membership accounting", () => {
       act(store, org, b, "join"); store.advanceTo(2); act(store, org, b, "leave");
       const state = JSON.stringify(store.organisations());
       expect(state).not.toMatch(/"(?:balance|balances|money|account|holdings)"/);
-      return { events: store.events, members: store.get(org)?.members, obligations: store.obligations,
+      // Founding provenance now retains the full submitted draft. Remove only
+      // its observer metadata when comparing outcomes under a label rename.
+      const events = store.events.map((event) => ({ ...event, intentions: event.intentions.map((intention) =>
+        intention.kind === "found" ? { ...intention, payload: { ...intention.payload,
+          charter: JSON.parse(JSON.stringify(intention.payload?.charter, (key, value) =>
+            key === "kind" || key === "name" ? undefined : value)) } } : intention) }));
+      return { events, members: store.get(org)?.members, obligations: store.obligations,
         ledger: ledger.snapshot(), total: ledger.total(), views: views.calls };
     }
     expect(run("fraternity")).toEqual(run("renamed entirely"));

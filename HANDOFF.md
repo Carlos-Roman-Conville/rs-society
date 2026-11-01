@@ -31,8 +31,20 @@ attempts, charter-composed admission with collective-choice votes, Kernel-time o
 transfers and events, conditional benefits, elected offices/sanctions, removal and dissolution, and mergers
 approved by both actors. Tests use stub ports and verify membership identity, ledger conservation, rollback,
 one actor id, lifecycle notifications and label independence. See README for host API and timing conventions.
-Formation-circle policy, real engine adapters, migration re-entry and loan-account servicing remain with
+Real engine adapters, migration re-entry and loan-account servicing remain with
 their owning units; this store supplies the actor authority and transaction boundary.
+
+Unit 2843 implemented: lifecycle algorithms in `src/formation.ts`, reached through the store's atomic
+`found`, `split`, `secede`, `merge` and existing dissolution paths. The public `create` bypass is removed;
+callers must provide a draft identity, named founders, their own targeted joins, purpose, executable charter
+with `founding.window`/`founding.minimum`, and the current communication network. Directed mutual reachability
+allows paths through non-founders. Founding charges declared entry fees through the ledger. New successors
+must themselves be founded; split choices partition members, while resources use the permitted unsettled
+claims fallback. `secede` covers minority exits followed by founding, with explicit split provenance.
+Observer-only `classifyInstitution` is exported at `@rex/society/institution`, never through the mechanism
+barrel; successful sanctions now emit application evidence distinct from vote approval. See README for
+batch founding, inclusive window, secession-failure and split-admission conventions. Real adapter integration
+and D-SOC-1 liability-of-newness/density-dependence validation are not claimed.
 
 ## Next
 Units 2837–2844 in order (see DESIGN §6): registry rows and quantities; network §1.1; organisations, collective
