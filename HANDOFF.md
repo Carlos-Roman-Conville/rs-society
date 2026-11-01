@@ -23,7 +23,12 @@ choice and formation §1.2–§1.4; charter-forms data file; affordance port wit
 D-SOC-1 bench; Haiku check.
 
 ## Blocked
-Nothing.
+**2840 reference validation:** all 24 `data/charters/reference.json` rows fail `validateCharter` as faithful
+compositions (null schedules and amounts where the source is silent, missing admission components on five gild
+returns, `procedure: null` on sanctions/amendments, and positions with `type: null` — the validator throws on null
+`procedure.type`). See `test/charter-reference.test.ts` (`it.todo` per entry id with the first error bundle). Unblock
+when DESIGN §1.2a accepts researched null parameters on schedules or the reference file gains executable values without
+inventing history.
 
 ## Gotchas
 - The fence test fails on the words `grievance`, `unrest`, `rebellion`, `legitimacy`, `source_credibility` and
