@@ -1,6 +1,6 @@
 # Reference charters: sources and vocabulary gaps
 
-`reference.json` holds 24 historical charters decomposed into the components of DESIGN §1.2a, in the shapes of
+`reference.json` holds 27 historical charters decomposed into the components of DESIGN §1.2a, in the shapes of
 `src/types.ts`. They are **reference compositions** (Rex, 2026-10-31): they supply component vocabulary, labelled
 examples and validation baselines, and never bound what founders may compose. Every component is labelled
 `researched`; `evidence` is 3 throughout.
@@ -38,6 +38,12 @@ examples and validation baselines, and never bound what founders may compose. Ev
   in the entries: the Garlekhith 20d feast payment, the Lynn St Thomas 1376 entry fee, the Wiggenhall obol fines, the
   Poor Men's founding year.
 
+- **Independent sources (2997).** Three entries were added from printed rules of English friendly societies on
+  archive.org, a source independent of the Toulmin Smith volume. Each was read from its `_djvu.txt` full text through
+  WebFetch in targeted article-by-article passes (no file downloaded), so all three carry `ocr_checked: true`. Garbled
+  figures are `null` and say so in the entry: the Tideswell first-class death table, the Glass-Makers' sick-pay rate
+  and steward fine. Tideswell's classes ("eight-shilling class") name the weekly sick pay, not yearly dues.
+
 ## Sources
 
 | Source | Supplied | Entries |
@@ -46,14 +52,18 @@ examples and validation baselines, and never bound what founders may compose. Ev
 | Westlake, H. F., *The Parish Gilds of Mediaeval England* (1919). archive.org `cu31924032474722` | Ludlow Palmers 1284, St Peter Cornhill 1406, Holy Trinity Aldersgate Gild Book c. 1450, Bury Dulse 1282, Abbotsbury (Canute) | 5 |
 | Eden, F. M., *The State of the Poor* (1797), vol. III. archive.org `b28773135_0003` | Kirkby Lonsdale Union Friendly Society (rules to March 1795), Kendal Free Society; summaries of other societies (Southam, Kendal Friendly Society, Epsom, Esher, Farnham) | 2 |
 | Brentano, L., preliminary essay in Toulmin Smith (ed.), *English Gilds* (1870), citing Berlepsch's *Chronik der Gewerke* | Arnstadt journeymen shoemakers' fraternity 1628; mentions of German and Danish gilds (Flensburg, Mensburg, Rothschild) used only as context | 1 |
+| *Rules and orders … Great Hucklow, commenced May 12, 1787* (reprint, 1842). archive.org `rulesorderstobeo477shef` | Great Hucklow friendly society, Derbyshire | 1 |
+| *Rules and orders … Union Society, held at Tideswell … 1764* (Carrington, 1849). archive.org `rulesorderstobeo00chap` | Tideswell Union Society, Derbyshire | 1 |
+| *Articles, laws and rules, of the Glass-Makers' Friendly Society … Newcastle … begun 1755* (Angus, 1800). archive.org `bim_eighteenth-century_articles-laws-and-rules_glass-makers-friendly-s_1800` | Glass-Makers' Friendly Society, Newcastle upon Tyne | 1 |
 
 **Sought but not reached.** Rosser 2015, Barron 1985, Gosden 1961 (the archive.org record `bwb_S0-AIG-848` exists but
-was not opened), van Leeuwen 2016 (Palgrave, subscription; the search found no open copy) and Ogilvie 2019 were not
+was not opened; a 2997 search found no full-text copy), van Leeuwen 2016 (Palgrave, subscription; the search found no open copy) and Ogilvie 2019 were not
 accessible without a download, and Rex's rule is to ask before downloading anything new. Riley's *Memorials of London*
 (1868) was opened but the 1350-75 craft ordinances (e.g. the Braelers of 1355, which Brentano cites for sickness
 support by the trade) were not located in three 100 KB windows. Dutch and other continental guild rules are
 therefore represented only by the Arnstadt entry. A follow-up unit can add them; the gaps below are the
-vocabulary the existing 24 already show.
+vocabulary the existing entries already show. The three 2997 entries add English friendly-society rules; the Dutch or
+German ordinance and parish-fraternity candidates were not reached.
 
 Also left out, deliberately: the Epsom friendly society of 1765 (its rules were not found in vol. III before time ran
 out), and Lynn's other 1389 returns (Young Scholars, Nativity of St John, Purification, St Peter, St Mary, St
@@ -110,17 +120,23 @@ decisions. The count is the number of entries whose `unmapped` list contains an 
     Trinity Gild Book). §1.2a's amendment component covers only the procedure inside the organisation.
 15. **Beneficiary designation** (1): the death benefit goes to a person named by will or before two witnesses, else to
     widow, children, relations in order. The benefit's payee is not the member.
+16. **Added by the three 2997 friendly-society entries**: a per-member levy at a death (all three); death benefits
+    tiered by years of membership (Hucklow, Tideswell) and classes of membership with different dues and sick pay
+    (Tideswell); sick pay cut by duration (Hucklow, Tideswell); a curfew for the sick and waiting periods
+    (Glass-Makers); weighted votes by office (Hucklow, Tideswell); a box with several locks held by different officers
+    (all three); a floor on membership below which the society cannot dissolve (Hucklow 7, Tideswell 10); approval of
+    the rules by outside justices (Tideswell). They sharpen gaps 3, 4, 5 and 7.
 
 ## For the keeper
 
 - Gaps 1-4 and 5 recur across the unrelated sources and are the first candidates for a component-vocabulary review
   (§1.2a: extending the vocabulary is a design change reviewed like any mechanism).
-- Only 7 of the 24 entries record any decision procedure (an amendment rule, an admission vote, or a stated way of
+- Only 7 of the first 24 entries record any decision procedure (an amendment rule, an admission vote, or a stated way of
   filling a position), and none has a standing `decision_procedure` component: the sources say who decides and what
   they may not do, never a general rule for the organisation's acts. None states a quorum, so quorum is `null`
   wherever a vote appears. The sources give procedures by role (who may veto, who decides) far more than by tally.
 - Unit 2840's schema tests should accept `null` parameters, `procedure: null`, and the extra descriptive fields
   (`stated`, `stated_schedule`, `unit`, `label`) on components.
-- Coverage is English gilds (16 of 24 from the 1388-89 returns), with one German and no Dutch charter. If the keeper wants
+- Coverage is English gilds (16 of 27 from the 1388-89 returns) and eighteenth-century English friendly societies (5 of 27), with one German and no Dutch charter. If the keeper wants
   the Dutch and other continental baselines the task names, a further unit needs a source that can be read without a
   download or a paywall.

@@ -2057,5 +2057,609 @@
     ],
     "notes": "Currency in groschen and pfennige as stated; no pence conversion attempted. A later German example from Brentano's essay; the Toulmin Smith volume is the carrier, Berlepsch the original. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; one groschen entry, six pfennige fortnightly, one groschen quarterly (OCR garbled, wording clear), four pfennige lodging, two groschen meal, 1628 and the fire match; page now filled from the Toulmin Smith volume.",
     "ocr_checked": true
+  },
+  {
+    "evidence": 3,
+    "id": "fs-1787-great-hucklow-friendly-society",
+    "place": "Friendly and charitable society of miners, tradesmen and others, Great Hucklow, Derbyshire",
+    "date": "commenced 12 May 1787 (text as printed in a reprint of 1842)",
+    "source": {
+      "citation": "Rules and orders to be observed and kept by the friendly and charitable society of miners, tradesmen, and others, belonging to Great Hucklow, commenced May 12, 1787 (reprint, imprint year read from the OCR as 1842)",
+      "url": "https://archive.org/details/rulesorderstobeo477shef",
+      "pages": "Articles I-XX carry no visible page number in the OCR; Articles XX-XXXVII on printed pp. 8-11 (running heads 8-11)"
+    },
+    "kind": "friendly society (pub club) with master, wardens and council",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 24,
+        "stated": "entrance fee by age: 2s at 15 to 20 (24d); the other bands are in unmapped",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": null,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "a monthly contribution is required (a month missed is fined) but the amount is never stated",
+        "stated_schedule": "monthly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "monthly club night",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "meetings on the first Saturday of each month, 7 to 9 o'clock",
+        "stated_schedule": "monthly (first Saturday)",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "amount": 48,
+        "event": "sickness",
+        "stated": "after one year's membership a sick or lame member receives 4s a week for twelve weeks (48d a week)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "amount": 720,
+        "event": "death_of_member",
+        "stated": "£3 (720d) at the death of a member of three years' standing, paid to wife, child or nominee",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "amount": null,
+        "event": "death_of_wife",
+        "stated": "at the death of a member's wife each member pays 6d; the total depends on the membership",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "master",
+        "type": "simple_majority",
+        "electorate": "all_members",
+        "eligibility": {
+          "type": "members"
+        },
+        "quorum": {
+          "type": "count",
+          "value": null
+        },
+        "term": null,
+        "stated": "one master, held one year; the master and wardens nominate and 'the whole body' votes him in (voting rule not stated; simple majority is a reading)",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "warden",
+        "type": null,
+        "term": null,
+        "stated": "two wardens, who advance in turn (the elder succeeds the master); a new warden is taken from the council",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "council",
+        "type": "council",
+        "roles": [
+          "council_member"
+        ],
+        "procedure": {
+          "type": "simple_majority",
+          "electorate": "present",
+          "eligibility": {
+            "type": "positions",
+            "roles": [
+              "council_member"
+            ]
+          },
+          "quorum": {
+            "type": "count",
+            "value": null
+          }
+        },
+        "term": null,
+        "stated": "twelve council members sit with the master and wardens (voting rule not stated; simple majority is a reading)",
+        "label": "researched"
+      },
+      {
+        "section": "amendment",
+        "type": "council",
+        "roles": [
+          "master",
+          "warden",
+          "council_member"
+        ],
+        "procedure": {
+          "type": "simple_majority",
+          "electorate": "present",
+          "eligibility": {
+            "type": "positions",
+            "roles": [
+              "master",
+              "warden",
+              "council_member"
+            ]
+          },
+          "quorum": {
+            "type": "count",
+            "value": null
+          }
+        },
+        "stated": "the master, wardens and council may make bye-laws or new articles not touching the King's prerogative (voting rule not stated; simple majority is a reading)",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 60,
+        "procedure": null,
+        "stated": "a master or warden who refuses office forfeits 5s to the box, or is excluded",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 2,
+        "procedure": null,
+        "stated": "a member who misses one month's contribution forfeits 2d (4d for two months)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 6,
+        "procedure": null,
+        "stated": "a council member who ignores a call to a meeting forfeits 6d (4d in an urgent case)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "a member three months behind with no contribution or message is excluded; so is one who works for pay on benefit if proved, conceals an infirmity at entry, or proposes to dissolve the society",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Entrance fee rises with age: 2s (15 to 20), 2s 6d (20 to 25), 3s (25 to 30), £1 (30 to 35); the bands overlap at their edges and no one over 35 is admitted (age-scaled fee and an age bar).",
+      "Sick pay drops to 2s a week after the twelve weeks; no member has more than twelve weeks of full pay in a year; pay starts only after a week of incapacity, with three or four days' notice (scaled benefit with waiting and notice conditions).",
+      "No benefit for illness from a 'vicious way of living' or an infirmity concealed at entry (fault exclusion).",
+      "Death money rises with standing: 20s for burial, £2 after two whole years, £3 after three; the 20s term is ambiguous in the text (benefit tiered by years of membership).",
+      "After a member's or a wife's funeral each member pays a further 6d on the next club night, or is fined or excluded (a per-member levy at a death).",
+      "The master pays the officers 5s for their expenses at a member's funeral, and officers visit sick members within one mile on a rota (funeral attendance and sick visits as duties).",
+      "The box has three locks, keys held by the master and wardens, and money is drawn only with council members present (custody of the box by several office holders).",
+      "In disputes the master and each warden have two votes (weighted votes by office).",
+      "The yearly feast on the first Thursday in October requires attendance at Divine Service, with no substitutes (a feast and church attendance).",
+      "A member may spend no more than 2d in the club room, with fines for oaths, wagers, indecency, quarrelling and gaming by benefit recipients (conduct at meetings).",
+      "A member balloted for the militia pays and receives nothing while away and may rejoin within three years; one imprisoned pays and receives nothing; one convicted of felony is excluded (absence, militia and crime rules).",
+      "The society may not be dissolved while seven sound members remain; all members sign their assent to the articles (a floor on membership and signed assent).",
+      "Art. III says the whole body votes in the master and Art. XXII says the master chooses the second warden: the text is inconsistent on who fills the office."
+    ],
+    "notes": "Read from the archive.org full-text OCR (rulesorderstobeo477shef_djvu.txt) through WebFetch in targeted passes, article by article; no file was downloaded. Only articles XX onward show a printed page number. The title-page imprint reads '1642' in the OCR; the advertisement is dated 1 January 1842 so the printing is read as 1842, while the society itself dates from 1787. Garbles noted in the OCR (e.g. 'shah', 'council?', 'orr') do not touch any recorded figure. Independent of the Toulmin Smith volume; source type is the society's own printed rules.",
+    "ocr_checked": true
+  },
+  {
+    "evidence": 3,
+    "id": "fs-1764-tideswell-union-society",
+    "place": "Humane, friendly, indefatigable Union Society, Tideswell, Derbyshire",
+    "date": "established 4 January 1764 (articles as signed 28 December 1811, printed 1849)",
+    "source": {
+      "citation": "Rules and orders to be observed and kept by the members of the humane, friendly, indefatigable, Union Society, held at Tideswell, in the county of Derby, established the fourth day of January, 1764 (printed by W. Carrington, 1849)",
+      "url": "https://archive.org/details/rulesorderstobeo00chap",
+      "pages": "Arts. 1-29 on printed pp. 3-14 (article page numbers read from the OCR markers and index)"
+    },
+    "kind": "friendly society (pub club) with three classes",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 36,
+        "stated": "entrance fee at ages 16 to 25: 3s (36d) into the eight-shilling class, 2s into the six-shilling class; the class names are the weekly sick pay",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 18,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "monthly",
+        "stated": "monthly payment of 1s 6d for the eight-shilling class (1s 2d for the six-shilling class, 9d for the four-shilling class)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "monthly club night at 7 o'clock",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "meetings on the first Saturday of each month; late arrival is fined",
+        "stated_schedule": "monthly (first Saturday)",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "amount": 96,
+        "event": "sickness",
+        "stated": "after twelve months' membership a sick member of the first class receives 8s a week for twelve weeks (96d a week)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "amount": null,
+        "event": "death_of_member",
+        "stated": "a death allowance rising with years of membership; the first-class table is illegible in the OCR, so no single amount is recorded",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "amount": null,
+        "event": "death_of_wife",
+        "stated": "at a member's wife's funeral each member pays 3d; the total depends on the membership",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "master",
+        "type": null,
+        "term": null,
+        "stated": "one master serves one year only; the election of the new warden and assistants is at the yearly general meeting (method not stated)",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "warden",
+        "type": null,
+        "term": null,
+        "stated": "two wardens; the elder succeeds the master and the younger the elder; a new warden is taken from the assistants",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "assistant",
+        "type": "council",
+        "roles": [
+          "assistant"
+        ],
+        "procedure": {
+          "type": "simple_majority",
+          "electorate": "present",
+          "eligibility": {
+            "type": "positions",
+            "roles": [
+              "assistant"
+            ]
+          },
+          "quorum": {
+            "type": "count",
+            "value": null
+          }
+        },
+        "term": null,
+        "stated": "twelve assistants form the committee, chosen from the whole society or in rotation as they stand in the book, and may not serve two years running (voting rule not stated; simple majority is a reading)",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "clerk",
+        "type": null,
+        "term": null,
+        "stated": "a clerk keeps the accounts and receives £1 a year from the box",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "arbitrator",
+        "type": null,
+        "term": null,
+        "stated": "eleven arbitrators chosen annually on the general night, whose majority decision settles disputes (how they are chosen is not stated)",
+        "label": "researched"
+      },
+      {
+        "section": "amendment",
+        "type": "simple_majority",
+        "electorate": "all_members",
+        "eligibility": {
+          "type": "members"
+        },
+        "quorum": {
+          "type": "count",
+          "value": null
+        },
+        "stated": "the articles may be altered 'by the consent of the major part of the society', and new articles must conform to the act of parliament (reading: simple majority of all members)",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 60,
+        "procedure": null,
+        "stated": "a master or warden who refuses office forfeits 5s; an assistant forfeits 1s",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 2,
+        "procedure": null,
+        "stated": "a contribution paid late forfeits 2d (4d for a second lateness)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 2,
+        "procedure": null,
+        "stated": "a member who does not remove his hat in the club room forfeits 2d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "enlisting, working while on benefit, feigned or concealed sickness, felony, fraud or petty larceny, or three missed contribution nights leads to exclusion",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Three classes defined by weekly sick pay (8s, 6s, 4s) with different contributions; a four-shilling member under 45 may move up on paying a fee of 1s 6d or 2s, rising 6d per class for each five years of age (membership classes and transfer between them).",
+      "Entrance fee rises 1s per class for every five years of age; no one over 35 or living more than three miles from Tideswell is admitted; a new member buys a printed order (6d) and a staff (1s); a false age forfeits 5s (age-scaled fee, residence bar, equipment).",
+      "First-class sick pay falls to 4s a week for nine months then 2s; second class 6s, 3s, 1s 6d; third class 4s, 2s, 1s; full pay resumes after twelve months sound (scaled benefit that decays with duration).",
+      "Sick pay needs a week's notice and bars work for wages; officers visit the sick under a fine of 6d for neglect (notice and visiting duties).",
+      "Death allowance legible for the third class: 10s in the first year of membership up to £3 from the tenth year; second class 10s to about £4 (partly inferred from garbled columns) (benefit tiered by years of membership).",
+      "At a member's death each member pays 4d, 3d or 2d by class on the next club night, or forfeits 6d (a per-member levy at a death).",
+      "A widow who fails to pay for three funerals is excluded; no member is paid for more than one wife (limits on the wife benefit).",
+      "Officers within two miles who skip a member's funeral forfeit 1s and receive a hatband, gloves, a stick and a quart of ale (funeral attendance as a duty).",
+      "The committee may raise contributions when the stock falls to £1 per member (a rule triggered by the box balance).",
+      "The box has three locks and needs the master and wardens with two assistants present (custody of the box by several office holders).",
+      "The master and wardens have two votes each in the society but one in the committee (weighted votes by office).",
+      "An embezzler repays and forfeits 10s; a loan from the stock needs the approval of the members present (limits on handling the stock).",
+      "A yearly feast the day after Tideswell September fair costs each member 2s 6d, with a sermon, music and a procession to church under fines for absence (a feast and church procession).",
+      "The society cannot be dissolved while ten sound members remain; articles were confirmed by two Justices of the Peace (approval by an outside authority)."
+    ],
+    "notes": "Read from the archive.org full-text OCR (rulesorderstobeo00chap_djvu.txt) through WebFetch in targeted passes, article by article; no file was downloaded. The first-class death table (Art. 9, p. 7) is badly garbled and the second-class upper rows are inferred, so the death benefit amount is null. The Epiphany Sessions date is garbled (year read as 1811). Class names (the eight-, six- and four-shilling classes) are the weekly sick pay, not yearly dues. Independent of the Toulmin Smith volume. (2997) the same Derbyshire village club family as Great Hucklow (a master, two wardens and twelve assistants).",
+    "ocr_checked": true
+  },
+  {
+    "evidence": 3,
+    "id": "fs-1755-glass-makers-newcastle",
+    "place": "Glass-Makers' Friendly Society, Newcastle upon Tyne",
+    "date": "begun 15 November 1755 (articles as printed and signed 5 April 1800)",
+    "source": {
+      "citation": "Articles, laws and rules, of the Glass-Makers' Friendly Society, held at the house of Mr. William Wilson, sign of the Sun, in the Broad-Chare, Newcastle upon Tyne. Begun November 15, 1755 (printed by M. Angus, 1800)",
+      "url": "https://archive.org/details/bim_eighteenth-century_articles-laws-and-rules_glass-makers-friendly-s_1800",
+      "pages": "Arts. I-XXIV; printed page numbers are only partly visible in the OCR, so none are given per article"
+    },
+    "kind": "friendly society (pub club), occupational (glass-makers)",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 33,
+        "stated": "entrance money of 2s 9d (33d); no one over 35 is admitted except by the majority of the company",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "admission",
+        "type": "vote",
+        "procedure": {
+          "type": "simple_majority",
+          "electorate": "present",
+          "eligibility": {
+            "type": "members"
+          },
+          "quorum": {
+            "type": "count",
+            "value": null
+          }
+        },
+        "stated": "no person is admitted without the consent of the majority (reading: simple majority of those present)",
+        "label": "researched"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 16,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "every six weeks (reading)",
+        "stated": "1s 4d towards the public fund at each six-weekly meeting, plus 2d for the box-keeper's house (reading: Art. IV once says 'weekly')",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "six-weekly box night",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "stewards and members attend each six-weekly meeting; a late payer forfeits 2d, then 6d, and is excluded for a third default",
+        "stated_schedule": "every six weeks (reading)",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "amount": null,
+        "event": "sickness",
+        "stated": "after twelve months a sick member is paid weekly by the stewards; the rate is garbled in the OCR and no amount is recorded",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "amount": 720,
+        "event": "death_of_member",
+        "stated": "after twelve months a member's death brings £3 (720d) towards funeral expenses; each member pays 6d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "amount": 720,
+        "event": "death_of_wife",
+        "stated": "the death of a member's wife brings the member £3 (720d) to bury her; each member pays 6d, surplus to the stock",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "steward",
+        "type": null,
+        "term": null,
+        "stated": "two stewards chosen by roll call for a half-year, who collect and count the contributions; a man who declines pays 18d and is chosen again",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "clerk",
+        "type": null,
+        "term": null,
+        "stated": "a clerk is paid £1 10s a year; neglect is fined 6d",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "beadle",
+        "type": null,
+        "term": null,
+        "stated": "a beadle gives notice of funerals and pays the fines of members he fails to warn, or is excluded",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "box-keeper",
+        "type": null,
+        "term": null,
+        "stated": "William Wilson, landlord of the Sun, keeps the box and records under security approved by the majority",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "committee",
+        "type": "council",
+        "roles": [
+          "committee_member"
+        ],
+        "procedure": {
+          "type": "simple_majority",
+          "electorate": "present",
+          "eligibility": {
+            "type": "positions",
+            "roles": [
+              "committee_member"
+            ]
+          },
+          "quorum": {
+            "type": "count",
+            "value": null
+          }
+        },
+        "term": null,
+        "stated": "a committee of thirteen men including the clerk and stewards, 'annually appointed by the clerk', decides all affairs (voting rule not stated; simple majority is a reading)",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 18,
+        "procedure": null,
+        "stated": "a man chosen steward who declines forfeits 18d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 2,
+        "procedure": null,
+        "stated": "swearing or blasphemy forfeits 2d an offence",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 30,
+        "procedure": null,
+        "stated": "striking another member forfeits 2s 6d, with exclusion for that night",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 12,
+        "procedure": null,
+        "stated": "disclosing the society's secrets to a non-member forfeits 12d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "exclusion for a third default in payment, for joining another society or enlisting in the King's service, for theft or a grave crime not cleared, and for being found away from home in benefit hours",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "No benefit for 12 months except the £3 funeral money; benefit starts a week after notice; a sick member must stay at home after 8 p.m. (9 p.m. in summer) or is permanently excluded (waiting period, notice and a curfew).",
+      "Stewards visit the sick at least every three days under a fine of up to 10s; a member who fails to report another's improper benefit is fined 2s 6d (duties of visiting and reporting).",
+      "A sick member who can earn something may draw less benefit, with a cap on weekly earnings; the figures are garbled in the OCR (benefit scaled by earnings).",
+      "A widow of a member who stays single and of clean repute receives £3 for her funeral, paid by 6d from each member (a benefit for the widow).",
+      "A nominated widow or relation receives a legacy at the member's death (the sum reads as four pounds in a garbled passage); with no nomination the money goes to 'the person by law entitled' (beneficiary designation).",
+      "No pitman, collier, sinker or waterman may join; persons infamous, quarrelsome or disorderly are barred; a member self-maimed or injured in drink has no benefit (occupation bars and fault exclusion).",
+      "A yearly head meeting on the first Saturday after Michaelmas costs each member 1s for meat and 4d for drink, with a 6d fine for absence and the half-year accounts due that day (a feast and half-yearly accounts).",
+      "The box has three locks, two keys held by the stewards and one by the keeper (custody of the box by several office holders).",
+      "A sick member living away is paid by post on a certificate from the minister, churchwardens and overseers, with the postage deducted (benefit paid at a distance).",
+      "A false accuser pays the fine the accused would have paid; a member may not take liquor out of the room (1s) or order spirits (2s 6d); members may not draw on the box for a new member in distress, only give privately (conduct, informal aid and limits on the box).",
+      "No rule for altering the articles is stated; the final clause says they were 'agreed to and confirmed by the society' (no amendment procedure)."
+    ],
+    "notes": "Read from the archive.org full-text OCR (bim_eighteenth-century_articles-laws-and-rules_glass-makers-friendly-s_1800_djvu.txt) through WebFetch in targeted passes; no file was downloaded. Several article numbers, the sick-pay rate (Art. XI) and the steward's absence fine (Art. VI) are garbled in the OCR, so the amounts are null. The imprint year of 1800 and the signing date of 5 April 1800 were read from the title page and signature block. Independent of the Toulmin Smith volume. (2997) the earliest of the three new societies and the only one tied to a trade.",
+    "ocr_checked": true
   }
 ]
