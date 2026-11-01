@@ -15,6 +15,11 @@
         "mind.available_hours"
       ],
       "writes": ["society.comm_network"]
+    },
+    {
+      "id": "society.organisation.collective_choice",
+      "reads": ["mind.intention", "society.organisation", "society.membership", "society.meeting_attendance"],
+      "writes": ["society.organisation_event"]
     }
   ]
 }

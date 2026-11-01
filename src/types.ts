@@ -76,7 +76,9 @@ interface VotingConditions {
 /** DESIGN §1.3; councils recursively use one of the same decision rules. */
 export type DecisionProcedure =
   | { readonly type: "position_holder"; readonly role: string }
-  | ({ readonly type: "simple_majority" } & VotingConditions)
+  | ({ readonly type: "simple_majority"; readonly tie_break?:
+      | { readonly type: "position_holder"; readonly role: string }
+      | { readonly type: "lots" } } & VotingConditions)
   | ({ readonly type: "qualified_majority"; readonly threshold: Parameter } & VotingConditions)
   | ({ readonly type: "unanimity" } & VotingConditions)
   | { readonly type: "council"; readonly roles: readonly string[]; readonly procedure: DecisionProcedure };

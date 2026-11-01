@@ -56,3 +56,46 @@ simple undirected projection, including registered isolates. These are observer 
 Verification: `npx vitest run test/network.test.ts`. Independent clustering/homophily validation and integration
 with Cognition/Settlement/Reality remain later work under DESIGN §4; the validation experiment is recorded in
 the test file. Test calibration is fixture data, not researched historical calibration.
+
+## Collective choice (DESIGN §1.3)
+
+`collectiveChoice(input)` applies the supplied `DecisionProcedure` to an organisation's membership,
+position assignments (including vacancies), attendance, proposal, and expressed ballots. It is exported
+from the package barrel. The proposal must target the organisation; ballots must target the explicit
+`proposalId`. Supply a resolved snapshot with at most one ballot per person and a decision time after
+the proposal and ballots. Invalid parameters, duplicate ballots and mismatched targets throw. The
+proposal does not implicitly cast a support vote. Payloads are opaque and never inspected.
+
+The returned `OrganisationEvent` has `kind: "act"` and `payload.outcome: "accepted" | "rejected"` for a
+completed decision. Consumers must check the outcome before executing the proposed action. No-act
+results use `kind: "refused"`, `payload.outcome: "no_act"`, and a reason (`no quorum`,
+`tie with no tie-break`, `ineligible proposer`, or `no decision` for a holder without a decisive vote).
+Every result retains the source intentions and a tally listing eligible/present/electorate persons,
+support, opposition, abstention, unexpressed votes, excluded ballots with reasons, denominator and quorum.
+Person records are emitted in numeric mint order.
+
+Execution conventions: simple majority requires more than half the declared electorate; qualified
+majority requires at least the supplied fraction; unanimity requires every elector's explicit support.
+Abstentions and silence remain in the present/all-member denominator. All-member ballots can be remote,
+but quorum counts eligible attendance. Voting eligibility also controls proposal eligibility. Councils
+restrict membership before applying their nested procedure, with one vote per person even if they hold
+multiple offices. For a position-holder procedure, any member of that scope may propose; the named
+holder must be present and explicitly support or oppose. These conventions resolve details not stated
+in DESIGN §1.3. May's conditions are verified on fully expressed binary ballots; head-count rules with
+abstentions are not claimed to satisfy the symmetric binary theorem.
+
+Simple-majority components may explicitly declare `tie_break: { type: "position_holder", role }` or
+`tie_break: { type: "lots" }`; omission leaves ties unresolved. A casting holder must be an eligible,
+present voter with a decisive ballot. Lots choose equally between acceptance and rejection, consuming
+one draw from the caller's `streams.get("society.organisation.collective_choice", org)` only on a tie
+after eligibility and quorum checks. Qualified/unanimity rules do not use this override.
+
+`pairwiseCollectiveChoice(input)` takes proposed alternatives in creation order and exactly one ballot
+snapshot for each unordered pair. A ballot targets that comparison's `first` proposal: support chooses
+first, opposition chooses second. It requires simple majority without a tie-break, returns every pair's
+tally, and reports a directed majority cycle as a no-act with a closed cycle witness. Without a cycle,
+only a proposal beating every other proposal is returned as the winner; unresolved relations produce
+`no pairwise winner`. The helper never supplies an agenda or silently resolves pairwise ties.
+
+Verification: `npx vitest run test/choice.test.ts`. Procedure verification includes hand-worked boundaries,
+May's three conditions and a Condorcet cycle. Consequence validation remains D-SOC-1 (DESIGN §3).

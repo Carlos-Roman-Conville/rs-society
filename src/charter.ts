@@ -61,6 +61,13 @@ export function validateCharter(charter: Charter, capabilities: CharterCapabilit
         if (value.quorum.type === "count") positive(value.quorum.value, `${path}.quorum`, true);
         else fraction(value.quorum.value, `${path}.quorum`);
         if (value.type === "qualified_majority") fraction(value.threshold, `${path}.threshold`);
+        if (value.type === "simple_majority" && value.tie_break) {
+          switch (value.tie_break.type) {
+            case "position_holder": role(value.tie_break.role, `${path}.tie_break.role`); break;
+            case "lots": break;
+            default: unsupported(value.tie_break, `${path}.tie_break`);
+          }
+        }
         break;
       default: return unsupported(value, path);
     }

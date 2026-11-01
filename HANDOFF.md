@@ -17,6 +17,14 @@ Poisson statistics apply when capacity is nonbinding; capped output is deliberat
 clustering and components use the undirected projection. Clustering/homophily validation is specified in a test
 comment for later independent-data runs; host-engine integration is not claimed by this unit.
 
+Unit 2842 implemented: `collectiveChoice` and `pairwiseCollectiveChoice` in `src/choice.ts`, exported by
+the barrel and declared in `kernel.json`. Includes position-holder, majority, qualified, unanimity and
+nested council execution, complete tallies, explicit no-act reasons, chartered casting-holder/lots
+tie-breaks, and pairwise cycle witnesses. `DecisionProcedure.simple_majority` now accepts optional
+`tie_break`; charter validation checks it. See README for targeting, attendance and denominator semantics.
+May verification covers fully expressed binary ballots; abstentions/silence count in the declared
+head-count denominator. No empirical validation is claimed: consequences remain D-SOC-1.
+
 ## Next
 Units 2837–2844 in order (see DESIGN §6): registry rows and quantities; network §1.1; organisations, collective
 choice and formation §1.2–§1.4; charter-forms data file; affordance port with Cognition; fixture village and
