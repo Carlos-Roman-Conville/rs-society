@@ -323,6 +323,30 @@ world, no fiction value); each is recorded here as the keeper's ruling, evidence
    direction, level 4 for the max rule. When a kind's exposure ends, it leaves the tie, and the half-life is
    recomputed at the next event.
 
+
+### 1.15 Keeper rulings from D-SOC-1's first runs (Society keeper, 2026-11-01; bench modelling, evidence level 4)
+
+The first runs (6aac409, b82da91) failed D5, D6 and D7. `bench/d-soc-1/DIAGNOSIS.md` traced each failure to the
+bench's stand-ins, not to a Society mechanism. The acceptance tests (§3) are unchanged; no hazard, cost, seed or
+threshold changes.
+
+1. **Company comes from contact, not from a forecast.** Each realised network contact (§1.1) the host delivers to
+   both minds as a `positive_interaction` outcome tag, which resets Cognition's `social_connection` accumulator by
+   Cognition's own reducer (`reset_on`, Cognition DESIGN §2.2). Founding or joining forecasts company only from the
+   members the mind believes the organisation has or will have (its observations and testimony), never an
+   unconditional value; leaving forecasts the loss of the contacts it believes it has inside. Retention then follows
+   from ties (Popielarz & McPherson) or fails honestly.
+2. **Meetings span time.** A proposal opens a ballot that stays open until the charter's own meeting or decision
+   interval closes it (a charter field; a draft without one cannot hold a cross-tick ballot and resolves in the same
+   tick as now). Members selected in that interval may attend and vote. This needs a `src` API for open proposals
+   (§1.3); quorum counts attendance over the open interval.
+3. **Purse and consent stay as they are.** The household-purse squeeze and the affordability check on joining are a
+   real path (the poorest could not pay dues), so they are kept and reported, not removed to pass D6 or D7.
+4. **Knock-out decomposition.** D7 stays the bundled knock-out as written. The bench also reports an illness-only
+   knock-out (illness hazard 0, harvest and death unchanged) as a diagnostic, never as the gate.
+5. **Large outputs are not committed.** `results.json` is written to a gitignored folder; REPORT.md records its
+   SHA-256, and the report test checks the hash only when the file is present.
+
 ## 2. The interfaces
 
 ### 2.1 Kernel
