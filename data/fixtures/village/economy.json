@@ -1,0 +1,540 @@
+{
+  "income_by_occupation": [
+    {
+      "id": "labourer_day_wage_1384_5",
+      "value": 3.5,
+      "value_basis": "midpoint of the stated 3d-4d range; the source gives no central figure",
+      "unit": "pence per day",
+      "period": "1384-85",
+      "place": "Isleworth, Middlesex (a market-gardening manor near London; probably above the national level)",
+      "source": {
+        "citation": "Page, W. (ed.), A History of the County of Middlesex, vol. 2 (Victoria County History, 1911), 'Social and economic history: Appendix 2' (table of wages from manorial accounts)",
+        "url": "https://www.british-history.ac.uk/node/15304",
+        "pages": "Appendix 2, entry 1384-5; online edition, no page numbers"
+      },
+      "stated": "Isleworth, Labourer, 3d. and 4d.",
+      "read_via": "full page (WebFetch summary of the BHO page)",
+      "note": "Cash rate for casual day work; whether food was also given is not stated on the page."
+    },
+    {
+      "id": "labourer_day_wage_post_plague_estimate",
+      "value": 3,
+      "unit": "pence per day",
+      "period": "after 1349 (the authors' estimate used to value works on Ramsey Abbey manors, Huntingdonshire)",
+      "source": {
+        "citation": "Owen, G., Brown, A. T. and Skinner, T., 'Sick Leave of Customary Tenants in Late Medieval England', Journal of British Studies 64 (2025), article e92, doi 10.1017/jbr.2025.10130",
+        "url": "https://www.cambridge.org/core/journals/journal-of-british-studies/article/sick-leave-of-customary-tenants-in-late-medieval-england/9B28EA48C8926957665D526DF414F50C",
+        "pages": "section on the value of works; page range not given in the fetched text"
+      },
+      "stated": "Estimated day wages were about 1.5d before the Black Death and about 3d afterwards.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "The authors do not give the series behind the estimate in the passage read. Agrees with the 3d-4d Isleworth figure."
+    },
+    {
+      "id": "workman_day_wage_1385_6",
+      "value": 4,
+      "unit": "pence per day",
+      "period": "1385-86",
+      "place": "not stated",
+      "source": {
+        "citation": "Page (ed.), A History of the County of Middlesex, vol. 2 (1911), 'Social and economic history: Appendix 2'",
+        "url": "https://www.british-history.ac.uk/node/15304",
+        "pages": "Appendix 2, entry 1385-6"
+      },
+      "stated": "Workman, 4d.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "The table has irregular columns and labels few units; penny figures read as day rates by the summarising fetch."
+    },
+    {
+      "id": "helper_day_wage_1384_to_1389",
+      "value": 2,
+      "unit": "pence per day",
+      "period": "1384-85 to 1388-89",
+      "place": "not stated",
+      "source": {
+        "citation": "Page (ed.), A History of the County of Middlesex, vol. 2 (1911), 'Social and economic history: Appendix 2'",
+        "url": "https://www.british-history.ac.uk/node/15304",
+        "pages": "Appendix 2, entries 1384-5, 1385-6, 1388-9"
+      },
+      "stated": "1384-5: Helps, 2d.; 1385-6: Helps, 2d. to 2 1/8d.; 1388-9: Helps, 2d. to 2 1/2d. / 3d. (without food)",
+      "read_via": "full page (WebFetch summary)",
+      "note": "'Helps' are the unskilled assistants of building crafts. Value is the 1384-5 figure, the lowest of the range across the years."
+    },
+    {
+      "id": "carpenter_day_wage_1384_5",
+      "value": 4.875,
+      "value_basis": "midpoint of the stated range 4 3/4d-5d; the source gives no central figure",
+      "unit": "pence per day",
+      "period": "1384-85",
+      "place": "not stated",
+      "source": {
+        "citation": "Page (ed.), A History of the County of Middlesex, vol. 2 (1911), 'Social and economic history: Appendix 2'",
+        "url": "https://www.british-history.ac.uk/node/15304",
+        "pages": "Appendix 2, entry 1384-5"
+      },
+      "stated": "Carpenters, 5d.-4 3/4d. (printed with the figures reversed)",
+      "read_via": "full page (WebFetch summary)"
+    },
+    {
+      "id": "thatcher_day_wage_1384_5",
+      "value": 6,
+      "unit": "pence per day",
+      "period": "1384-85",
+      "place": "Isleworth, Middlesex",
+      "source": {
+        "citation": "Page (ed.), A History of the County of Middlesex, vol. 2 (1911), 'Social and economic history: Appendix 2'",
+        "url": "https://www.british-history.ac.uk/node/15304",
+        "pages": "Appendix 2, entry 1384-5"
+      },
+      "stated": "Thatchers: Isleworth, 6d.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Single manor near London; compare the 5d-6d tylers' rate on the same page."
+    },
+    {
+      "id": "woman_day_wage_post_plague",
+      "value": 2.5,
+      "value_basis": "midpoint of 'seldom less than twopence, sometimes as much as threepence'; the source gives no central figure",
+      "unit": "pence per day",
+      "period": "after the plague of 1348-49 (before it, 'generally a penny a day, but sometimes less')",
+      "place": "manors in Rogers's price data, southern and midland England",
+      "source": {
+        "citation": "Rogers, J. E. Thorold, Six Centuries of Work and Wages: the History of English Labour (1884), ch. VIII 'The Famine and the Plague'",
+        "url": "https://archive.org/stream/cu31924030096733/cu31924030096733_djvu.txt",
+        "pages": "pp. 233-234 (running heads of the archive.org OCR; may be off by one)"
+      },
+      "stated": "before: 'Generally they are paid at the rate of a penny a day, but sometimes less.' after: 'they are seldom paid less than twopence, sometimes as much as threepence, a day.'",
+      "read_via": "archive.org OCR text, read in 100 KB windows through WebFetch",
+      "note": "Nineteenth-century compilation, superseded in method by Clark and Munro; used because it is readable. Humphries and Weisdorf (2015) find women's casual rates track men's to the late fifteenth century, and annual-contract pay roughly constant from 1300 to 1500, but their Table A1 was an image in the fetched text."
+    },
+    {
+      "id": "ploughman_annual_cash_wage_1388_9",
+      "value": 72,
+      "value_basis": "middle of three stated figures (8s, 6s, 5s = 96d, 72d, 60d)",
+      "unit": "pence per year (cash)",
+      "period": "1388-89",
+      "place": "not stated",
+      "source": {
+        "citation": "Page (ed.), A History of the County of Middlesex, vol. 2 (1911), 'Social and economic history: Appendix 2'",
+        "url": "https://www.british-history.ac.uk/node/15304",
+        "pages": "Appendix 2, entry 1388-9"
+      },
+      "stated": "Ploughman, 8s., 6s., 5s.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Cash only. The page does not say whether livery grain or clothing was extra, as it usually was for famuli (Dyer, Standards of Living, ch. 8, not read). The shilling figures were read as annual by the summarising fetch from context."
+    },
+    {
+      "id": "carter_annual_cash_wage_1388_9",
+      "value": 160,
+      "unit": "pence per year (cash)",
+      "period": "1388-89",
+      "place": "not stated",
+      "source": {
+        "citation": "Page (ed.), A History of the County of Middlesex, vol. 2 (1911), 'Social and economic history: Appendix 2'",
+        "url": "https://www.british-history.ac.uk/node/15304",
+        "pages": "Appendix 2, entry 1388-9"
+      },
+      "stated": "Carter, 13s. 4d.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Cash only; see ploughman row."
+    },
+    {
+      "id": "swineherd_annual_cash_wage_1388_9",
+      "value": 72,
+      "unit": "pence per year (cash)",
+      "period": "1388-89",
+      "place": "not stated",
+      "source": {
+        "citation": "Page (ed.), A History of the County of Middlesex, vol. 2 (1911), 'Social and economic history: Appendix 2'",
+        "url": "https://www.british-history.ac.uk/node/15304",
+        "pages": "Appendix 2, entry 1388-9"
+      },
+      "stated": "Swineherd, 6s.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Cash only; see ploughman row."
+    },
+    {
+      "id": "bailiff_annual_cash_wage_1384_5",
+      "value": 240,
+      "unit": "pence per year (cash)",
+      "period": "1384-85",
+      "place": "not stated",
+      "source": {
+        "citation": "Page (ed.), A History of the County of Middlesex, vol. 2 (1911), 'Social and economic history: Appendix 2'",
+        "url": "https://www.british-history.ac.uk/node/15304",
+        "pages": "Appendix 2, entry 1384-5"
+      },
+      "stated": "Bailiff, 20s.",
+      "read_via": "full page (WebFetch summary)"
+    },
+    {
+      "id": "working_days_per_year_convention",
+      "value": 260,
+      "unit": "days per year",
+      "period": "convention for converting day wages to annual income, 1260-1850",
+      "source": {
+        "citation": "Humphries, J. and Weisdorf, J., 'The Wages of Women in England, 1260-1850', Journal of Economic History 75(2) (2015), pp. 405-447",
+        "url": "https://www.cambridge.org/core/product/80FBE8313B63D174E2F71DCEAE6D7EBE/core-reader",
+        "pages": "Figure 1 and Figure 3 notes"
+      },
+      "stated": "Annual wage = daily wage x 260 days (five days a week, 52 weeks).",
+      "read_via": "Cambridge Core reader text (WebFetch summary)",
+      "note": "An assumption, not an observed count of days worked. The same authors (2019) argue day-wage incomes overstate medieval earnings because labourers worked fewer days; see the next row."
+    },
+    {
+      "id": "days_of_day_work_to_match_annual_servant_income_c1350",
+      "value": 100,
+      "unit": "days per year (break-even, not observed days worked)",
+      "period": "about 1350 (just over 100); below 150 until about 1525",
+      "source": {
+        "citation": "Humphries, J. and Weisdorf, J., 'Unreal wages? Real income and economic growth in England, 1260-1850', Economic Journal 129 (2019), pp. 2867-2887, doi 10.1093/ej/uez017",
+        "url": "https://research.uniroma1.it/node/55270",
+        "pages": "not read; figure taken from a summary in a search result"
+      },
+      "stated": "From a peak of slightly over 200 days (about 1325) the days a day labourer needed to match an annual worker's income fell to just above 100 by about 1350 and stayed below 150 until about 1525.",
+      "read_via": "search-result summary only (the article and the Snopes page that quotes it were not readable)",
+      "note": "Weakest-evidence row in this section: second-hand. It bounds how many days of casual work a household could have found, if labourers took the better of day work or a year's contract. The working paper EHES 121 and Oxford discussion paper are the readable-at-source routes and were PDF-only."
+    },
+    {
+      "id": "smallholder_net_produce_money_value",
+      "value": null,
+      "source_silent": true,
+      "unit": "pence per year",
+      "note": "No source read states a smallholder's (cottager's or half-virgater's) net produce in money for 1370-1400. Dyer, Standards of Living in the Later Middle Ages (1989), ch. 7 'Peasants' is the standard place; its text was paywalled (Cambridge Core returned the chapter summary only). Not estimated."
+    },
+    {
+      "id": "labourer_household_annual_income",
+      "value": null,
+      "source_silent": true,
+      "unit": "pence per year",
+      "note": "No source read gives annual household income for a landless labourer in 1370-1400. Day rates are sourced above, but the days worked are contested (260 as a convention against roughly 100 break-even days), so the product is not computed here. The keeper must choose and label it."
+    },
+    {
+      "id": "craftsman_days_worked_per_year",
+      "value": null,
+      "source_silent": true,
+      "unit": "days per year",
+      "note": "No source read counts days actually worked by building craftsmen in the 1370s-1390s. Rogers (1884, p. 328) records contract payment 'for every day in the year' to carpenters at Windsor in 1408, i.e. paid-days, not worked-days."
+    }
+  ],
+  "subsistence": [
+    {
+      "id": "grain_per_inhabitant_year_c1300",
+      "value": 1.65,
+      "unit": "quarters of grain per person per year",
+      "period": "about 1300 (London; before the plague)",
+      "source": {
+        "citation": "Campbell, B. M. S.'s London estimate, as reported in 'A simple food with many meanings: bread in late medieval England', Journal of Medieval History (2023), doi 10.1080/03044181.2023.2250947",
+        "url": "https://www.tandfonline.com/doi/full/10.1080/03044181.2023.2250947",
+        "pages": "not read"
+      },
+      "stated": "Campbell calculated that each inhabitant of London needed annually 1.65 quarters of grain.",
+      "read_via": "search-result summary only (Taylor and Francis returned 403 to the fetch)",
+      "note": "Second-hand and early (c.1300, an urban figure). Not for 1370-1400; included as the only readable quantity of grain per head. A quarter is 8 bushels."
+    },
+    {
+      "id": "household_of_five_energy_c1300",
+      "value": 11000,
+      "unit": "kilocalories per day, household of five",
+      "period": "about 1300",
+      "source": {
+        "citation": "Dyer's estimate, as reported in 'Peasants and food security in England and Wales c.1300', Journal of Medieval History (2023), doi 10.1080/03044181.2023.2250952 (authors not read)",
+        "url": "https://www.tandfonline.com/doi/full/10.1080/03044181.2023.2250952",
+        "pages": "not read"
+      },
+      "stated": "A family of five would consume about 11,000 kilocalories a day, roughly 80 per cent from grain (Dyer); Campbell proposes about 1,500 grain-derived kilocalories per person, 75-80 per cent of the requirement.",
+      "read_via": "search-result summary only (403 to the fetch)",
+      "note": "Second-hand and pre-plague. Gives an energy, not a money, requirement."
+    },
+    {
+      "id": "board_cost_per_person_week_1408",
+      "value": 7,
+      "value_basis": "midpoint of the stated 6d-8d; the 8d reading is from a damaged OCR ('Sd.')",
+      "unit": "pence per week, one adult, food under contract",
+      "period": "early fifteenth century (Windsor, 1408)",
+      "source": {
+        "citation": "Rogers, J. E. Thorold, Six Centuries of Work and Wages (1884), ch. XII 'Labour and Wages'",
+        "url": "https://archive.org/stream/cu31924030096733/cu31924030096733_djvu.txt",
+        "pages": "pp. 328-329 (OCR running heads)"
+      },
+      "stated": "Maintenance under contract was about 6d. to 8d. a week; the full board price was about a shilling a week, often less; wages were 'twice or three times the cost of his maintenance under contract'.",
+      "read_via": "archive.org OCR text through WebFetch",
+      "note": "A contract price for artisans' board, not a peasant's own cost. 6d-8d a week is 312-416d a year per adult; this is Rogers's arithmetic base, not a figure computed from a basket."
+    },
+    {
+      "id": "household_annual_subsistence_cost",
+      "value": null,
+      "source_silent": true,
+      "unit": "pence per year",
+      "note": "No readable source gives the annual money cost of a basic diet and necessities for a household of a stated size in 1370-1400. Horrell's 'Household consumption and the consumer price index, England, 1260-1869' (Economic History Review, 2023) builds a basket for a labouring family of five but its values are in figures and tables that were not readable (Wiley returned 403; the EHS blog page gives text only). Allen (2001) and Dyer (1989) were paywalled. Not estimated."
+    },
+    {
+      "id": "rent_cottage_or_holding",
+      "value": null,
+      "source_silent": true,
+      "unit": "pence per year",
+      "note": "No source read gives a rent in money for a cottage or a standard holding in 1370-1400. Rogers (1884, ch. II, p. 40) converts a thirteenth-century Cuxham serf's rents and services to money but the figure is garbled in the OCR and is not the period."
+    },
+    {
+      "id": "wheat_price_per_quarter_1370_1400",
+      "value": null,
+      "source_silent": true,
+      "unit": "pence per quarter",
+      "note": "Rogers (1884, p. 330) opens a sentence 'From 1260 to 1400 inclusive, the price of wheat is' but the figure is garbled in the OCR. Munro's and Clark's price series were PDF-only. Rogers p. 274 says only that the price of corn in the last twenty years of the fourteenth century was 'greatly below the average'."
+    }
+  ],
+  "illness": [
+    {
+      "id": "sick_leave_cases_in_sample",
+      "value": 229,
+      "unit": "recorded incidences of infirmity, in 62 manorial accounts",
+      "period": "fourteenth and early fifteenth centuries (Warboys 1336-1408; Houghton 1369/70-1395/96, 22 absences)",
+      "place": "Ramsey Abbey manors, Huntingdonshire and neighbouring counties",
+      "source": {
+        "citation": "Owen, Brown and Skinner, 'Sick Leave of Customary Tenants in Late Medieval England', Journal of British Studies 64 (2025), e92",
+        "url": "https://www.cambridge.org/core/journals/journal-of-british-studies/article/sick-leave-of-customary-tenants-in-late-medieval-england/9B28EA48C8926957665D526DF414F50C",
+        "pages": "Abstract and Table 6"
+      },
+      "stated": "229 incidences in 62 accounts; 131 men, 19 women and 13 unidentified (163 people) named; Warboys has 107 incidences, 73 individuals. The authors do not reconcile 163 people with 229 incidences.",
+      "read_via": "full page (WebFetch summary, first 100,000 characters)",
+      "note": "Counts of customary tenants excused from labour services, a minimum (gaps in the accounts). No tenant population is given, so no rate per person-year can be formed from it."
+    },
+    {
+      "id": "sick_absence_share_over_a_fortnight",
+      "value": 0.77,
+      "unit": "share of absences",
+      "period": "fourteenth and early fifteenth centuries",
+      "source": {
+        "citation": "Owen, Brown and Skinner, Journal of British Studies 64 (2025), e92",
+        "url": "https://www.cambridge.org/core/journals/journal-of-british-studies/article/sick-leave-of-customary-tenants-in-late-medieval-england/9B28EA48C8926957665D526DF414F50C",
+        "pages": "Table 6"
+      },
+      "stated": "Of 192 absences, 147 exceeded a fortnight and 73 exceeded a month (0.77 and 0.38 as computed from the counts).",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Ratio is computed from the stated counts, 147/192. Longest: 45 weeks (Henry Edward, Warboys 1394/95, 62.5 of 118.5 works, 53%). Women's absences, 19 in all, none over nine weeks."
+    },
+    {
+      "id": "sick_absence_share_over_a_month",
+      "value": 0.38,
+      "unit": "share of absences",
+      "period": "fourteenth and early fifteenth centuries",
+      "source": {
+        "citation": "Owen, Brown and Skinner, Journal of British Studies 64 (2025), e92",
+        "url": "https://www.cambridge.org/core/journals/journal-of-british-studies/article/sick-leave-of-customary-tenants-in-late-medieval-england/9B28EA48C8926957665D526DF414F50C",
+        "pages": "Table 6"
+      },
+      "stated": "73 of 192 absences exceeded a month.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Computed 73/192, so about 62% of absences lasted under a month and about 23% under a fortnight."
+    },
+    {
+      "id": "sick_leave_cases_ending_in_death",
+      "value": 0.057,
+      "unit": "share of recorded incidences",
+      "period": "fourteenth and early fifteenth centuries",
+      "source": {
+        "citation": "Owen, Brown and Skinner, Journal of British Studies 64 (2025), e92",
+        "url": "https://www.cambridge.org/core/journals/journal-of-british-studies/article/sick-leave-of-customary-tenants-in-late-medieval-england/9B28EA48C8926957665D526DF414F50C",
+        "pages": "text on outcomes"
+      },
+      "stated": "Thirteen of the 229 incidences ended in death.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Computed 13/229. A floor: death is recorded only when the account says so."
+    },
+    {
+      "id": "value_of_a_labour_service_day_by_season",
+      "value": 1,
+      "unit": "pence per work (one day of labour service), summer rate",
+      "period": "Ramsey Abbey manors, fourteenth century",
+      "source": {
+        "citation": "Owen, Brown and Skinner, Journal of British Studies 64 (2025), e92",
+        "url": "https://www.cambridge.org/core/journals/journal-of-british-studies/article/sick-leave-of-customary-tenants-in-late-medieval-england/9B28EA48C8926957665D526DF414F50C",
+        "pages": "section on the price of works"
+      },
+      "stated": "Unused works were sold back to tenants at 0.5d in winter, 1d in summer and after autumn, 1.5d in autumn. Richard Colleson's missed works valued at these rates came to 10s 4d.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "The lord's money value of the day a sick tenant did not work; not the tenant's own lost earnings."
+    },
+    {
+      "id": "replacement_ploughman_84_day_absence_1420_21",
+      "value": 168,
+      "unit": "pence per absence (14s for an 84-day absence)",
+      "period": "1420/21",
+      "place": "Battle Abbey, Sussex (cellarers' rolls)",
+      "source": {
+        "citation": "Searle, E. and Ross, B. (eds), Accounts of the Cellarers of Battle Abbey, pp. 111-112, as cited by Owen, Brown and Skinner (2025)",
+        "url": "https://www.cambridge.org/core/journals/journal-of-british-studies/article/sick-leave-of-customary-tenants-in-late-medieval-england/9B28EA48C8926957665D526DF414F50C",
+        "pages": "Searle and Ross pp. 111-112 (primary not read)"
+      },
+      "stated": "A replacement ploughman cost 14s during an 84-day absence.",
+      "read_via": "full page of the citing article (WebFetch summary)",
+      "note": "About 2d per day. Fifteenth century, one estate; the only sourced money cost of a long sickness."
+    },
+    {
+      "id": "share_of_labour_services_lost_summer_1349",
+      "value": 0.1,
+      "unit": "share of labour services owed, 13-week summer",
+      "period": "summer 1349 (plague year; separate from the ordinary rate)",
+      "place": "Warboys, Huntingdonshire",
+      "source": {
+        "citation": "Brown, A. T., Owen, G. and Sloane, B., 'Surviving the Black Death in medieval England: recovering from illness at Warboys, Huntingdonshire', Historical Research 99(285) (2026)",
+        "url": "https://www.medievalists.net/2026/08/medieval-records-reveal-how-long-black-death-survivors-needed-to-recover/",
+        "pages": "article not read; figures from the Medievalists.net summary"
+      },
+      "stated": "22 tenants (19 men, 3 women) unable to work in summer 1349, 91 weeks of absence in all, 193 labour services missed, about 10% of services owed; in the decade before and after, no more than 3 summer illnesses.",
+      "read_via": "news summary of the article",
+      "note": "A plague spike, not an ordinary year: the ordinary summer count in the surrounding decade is 3 or fewer cases, against 22."
+    },
+    {
+      "id": "illness_incidence_per_person_year",
+      "value": null,
+      "source_silent": true,
+      "unit": "cases per person-year",
+      "note": "Searched: Owen, Brown and Skinner (2025) give counts of excused tenants but no tenant denominator; Harvey (Living and Dying in England, 1100-1540, p. 108, Westminster Abbey infirmary) was cited there and not read; Hatcher and Dyer give no readable rate. No source read states a rate of disabling sickness per person-year or a share of the year lost."
+    },
+    {
+      "id": "wages_lost_to_sickness_wage_earners",
+      "value": null,
+      "source_silent": true,
+      "unit": "pence per illness",
+      "note": "No source read states wages lost by a day labourer or craftsman to sickness. The tenant sick-leave and Battle Abbey figures are the lord's replacement cost, not a wage earner's loss. Gild sick-pay rates (14d a week at the Norwich Peltyers, 1389) are in data/charters/reference.json."
+    }
+  ],
+  "mortality": [
+    {
+      "id": "black_death_mortality_share_1348_9",
+      "value": 0.4,
+      "value_basis": "midpoint of the 30-50% range",
+      "unit": "share of the population",
+      "period": "1348-49",
+      "source": {
+        "citation": "DeWitte, S. N., 'Mortality risk and survival in the aftermath of the medieval Black Death', PLoS ONE 9(5) (2014), e96513; Mullan, J., 'Mortality, gender, and the plague of 1361-2 on the estate of the bishop of Winchester', Cardiff Historical Papers (2007)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4013036/",
+        "pages": "DeWitte, Introduction (refs 1-3); Mullan, abstract"
+      },
+      "stated": "DeWitte: an estimated 30-50 percent of the European population in 1347-51. Mullan: roughly one-third to one-half.",
+      "read_via": "full page (PMC) and abstract page (Medievalists.net)",
+      "note": "Context for the plague-year row; not a non-plague rate. The two sources agree."
+    },
+    {
+      "id": "plague_recurrence_years_england",
+      "value": ["1361-62", "1369", "1379-83", "1389-93"],
+      "unit": "years of epidemic mortality after 1349",
+      "period": "1349-1400",
+      "source": {
+        "citation": "Mullan, J., Cardiff Historical Papers (2007); DeWitte, PLoS ONE 9(5) (2014) e96513, Discussion, citing Roehrkasten for London wills",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4013036/",
+        "pages": "DeWitte, Discussion; Mullan, abstract"
+      },
+      "stated": "Mullan: 1361-2, 1369, 1379-83 and 1389-93, and at least 13 more in the following century. DeWitte: London wills show plague mortality spikes in 1361, 1368, 1375, 1382 and 1390.",
+      "read_via": "full page (PMC) and abstract page (Medievalists.net)",
+      "note": "The sources differ on 1368 vs 1369 and on whether the early 1370s epidemic is 1375; value is Mullan's list, DeWitte's in stated. Neither gives a death share for these years."
+    },
+    {
+      "id": "plague_year_1361_2_mortality_share",
+      "value": null,
+      "source_silent": true,
+      "unit": "share of the population",
+      "note": "Mullan (2007) says the 1361-2 epidemic was sex-selective and tests it on entry fines of the bishop of Winchester's estate, but the abstract page read gives no rate; the PDF was not readable. A search snippet of 'a little over 9 percent' at Halesowen could not be traced to Razi's text and is not used."
+    },
+    {
+      "id": "crude_death_rate_non_plague_years",
+      "value": null,
+      "source_silent": true,
+      "unit": "deaths per 1000 per year",
+      "note": "Searched: Razi, Life, Marriage and Death in a Medieval Parish (1980) (catalogue pages only); Hatcher, 'Mortality in the fifteenth century: some new evidence', Economic History Review 39 (1986), pp. 19-38 (scanned PDF, not machine-readable through the fetch); Ecclestone, Local Population Studies 63 (1999), pp. 6-29 (certificate error); Campop 'Three score and ten' (1600-1800 only). No readable text gives a non-plague crude death rate for 1350-1400."
+    },
+    {
+      "id": "life_expectancy_adult",
+      "value": null,
+      "source_silent": true,
+      "unit": "years of further life at age 20 or 25",
+      "note": "Searched: Hatcher, Piper and Stone, 'Monastic mortality: Durham Priory, 1395-1529', Economic History Review 59 (2006), pp. 667-687 (login-only; abstract says monastic expectancy fell sharply in the second half of the fifteenth century and the link to general mortality 'remains difficult to determine'); Jonker, Mathematical Population Studies 16 (2009), pp. 131-152 (abstract only: Crown tenants, before and during the Black Death). A secondary Conversation piece (DeWitte, 2022) states 31.3 years at birth for landowners' sons and 25.7 more years at 25, but its first DOI resolves to an unrelated paper (Carrieri and Serraino 2005, popes and artists), so the attribution is unreliable and the figures are not used."
+    },
+    {
+      "id": "infant_and_child_mortality",
+      "value": null,
+      "source_silent": true,
+      "unit": "deaths before age 5 per 1000 births",
+      "note": "No source read gives infant or child mortality for a late-fourteenth-century English village. Not estimated."
+    }
+  ],
+  "harvest": [
+    {
+      "id": "bad_harvest_frequency_1370_1400",
+      "value": null,
+      "source_silent": true,
+      "unit": "failed harvests per decade",
+      "note": "Campbell, B. M. S. and Ó Gráda, C., 'Harvest Shortfalls, Grain Prices, and Famines in Preindustrial England', Journal of Economic History 71(4) (2011), pp. 859-886, builds yield series for 1268-1480 and estimates how often bad harvests occurred, but the full text was not readable (Cambridge Core page 404, QUB abstract only; a search snippet lists the worst wheat years as 1316, 1339, 1349, 1350, 1351, none in 1370-1400). Titow's Winchester yields end in 1349. Campbell, Three Centuries of English Crop Yields, 1211-1491 (BAHS database) holds the data and was not opened."
+    },
+    {
+      "id": "english_dearth_years_after_1350",
+      "value": [1351, 1369],
+      "unit": "years of English famine or dearth",
+      "period": "1350-1400",
+      "source": {
+        "citation": "Ruiz, T. F., 'An Age of Crisis: Hunger', Medieval Europe: Crisis and Renewal (The Teaching Company), as cited in Wikipedia, 'Great Famine of 1315-1317'",
+        "url": "https://en.wikipedia.org/wiki/Great_Famine_of_1315%E2%80%931317",
+        "pages": "not given"
+      },
+      "stated": "Additional English famines occurred in 1321, 1351 and 1369 (localised French famines in 1371, 1374-75 and 1390).",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Lecture-course source quoted by an encyclopedia; low evidence. Rogers (1884, p. 274) says that in the last twenty years of the fourteenth century the price of corn was 'greatly below the average', so 1380-1400 was a run of cheap grain, not dearth."
+    },
+    {
+      "id": "yield_ratio_good_harvest_c1300",
+      "value": 7,
+      "unit": "grain harvested per grain sown",
+      "period": "about 1280-1317 (the ratio 'had been declining since 1280')",
+      "source": {
+        "citation": "Ruiz, T. F., 'An Age of Crisis: Hunger' (The Teaching Company), as cited in Wikipedia, 'Great Famine of 1315-1317'",
+        "url": "https://en.wikipedia.org/wiki/Great_Famine_of_1315%E2%80%931317",
+        "pages": "not given"
+      },
+      "stated": "Good harvests reached about 7:1.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Pre-plague, a lecture-course figure. Campbell's database would replace it. Companion row: poor harvests."
+    },
+    {
+      "id": "yield_ratio_poor_harvest_c1300",
+      "value": 2,
+      "unit": "grain harvested per grain sown",
+      "period": "1315-1317",
+      "source": {
+        "citation": "Ruiz, T. F., 'An Age of Crisis: Hunger' (The Teaching Company), as cited in Wikipedia, 'Great Famine of 1315-1317'",
+        "url": "https://en.wikipedia.org/wiki/Great_Famine_of_1315%E2%80%931317",
+        "pages": "not given"
+      },
+      "stated": "Poor harvests fell as low as 2:1.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "The worst case, from the Great Famine, not the 1370s."
+    },
+    {
+      "id": "food_price_rise_1315",
+      "value": 2,
+      "unit": "multiple of the spring price, spring to midsummer",
+      "period": "1315",
+      "source": {
+        "citation": "Fordham University Medieval Sourcebook, 'Famine of 1315', as cited in Wikipedia, 'Great Famine of 1315-1317'",
+        "url": "https://en.wikipedia.org/wiki/Great_Famine_of_1315%E2%80%931317",
+        "pages": "not given"
+      },
+      "stated": "Food prices in England roughly doubled between spring and midsummer 1315.",
+      "read_via": "full page (WebFetch summary)",
+      "note": "Depth of the worst recorded dearth, before the period; a ceiling case rather than a typical bad year."
+    },
+    {
+      "id": "wheat_price_multiple_1438_9",
+      "value": 3,
+      "unit": "multiple of the normal wheat price",
+      "period": "1438-39 (poor harvests 1437, 1438, 1439)",
+      "source": {
+        "citation": "Bailey, M., study of extreme weather in the 1430s, Economic History Review (2026), as summarised by Medievalists.net, 29 May 2026",
+        "url": "https://www.medievalists.net/2026/05/extreme-weather-pushed-medieval-england-into-crisis-study-finds/",
+        "pages": "article not read; figures from the summary"
+      },
+      "stated": "Wheat prices in 1438-39 were three times normal, the highest of the fifteenth century.",
+      "read_via": "news summary",
+      "note": "After the period, but the only post-plague bad-harvest price depth read. The summary gives no double-price figure and no yields."
+    }
+  ]
+}
