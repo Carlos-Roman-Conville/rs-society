@@ -149,8 +149,8 @@ function componentStatedLines(entry: ReferenceEntry): readonly string[] {
 }
 
 describe("reference charter research file (DESIGN §1.2a, PLATFORM §11a)", () => {
-  it("loads 24 historical reference compositions", () => {
-    expect(entries).toHaveLength(24);
+  it("loads 27 historical reference compositions", () => {
+    expect(entries).toHaveLength(27);
   });
 
   it.each(entries.map((entry) => [entry.id, entry] as const))(

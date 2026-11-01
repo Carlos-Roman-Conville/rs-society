@@ -16,6 +16,8 @@
 - 2982–2984: Fixture village reference, deterministic generator and CHECK-3 review.
 - 2992: Male/female spouse pairs preserve sex totals; default village regenerated, age structure retained.
 
+- 2995-2997: 27 reference charters; 24 OCR-rechecked through WebFetch windows (`ocr_checked: true` means re-read in windows, not compared character by character); 3 independent friendly societies: Great Hucklow 1787, Tideswell 1764, Glass-Makers Newcastle 1755.
+
 Details, API conventions and verification limits: README.md.
 
 ## Next
