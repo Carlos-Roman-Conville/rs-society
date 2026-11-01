@@ -149,6 +149,10 @@ export interface Charter {
   readonly obligations?: readonly Obligation[];
   readonly benefits?: readonly Benefit[];
   readonly decision_procedure?: DecisionProcedure;
+  /** DESIGN §1.15 ruling 2: founder-supplied ballot duration in Kernel ms.
+   * Omission retains same-tick decisions; an explicit null is invalid.
+   */
+  readonly decision_interval?: Parameter;
   readonly positions?: readonly Position[];
   readonly sanctions?: readonly Sanction[];
   readonly amendment?: Amendment;

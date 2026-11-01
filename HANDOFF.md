@@ -1,6 +1,8 @@
 # HANDOFF: society
 
 ## State
+- 5193: open ballots via optional charter `decision_interval` (positive safe integer Kernel ms). `attempt(propose, { decision })` opens; `attend`/`support`/`oppose`/`abstain` target the proposal id; `advanceTo` closes at proposal time + interval, in mint order. No interval preserves same-tick decisions. `test/open-proposals.test.ts`.
+- 5193: interval attendance, current eligibility, leave/death exclusions, observable close results and amendment application; admission/split/merge consume closed approvals with their existing explicit intentions. `store.proposals` and `store.attendance` are detached affordance inputs. Gate: 113 tests/5 files + tsc; 28 new tests.
 - 5163: D-SOC-1 transport/evidence rerun; D1-D4/D3b PASS, D5-D7 FAIL; see DIAGNOSIS.md. Gate 22 tests/3 files + tsc; no src/numeric tuning.
 - 5162: numeric obligation/benefit `propose`/`action: "amend"`; validated, amendment procedure; offers/change/tallies; dues/claims use amended charter. `test/amendment.test.ts`.
 - 5162 changed #propose to share proposalProcedure with offers (admit proposals use the admission vote; elect/sanction with no position or bad index now refuse instead of falling back to decision_procedure); awaiting keeper ruling (review fix 46).
@@ -17,7 +19,7 @@
 - Keeper D5-D7 rulings, then independent-data validation; REPORT.md: FAIL.
 
 ## Blocked
-- D5 (5163): keeper meeting/cross-tick API, appraisal/paired-transfer rulings; no manufactured votes; structural benefit removal unsupported; see bench/d-soc-1/DIAGNOSIS.md
+- D5 (5163/5193): cross-tick API implemented; bench adoption/rerun, appraisal/paired-transfer rulings remain; no manufactured votes; structural benefit removal unsupported; see bench/d-soc-1/DIAGNOSIS.md
 - D6/D7 (5163): keeper liquidity/consent/insurance model ruling; no hazard/cost/seed tuning; see bench/d-soc-1/DIAGNOSIS.md
 - D6 age/ties (5163): cadence, censoring/composition, missing interaction/retention/life-cycle mechanisms need keeper ruling; see bench/d-soc-1/DIAGNOSIS.md
 - Bench host lacks split/secession transport.
@@ -25,6 +27,7 @@
 - Cognition live-link hazard I-1048 until release tag.
 
 ## Gotchas
+- 5193: interval is [proposal.t, closesAt); close precedes obligations due at that boundary. Procedure/duration captured at opening; active membership/offices rechecked for votes and close. Proposer's accepted opening survives their departure; removed members cannot restore that ballot by rejoining. One expressed ballot/person; duplicates refused. Admission/lifecycle consumers pass the original proposal identity/content, not a newly dated proposal.
 - Generator test `.mjs` resolves `scripts/build-village.d.mts`.
 - Compiler-API: 60_000 timeout/cached program. Fence bans grievance/unrest/rebellion/legitimacy/source_credibility/mind.belief even in src comments; imports @rex/kernel/relative only. kernel.json: processes/reads/writes.
 - Components: type, ignore kind/name; arrays: events/ports/procedures. Transfer/goods ports: settlement.ledger/economy.inventory; occupation fact port, kin Society relations. Missing numbers null/invalid, no defaults.

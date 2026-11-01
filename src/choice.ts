@@ -28,6 +28,11 @@ export interface ChoiceInput {
   readonly positions: readonly PositionHolder[];
   readonly procedure: DecisionProcedure;
   readonly streams?: RandomStreams;
+  /** An open ballot already checked its proposer at the opening attempt.
+   * Departure later removes their vote, not the expressed proposal (§1.15.2).
+   */
+  readonly proposerValidated?: boolean;
+  readonly removed?: readonly { person: PersonId; reason: "left" | "death" | "departure" }[];
 }
 export interface ChoiceTally {
   readonly eligible: readonly PersonId[];
@@ -37,7 +42,7 @@ export interface ChoiceTally {
   readonly oppose: readonly PersonId[];
   readonly abstain: readonly PersonId[];
   readonly unexpressed: readonly PersonId[];
-  readonly excluded: readonly { person: PersonId; reason: "ineligible" | "absent" }[];
+  readonly excluded: readonly { person: PersonId; reason: "ineligible" | "absent" | "left" | "death" | "departure" }[];
   readonly denominator: number;
   readonly quorumRequired: number;
 }
@@ -157,9 +162,9 @@ export function collectiveChoice(input: ChoiceInput): ChoiceEvent {
     oppose: votes.filter((v) => v.kind === "oppose").map((v) => v.person),
     abstain: votes.filter((v) => v.kind === "abstain").map((v) => v.person),
     unexpressed: electorate.filter((person) => !votes.some((v) => v.person === person)),
-    excluded: ballots.filter((v) => !electorate.includes(v.person)).map((v) => ({
+    excluded: [...ballots.filter((v) => !electorate.includes(v.person) && !input.removed?.some((r) => r.person === v.person)).map((v) => ({
       person: v.person, reason: eligible.includes(v.person) ? "absent" : "ineligible",
-    })),
+    } as const)), ...(input.removed ?? [])].sort((a, b) => compare(a.person, b.person)),
     // DESIGN §1.14 2 (keeper ruling): councils use their scoped nested rule.
     denominator: rule.type === "position_holder" || rule.type === "unanimity" ? electorate.length
       : rule.base === "cast" ? votes.filter((v) => v.kind !== "abstain").length
@@ -172,7 +177,7 @@ export function collectiveChoice(input: ChoiceInput): ChoiceEvent {
     intentions: [proposal, ...ballots],
     payload: { proposalId: input.proposalId, outcome, tally, ...(reason ? { reason } : {}), ...(tieBreak ? { tieBreak } : {}) },
   });
-  if (!proposers.includes(proposal.person)) return event("no_act", "ineligible proposer");
+  if (!input.proposerValidated && !proposers.includes(proposal.person)) return event("no_act", "ineligible proposer");
   if (!electorate.length || !present.length || present.length < quorumRequired) return event("no_act", "no quorum");
   const yes = tally.support.length, no = tally.oppose.length, total = tally.denominator;
   if (rule.type === "position_holder") {

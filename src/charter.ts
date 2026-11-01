@@ -182,6 +182,10 @@ export function validateCharter(charter: Charter, capabilities: CharterCapabilit
     }
   });
   if (charter.decision_procedure !== undefined) procedure(charter.decision_procedure, "decision_procedure");
+  if (charter.decision_interval !== undefined
+    && (charter.decision_interval === null || !Number.isSafeInteger(charter.decision_interval) || charter.decision_interval <= 0)) {
+    error("decision_interval", "requires positive safe integer Kernel milliseconds; no default");
+  }
   const seenPositions = new Set<string>();
   positionRules.forEach((value, i) => {
     const path = `positions[${i}]`;

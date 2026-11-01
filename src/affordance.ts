@@ -1,6 +1,7 @@
 import { simTime } from "@rex/kernel";
 import { amendmentTargets } from "./amendment.ts";
 import { proposalProcedure } from "./choice.ts";
+import { choiceEligible } from "./open-proposals.ts";
 import { FORMATION_PROCESS, mintOrder, type FoundIntention } from "./formation.ts";
 import type { NetworkTie, Pair } from "./network.ts";
 import type { DueObligation, Organisation } from "./organisation.ts";
@@ -26,6 +27,11 @@ export interface OfferProposal {
   readonly id: string;
   readonly proposal: SocialIntention;
   readonly status: "open" | "resolved";
+  readonly closesAt?: number;
+  readonly procedure?: DecisionProcedure;
+  readonly present?: readonly PersonId[];
+  readonly ballots?: readonly SocialIntention[];
+  readonly removed?: readonly { person: PersonId }[];
 }
 export interface FoundingCircle {
   readonly intention: FoundIntention;
@@ -100,15 +106,7 @@ function canApply(org: Organisation, person: PersonId, t: number, state: Afforda
 
 /** DESIGN §1.3: eligibility only; no tally, quorum decision, or outcome. */
 function eligible(org: Organisation, person: PersonId, procedure: DecisionProcedure, ballot: boolean, present: boolean): boolean {
-  const holds = (roles: readonly string[]) => org.positions.some((p) => p.holder === person && roles.includes(p.role));
-  let rule = procedure;
-  while (rule.type === "council") {
-    if (!holds(rule.roles)) return false;
-    rule = rule.procedure;
-  }
-  if (rule.type === "position_holder") return !ballot || holds([rule.role]) && present;
-  return (rule.eligibility.type === "members" || holds(rule.eligibility.roles))
-    && (!ballot || rule.electorate === "all_members" || present);
+  return choiceEligible(org.positions, person, procedure, ballot, present);
 }
 
 /** DESIGN §1.13, §2.2 (IF-46): the single writer's pure projection, rebuilt on
@@ -140,10 +138,12 @@ export function offers(person: PersonId, t: number, state: AffordanceState): rea
     }
     if (!active(org, person)) continue;
     const attendance = state.attendance.filter((a) => a.org === org.id && a.person === person && a.t === t);
+    const open = state.proposals.filter((p) => p.status === "open" && p.proposal.target === org.id
+      && p.proposal.t <= t && p.closesAt !== undefined && t < p.closesAt);
     const activities = new Set<string>();
     for (const meeting of org.schedule) {
       // DESIGN §1.2: a meeting occurs at first + n * period, for integer n >= 0.
-      if (t >= meeting.first && (t - meeting.first) % meeting.period === 0
+      if ((t >= meeting.first && (t - meeting.first) % meeting.period === 0 || open.length > 0)
         && !activities.has(meeting.activity) && !attendance.some((a) => a.activity === meeting.activity)) {
         activities.add(meeting.activity);
         add("attend", org.id, source, { ...terms, meeting }, { activity: meeting.activity });
@@ -170,8 +170,11 @@ export function offers(person: PersonId, t: number, state: AffordanceState): rea
     }
     for (const entry of [...state.proposals].sort((a, b) => mintOrder(a.id, b.id))) {
       if (entry.status !== "open" || entry.proposal.kind !== "propose" || entry.proposal.target !== org.id || entry.proposal.t > t) continue;
-      const procedure = proposalProcedure(org.charter, entry.proposal.payload);
-      if (!procedure || !eligible(org, person, procedure, true, attendance.length > 0)) continue;
+      if (entry.closesAt !== undefined && t >= entry.closesAt || entry.removed?.some((r) => r.person === person)) continue;
+      const procedure = entry.procedure ?? proposalProcedure(org.charter, entry.proposal.payload);
+      const present = entry.present ? entry.present.includes(person) : attendance.length > 0;
+      if (entry.closesAt !== undefined && !present) add("attend", entry.id, source, { closesAt: entry.closesAt });
+      if (!procedure || entry.ballots?.some((v) => v.person === person) || !eligible(org, person, procedure, true, present)) continue;
       for (const kind of ["support", "oppose", "abstain"] as const) {
         const value = entry.proposal.payload?.value;
         add(kind, entry.id, source, entry.proposal.payload?.action === "amend"

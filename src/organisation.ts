@@ -5,6 +5,7 @@ import type { CommunicationNetwork } from "./network.ts";
 import { validateCharter } from "./charter.ts";
 import { collectiveChoice, proposalProcedure, type ChoiceEvent } from "./choice.ts";
 import { amendmentDraft } from "./amendment.ts";
+import { choiceEligible, type OpenProposal } from "./open-proposals.ts";
 import type { InventoryPort, LedgerPort, OrganisationFacts, ViewsPort } from "./ports.ts";
 import { mintId, type Charter, type CharterCapabilities, type DecisionProcedure, type OrganisationEvent,
   type OrganisationEventPayload, type OrgId, type PersonId, type Schedule, type SocialIntention } from "./types.ts";
@@ -65,6 +66,8 @@ interface State {
   attendance: { org: OrgId; person: PersonId; activity: string; t: number }[];
   claims: string[];
   decisions: string[];
+  proposals: OpenProposal[];
+  consumed: string[];
   unavailable: PersonId[];
   foundings: string[];
 }
@@ -88,7 +91,7 @@ export class OrganisationStore {
   constructor(options: StoreOptions) {
     this.#options = { ...options, capabilities: structuredClone(options.capabilities) };
     this.#state = { now: simTime(options.start), counters: { ...options.counters }, organisations: [],
-      events: [], obligations: [], attendance: [], claims: [], decisions: [], unavailable: [], foundings: [] };
+      events: [], obligations: [], attendance: [], claims: [], decisions: [], proposals: [], consumed: [], unavailable: [], foundings: [] };
     // Published event objects are immutable internally; detach the append-only
     // log array without repeatedly cloning its entire historical payloads.
     this.#participant = { id: ORGANISATION_PROCESS,
@@ -98,6 +101,9 @@ export class OrganisationStore {
   get now(): number { return this.#state.now; }
   get events(): readonly OrganisationEvent[] { return structuredClone(this.#state.events); }
   get obligations(): readonly DueObligation[] { return structuredClone(this.#state.obligations); }
+  /** Detached snapshots can be passed directly to AffordanceState. */
+  get proposals(): readonly OpenProposal[] { return structuredClone(this.#state.proposals); }
+  get attendance(): readonly State["attendance"][number][] { return structuredClone(this.#state.attendance); }
   organisations(): readonly Organisation[] { return structuredClone(this.#state.organisations); }
   get(id: OrgId): Organisation | undefined { return structuredClone(this.#find(id)); }
   memberships(person: PersonId): readonly OrgId[] {
@@ -180,7 +186,7 @@ export class OrganisationStore {
   }
 
   /** DESIGN §1.2 demographic identity (level 1): set equality, not just a count. */
-  #members(org: Organisation, joins: readonly PersonId[], removals: readonly PersonId[]): void {
+  #members(org: Organisation, joins: readonly PersonId[], removals: readonly PersonId[], reason: "left" | "death" | "departure" = "left"): void {
     const before = org.members.map((m) => m.person);
     if (new Set(before).size !== before.length || joins.some((p) => before.includes(p))
       || removals.some((p) => !before.includes(p)) || ordered(joins).length !== joins.length
@@ -195,6 +201,11 @@ export class OrganisationStore {
       position.holder = null; position.until = null;
     }
     this.#state.attendance = this.#state.attendance.filter((a) => a.org !== org.id || !removals.includes(a.person));
+    for (const entry of this.#state.proposals) if (entry.org === org.id && entry.status === "open") {
+      for (const person of removals) if (!entry.removed.some((r) => r.person === person)) entry.removed.push({ person, reason });
+      entry.removed.sort((a, b) => compare(a.person, b.person));
+      entry.present = entry.present.filter((p) => !removals.includes(p));
+    }
     for (const person of joins) for (const current of this.#state.organisations) {
       if (current.members.some((m) => m.person === person) && this.#exclusive(current, person)) {
         this.#emit(current.id, "refused", "exclusive membership obligation unmet", [], { person });
@@ -204,7 +215,74 @@ export class OrganisationStore {
   #active(org: Organisation, person: PersonId): boolean {
     return org.members.some((m) => m.person === person && m.standing === "active");
   }
+  #positions(org: Organisation) {
+    return org.positions.map((p) => ({ role: p.role, holder: p.holder && this.#active(org, p.holder) ? p.holder : null }));
+  }
+  #sameProposal(a: SocialIntention, b: SocialIntention): boolean {
+    return a.person === b.person && a.kind === b.kind && a.target === b.target && a.t === b.t
+      && JSON.stringify(a.payload) === JSON.stringify(b.payload);
+  }
+  #ballotAttempt(intention: SocialIntention): OrganisationEvent {
+    const entry = this.#state.proposals.find((p) => p.id === intention.target);
+    const refuse = (reason: string) => this.#refuse(entry?.org ?? intention.target as OrgId, reason, [intention]);
+    if (!entry || entry.status !== "open" || this.now >= entry.closesAt) return refuse("proposal is not open");
+    const org = this.#find(entry.org);
+    if (this.#state.unavailable.includes(intention.person)) return refuse("person has died or departed");
+    if (!org || !this.#active(org, intention.person)
+      || entry.removed.some((r) => r.person === intention.person)) return refuse("ballot requires continuous active membership");
+    if (intention.kind === "attend") {
+      if (entry.present.includes(intention.person)) return refuse("already attended ballot");
+      entry.present = ordered([...entry.present, intention.person]);
+      return this.#emit(org.id, "act", "attended ballot", [intention], { proposalId: entry.id });
+    }
+    if (!choiceEligible(this.#positions(org), intention.person, entry.procedure, true, entry.present.includes(intention.person))) {
+      return refuse("not eligible to vote now");
+    }
+    if (entry.ballots.some((v) => v.person === intention.person)) return refuse("ballot already expressed");
+    entry.ballots.push(structuredClone(intention));
+    entry.ballots.sort((a, b) => compare(a.person, b.person));
+    return this.#emit(org.id, "act", "ballot expressed", [intention], { proposalId: entry.id });
+  }
+
+  /** DESIGN §1.15.2: close at the declared boundary, even across a coarse
+   * advance. Simultaneous closures use organisation then proposal mint order.
+   */
+  #closeProposals(): void {
+    const due = this.#state.proposals.filter((p) => p.status === "open" && p.closesAt === this.now)
+      .sort((a, b) => compare(a.org, b.org) || compare(a.id, b.id));
+    for (const entry of due) {
+      const org = this.#find(entry.org);
+      const members = (org?.members ?? []).filter((m) => m.standing === "active"
+        && !entry.removed.some((r) => r.person === m.person)).map((m) => m.person);
+      const positions = (org ? this.#positions(org) : entry.positions).map((p) => ({ ...p,
+        holder: p.holder && members.includes(p.holder) ? p.holder : null }));
+      const result = collectiveChoice({ org: entry.org, t: this.now, proposalId: entry.id,
+        proposal: entry.proposal, intentions: entry.ballots, procedure: entry.procedure,
+        members, positions, present: entry.present.filter((p) => members.includes(p)),
+        proposerValidated: true, removed: entry.removed, streams: this.#options.streams });
+      entry.status = "resolved";
+      entry.result = structuredClone(result);
+      this.#state.decisions.push(entry.id);
+      this.#state.events.push(structuredClone(result));
+      if (org && result.payload.outcome === "accepted") this.#applyProposal(org, entry.proposal, result);
+    }
+  }
   #choice(org: Organisation, request: DecisionRequest, procedure: DecisionProcedure): ChoiceEvent {
+    if (org.charter.decision_interval !== undefined) {
+      const entry = this.#state.proposals.find((p) => p.id === request.proposalId && p.org === org.id);
+      // Admission and lifecycle APIs consume the recorded result, never retally
+      // host-supplied ballots or bypass the charter interval.
+      if (entry?.result && !this.#state.consumed.includes(entry.id)
+        && this.#sameProposal(entry.proposal, request.proposal)
+        && JSON.stringify(entry.procedure) === JSON.stringify(procedure)) return structuredClone(entry.result);
+      const event = collectiveChoice({ org: org.id, t: this.now, proposalId: request.proposalId,
+        proposal: request.proposal, intentions: [], procedure,
+        members: org.members.filter((m) => m.standing === "active").map((m) => m.person),
+        positions: this.#positions(org), present: [] });
+      const refused: ChoiceEvent = { ...event, kind: "refused", payload: { ...event.payload, outcome: "no_act", reason: "no decision" } };
+      this.#state.events.push(structuredClone(refused));
+      return refused;
+    }
     if (this.#state.decisions.includes(request.proposalId)) throw new Error("proposal identity already resolved");
     const event = collectiveChoice({ org: org.id, t: this.now, proposalId: request.proposalId,
       proposal: request.proposal, intentions: request.ballots, procedure,
@@ -220,10 +298,16 @@ export class OrganisationStore {
     this.#time(intention);
     if (!intention.target) throw new Error("organisation attempt requires a target");
     return this.#atomic(() => {
+      if (["support", "oppose", "abstain"].includes(intention.kind)
+        || intention.kind === "attend" && this.#state.proposals.some((p) => p.id === intention.target)) {
+        return this.#ballotAttempt(intention);
+      }
       const id = intention.target as OrgId, org = this.#find(id);
       if (!org) return this.#refuse(id, "organisation does not exist", [intention]);
       if (this.#state.unavailable.includes(intention.person)) return this.#refuse(id, "person has died or departed", [intention]);
-      if (context.decision && this.#state.decisions.includes(context.decision.proposalId)) {
+      if (context.decision && this.#state.decisions.includes(context.decision.proposalId)
+        && (intention.kind !== "join" || this.#state.consumed.includes(context.decision.proposalId)
+          || !this.#state.proposals.some((p) => p.id === context.decision!.proposalId))) {
         return this.#refuse(id, "proposal identity already resolved", [intention]);
       }
       if (intention.kind === "join") {
@@ -232,8 +316,9 @@ export class OrganisationStore {
         // A resolved vote cannot be replayed after a later admission component
         // refuses (for example an unpaid entry fee). Ledger exceptions roll this back.
         if (context.decision && this.#state.events.slice(start).some((e) => e.payload?.proposalId === context.decision!.proposalId)) {
-          this.#state.decisions.push(context.decision.proposalId);
+          if (org.charter.decision_interval === undefined) this.#state.decisions.push(context.decision.proposalId);
         }
+        if (event.kind === "joined" && context.decision) this.#state.consumed.push(context.decision.proposalId);
         return event;
       }
       const member = org.members.find((m) => m.person === intention.person);
@@ -248,13 +333,16 @@ export class OrganisationStore {
       if (!this.#active(org, intention.person)) return this.#refuse(id, "membership suspended", [intention]);
       if (intention.kind === "attend") {
         const activity = intention.payload?.activity;
-        if (typeof activity !== "string" || !org.schedule.some((s) => s.activity === activity && this.#scheduled(s, this.now))) {
+        if (typeof activity !== "string" || !org.schedule.some((s) => s.activity === activity
+          && (this.#scheduled(s, this.now) || this.#state.proposals.some((p) => p.org === id && p.status === "open")))) {
           return this.#refuse(id, "no such meeting now", [intention]);
         }
         if (this.#state.attendance.some((a) => a.org === id && a.person === intention.person && a.activity === activity && a.t === this.now)) {
           return this.#refuse(id, "already attended", [intention]);
         }
         this.#state.attendance.push({ org: id, person: intention.person, activity, t: this.now });
+        for (const entry of this.#state.proposals) if (entry.org === id && entry.status === "open"
+          && !entry.removed.some((r) => r.person === intention.person)) entry.present = ordered([...entry.present, intention.person]);
         for (const due of this.#state.obligations) {
           const rule = org.charter.obligations?.[due.component];
           if (due.org === id && due.person === intention.person && due.due_at === this.now
@@ -347,6 +435,7 @@ export class OrganisationStore {
         for (const org of this.#state.organisations) for (const rule of org.charter.obligations ?? []) {
           if ("schedule" in rule) next = Math.min(next, this.#next(rule.schedule, this.now));
         }
+        for (const entry of this.#state.proposals) if (entry.status === "open") next = Math.min(next, entry.closesAt);
         this.#state.now = next;
         this.#state.attendance = this.#state.attendance.filter((a) => a.t === next);
         for (const org of this.#state.organisations) {
@@ -354,6 +443,11 @@ export class OrganisationStore {
             m.standing = "active"; delete m.suspended_until;
           }
           for (const p of org.positions) if (p.until !== null && p.until <= next) { p.holder = null; p.until = null; }
+        }
+        // Expire offices/suspensions first, close ballots, then accrue dues
+        // under the charter effective at this boundary (§1.2, §1.15.2).
+        this.#closeProposals();
+        for (const org of this.#state.organisations) {
           (org.charter.obligations ?? []).forEach((rule, component) => {
             if (rule.type === "exclusivity" || !this.#scheduled({ first: rule.schedule.first!, period: rule.schedule.period! }, next)) return;
             for (const member of org.members) {
@@ -403,6 +497,7 @@ export class OrganisationStore {
 
   #propose(org: Organisation, intention: SocialIntention, decision?: DecisionRequest): OrganisationEvent {
     if (!decision) return this.#refuse(org.id, "requires a proposal identity and expressed ballots", [intention]);
+    if (this.#state.proposals.some((p) => p.id === decision.proposalId)) return this.#refuse(org.id, "proposal identity already opened", [intention]);
     const action = intention.payload?.action ?? "act";
     const component = intention.payload?.component;
     const sanction = action === "sanction" && typeof component === "number" && Number.isSafeInteger(component)
@@ -422,10 +517,53 @@ export class OrganisationStore {
     if (action === "sanction" && (!sanction || !org.members.some((m) => m.person === person))) return this.#refuse(org.id, "sanction requires a declared rule and current member", [intention]);
     if (action === "elect" && (!office || !this.#active(org, person))) return this.#refuse(org.id, "election requires a declared position and active member", [intention]);
     // Other mechanisms may consume generic acts; they cannot mutate this store.
+    if (org.charter.decision_interval !== undefined) {
+      if (!decision.proposalId.trim()) return this.#refuse(org.id, "requires a proposal identity", [intention]);
+      if (!choiceEligible(this.#positions(org), intention.person, procedure, false, false)) {
+        return this.#refuse(org.id, "ineligible proposer", [intention]);
+      }
+      // DESIGN §1.15.2: duration is supplied by this charter, never defaulted.
+      const closesAt = simTime(this.now + org.charter.decision_interval!);
+      const entry: OpenProposal = { id: decision.proposalId, org: org.id, proposal: structuredClone(intention),
+        procedure: structuredClone(procedure), closesAt, status: "open", ballots: [], removed: [],
+        present: ordered(this.#state.attendance.filter((a) => a.org === org.id && a.t === this.now
+          && this.#active(org, a.person)).map((a) => a.person)), positions: this.#positions(org) };
+      this.#state.proposals.push(entry);
+      this.#state.proposals.sort((a, b) => compare(a.org, b.org) || compare(a.id, b.id));
+      const opened = this.#emit(org.id, "act", "proposal opened", [intention], { proposalId: entry.id, closesAt, outcome: "open" });
+      for (const ballot of [...decision.ballots].sort((a, b) => compare(a.person, b.person))) {
+        this.#time(ballot);
+        if (!["support", "oppose", "abstain"].includes(ballot.kind) || ballot.target !== entry.id) {
+          throw new Error("requires support/oppose/abstain intentions targeting this proposal");
+        }
+        this.#ballotAttempt(ballot);
+      }
+      return opened;
+    }
     if (action !== "amend" && action !== "sanction" && action !== "elect" && action !== "dissolve" && action !== "act") return this.#refuse(org.id, "unsupported proposal action", [intention]);
     const result = this.#choice(org, { ...decision, proposal: intention }, procedure);
     this.#state.decisions.push(decision.proposalId);
     if (result.payload.outcome !== "accepted") return structuredClone(result);
+    return this.#applyProposal(org, intention, result);
+  }
+
+  #applyProposal(org: Organisation, intention: SocialIntention, result: ChoiceEvent): OrganisationEvent {
+    const action = intention.payload?.action ?? "act";
+    const component = intention.payload?.component;
+    const person = intention.payload?.person as PersonId;
+    const sanction = action === "sanction" && typeof component === "number" && Number.isSafeInteger(component)
+      ? org.charter.sanctions?.[component] : undefined;
+    const office = action === "elect" ? org.charter.positions?.find((p) => p.position === intention.payload?.role) : undefined;
+    // Recheck mutable action targets at execution, after the interval closes.
+    if (action === "sanction" && (!sanction || !org.members.some((m) => m.person === person))) return this.#refuse(org.id, "sanction requires a declared rule and current member", result.intentions);
+    if (action === "elect" && (!office || !this.#active(org, person))) return this.#refuse(org.id, "election requires a declared position and active member", result.intentions);
+    const amendment = action === "amend" ? amendmentDraft(org.charter, intention.payload) : undefined;
+    if (amendment && "reason" in amendment) return this.#refuse(org.id, amendment.reason, result.intentions);
+    if (amendment) {
+      const errors = this.#errors(amendment.charter);
+      if (errors.length) return this.#emit(org.id, "refused", "invalid amended charter", result.intentions,
+        { ...result.payload, outcome: "refused", reason: "invalid amended charter", errors });
+    }
     if (amendment) {
       org.charter = amendment.charter;
       // IF-46 B: publication is an observable act, retaining the proposal and
@@ -462,7 +600,7 @@ export class OrganisationStore {
       const events: OrganisationEvent[] = [];
       if (!this.#state.unavailable.includes(person)) this.#state.unavailable.push(person);
       for (const org of [...this.#state.organisations]) if (org.members.some((m) => m.person === person)) {
-        this.#members(org, [], [person]);
+        this.#members(org, [], [person], cause);
         events.push(this.#emit(org.id, "left", cause, [], { person }));
         if (!org.members.length) events.push(this.#dissolve(org, `last member ${cause}`));
       }
@@ -479,7 +617,7 @@ export class OrganisationStore {
       refuse: (id, cause, intentions) => this.#refuse(id, cause, intentions),
       choose: (org, request) => {
         const result = this.#choice(org, request, org.charter.decision_procedure!);
-        this.#state.decisions.push(request.proposalId);
+        if (org.charter.decision_interval === undefined) this.#state.decisions.push(request.proposalId);
         return result;
       },
       join: (org, intention) => this.#join(org, intention),
@@ -490,7 +628,11 @@ export class OrganisationStore {
   }
   split(input: SplitInput, decision: DecisionRequest): OrganisationEvent {
     try {
-      return this.#atomic(() => split(this.#lifecycle(), input, decision));
+      return this.#atomic(() => {
+        const result = split(this.#lifecycle(), input, decision);
+        if (result.kind === "split") this.#state.consumed.push(decision.proposalId);
+        return result;
+      });
     } catch (error) {
       if (!(error instanceof SplitRefusal)) throw error;
       return this.#atomic(() => this.#refuse(input.source, error.message,
@@ -505,6 +647,10 @@ export class OrganisationStore {
     }));
   }
   merge(survivingId: OrgId, sourceId: OrgId, decisions: readonly [DecisionRequest, DecisionRequest]): OrganisationEvent {
-    return this.#atomic(() => merge(this.#lifecycle(), survivingId, sourceId, decisions));
+    return this.#atomic(() => {
+      const result = merge(this.#lifecycle(), survivingId, sourceId, decisions);
+      if (result.kind === "merged") this.#state.consumed.push(...decisions.map((d) => d.proposalId));
+      return result;
+    });
   }
 }
