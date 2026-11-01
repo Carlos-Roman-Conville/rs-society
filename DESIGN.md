@@ -101,11 +101,11 @@ Kinds are labels for observers; mechanisms read rules and members, never the kin
 | Inputs | founding, joining, leaving, paying, attending, expelling and proposal **intentions** (`mind.intention`, Cognition); collective-choice results (§1.3); formation, merger, split and dissolution events (§1.4); deaths and departures (Life, §1.8) |
 | Outputs | `society.organisation` records `{ id, founded_at, founders[], members[] {person, role, joined_at, standing}, rules (data, below), positions[] {role, holder, term}, meeting schedule, doctrine/charter record ref, resource claims }`; `society.membership` (person → organisations); `society.organisation_event` (founded, joined, left, expelled, office changed, act performed, dissolved); **affordances** offered to minds (join `X` on these terms; attend; pay; stand for a position) through the Cognition candidate port (§2.2) |
 | State | the records above; nothing economic (accounts and holdings are Economy's view keyed by the same id; premises, titles and posts are Settlement's) |
-| Rules as data (proposed) | `admission` (open, sponsored by `n` members, by vote, by kinship, by occupation, by fee), `obligations` (dues per period as an Economy transfer, attendance, service, exclusivity with named other organisations), `benefits` (claims members may make: relief in sickness, burial, loans, worship, protection, trade privileges; each is paid through the engine that owns it), `decision_procedure` (§1.3), `positions` and how they are filled, `sanctions` (fine, suspension, expulsion), `amendment` procedure. A rule set is chosen by founders and accepted by joiners; amended only by its own amendment procedure |
+| Rules as data (proposed) | `admission` (open, sponsored by `n` members, by vote, by kinship, by occupation, by fee), `obligations` (dues per period as a transfer on Settlement's ledger, attendance, service, exclusivity with named other organisations), `benefits` (claims members may make: relief in sickness, burial, loans, worship, protection, trade privileges; each is paid through the engine that owns it), `decision_procedure` (§1.3), `positions` and how they are filled, `sanctions` (fine, suspension, expulsion), `amendment` procedure. A rule set is chosen by founders and accepted by joiners; amended only by its own amendment procedure |
 | Formulation | an organisation exists while it has ≥1 member and has not dissolved; membership changes only by an accepted intention (join under admission, leave at will unless a rule binds and is enforced by members), death, or expulsion through §1.3; obligations fall due on the kernel clock; an unpaid obligation is recorded, and any sanction is a §1.3 act chosen by members, never automatic |
-| Dependencies | Kernel; Cognition (intentions, the affordance port); Economy (dues and benefits move money and goods through its ledger and inventories only); Settlement (meeting place, legal records); §1.1, §1.3, §1.4 |
+| Dependencies | Kernel; Cognition (intentions, the affordance port); Settlement (money: dues and benefits are transfers on `settlement.ledger_row` / `settlement.balance_changes`, the one home of money; meeting place, legal records); Economy (goods through its inventories; the organisation's holdings view); §1.1, §1.3, §1.4 |
 | Timescale | event-driven; obligations on their own schedule (per rule data) |
-| Invariants | **one organisation id across Society, Economy and Settlement** (DUP-58 test 1); creation, merger, split and dissolution happen only in Society and propagate to the two views (test 2); no Economy or Settlement mechanism decides membership or leadership (test 3); an organisation owns no money in Society's state (conservation stays with Economy's ledger); **no mechanism reads the kind label**; a religious community is an organisation (§1.10), never a second store |
+| Invariants | **one organisation id across Society, Economy and Settlement** (DUP-58 test 1); creation, merger, split and dissolution happen only in Society and propagate to the two views (test 2); no Economy or Settlement mechanism decides membership or leadership (test 3); an organisation owns no money in Society's state (conservation stays with Settlement's ledger); **no mechanism reads the kind label**; a religious community is an organisation (§1.10), never a second store |
 | Sources, evidence | the organisation as a nexus of members' commitments, not a unitary agent: Coleman 1974 *Power and the Structure of Society*, 1990 *Foundations of Social Theory* (level 3); voluntary associations' membership dynamics: McPherson 1983 *ASR* "An ecology of affiliation"; Popielarz & McPherson 1995 *AJS* (level 2); historical fraternities and guilds as mutual-aid and religious organisations: Rosser 2015 *The Art of Solidarity in the Middle Ages*; Barron 1985 "The parish fraternities of medieval London"; Ogilvie 2019 *The European Guilds*; van Leeuwen 2016 *Mutual Insurance 1550–2015* (level 3) |
 | Approximations | members are individuals (an organisation as a member of another is a later extension, open); one charter per organisation; rule data drawn from documented organisations (SOC-Q2) |
 | Validation tests | **verification:** membership accounting closes (members(t+1) = members(t) + joins − leaves − deaths − expulsions − departures); one id across three engines; no money in Society state. **validation:** §3 demonstration tests D1–D7; membership duration rises with the member's ties inside the organisation and falls with niche overlap (Popielarz & McPherson 1995, documented sign) |
@@ -273,7 +273,7 @@ Possible new overlap: `society.organisation.collective_choice` vs `government.ru
 The one clock (contacts, meetings, obligations and collective events are scheduled events); stable ids for persons,
 households, organisations, ties; per-entity RNG streams (`get(mechanismId, entityId)`, COG-3) for contact arrival
 only (no other Society mechanism is stochastic: decisions are Cognition's); `Resolution` for demography (§1.7);
-transactions: a dues payment or benefit commits with Economy's ledger move as one; `kernel.json` declares every
+transactions: a dues payment or benefit commits with its Settlement ledger transfer as one; `kernel.json` declares every
 process, read and write.
 
 ### 2.2 Cognition (through the registry keeper; to agree with the Cognition keeper)
@@ -288,8 +288,11 @@ process, read and write.
 
 ### 2.3 Economy and Settlement
 
-Economy: dues, relief, fees and an organisation's spending move money and goods only through Economy's ledger and
-inventories (the organisation's account is Economy's view of the Society id, DUP-58); the household budget is
+Money's one home is Settlement's ledger (Economy has none; correction agreed on DUP-58, 2026-10-31): dues, relief,
+fees and an organisation's spending are transfers on `settlement.ledger_row` / `settlement.balance_changes` in one
+kernel transaction with the Society event; goods move through Economy's inventories (the organisation's holdings are
+Economy's view of the Society id, DUP-58). A Settlement business keeps its own id with a pointer to one owning actor
+(an actor may run several businesses); an actor's dissolution reaches Settlement as `closeBusiness` commands; the household budget is
 Economy's view of the Society household id (DUP-59); prices and wages are read by minds (through their beliefs), not
 by Society. Settlement: residence and posts (co-location for §1.1), meeting places, legal records pointing at the
 owning Society actor (`settlement.business.open`). Until P5 builds household budgets, the demonstration uses a
@@ -336,7 +339,7 @@ benefits and ties change; splits after disputes; some organisations dying young.
 | # | Test | Kind |
 |---|---|---|
 | D1 | every organisation in every seed has a founding event tracing to named founders' intentions; none exists at t0; no code path creates one at a threshold (a test over the source and the trace) | gate (G4) |
-| D2 | membership, money and population accounting close every step (membership identity §1.2; Economy's ledger conserves; §1.7 identity) | gate (G1, mandatory) |
+| D2 | membership, money and population accounting close every step (membership identity §1.2; Settlement's ledger conserves; §1.7 identity) | gate (G1, mandatory) |
 | D3 | no person's offered contact hours or obligations exceed their available hours; no household pays dues it does not have | gate (rate limiter) |
 | D4 | seeds differ: the distribution of the number, size and charters of organisations at the end is not degenerate across N ≥ 30 seeds | graded (G6) |
 | D5 | **competition:** in seeds where two organisations draw on overlapping members, membership of one falls when the other lowers its dues or raises its benefit, with each transfer traced to a member's intention | graded, sign test |
@@ -367,7 +370,7 @@ implemented only.
 | Mechanism | Verification (mechanism tests, every unit) | Integration (only on interface change) | Validation (periodic, independent data) |
 |---|---|---|---|
 | network §1.1 | Poisson arrivals, decay half-life, tie removal stops all content | with Cognition's encode and Reality's transmission (V-M2 rumour, Cognition's experiment, on this network) | contact rates by setting (Mossong et al. 2008, modern; historical analogues to research); personal-network size and kin share (Hill & Dunbar 2003); clustering and homophily emergent |
-| organisations §1.2–§1.4 | membership accounting; one id across three engines; procedures on hand-worked cases | with Economy's ledger (dues, relief) and Settlement's records | D5, D6 against organisational ecology and voluntary-association data; the 1388–89 guild returns for counts and charter forms (development only) |
+| organisations §1.2–§1.4 | membership accounting; one id across three engines; procedures on hand-worked cases | with Settlement's ledger (dues, relief) and records, and Economy's inventories | D5, D6 against organisational ecology and voluntary-association data; the 1388–89 guild returns for counts and charter forms (development only) |
 | collective action §1.5 | an event only from coinciding intentions | with Government (responses) and Economy (targets) | food-riot timing against grain prices, England (Bohstedt; Thompson), development only; H2 ikki counts against rice prices (Aoki) |
 | households §1.6 | one household id; membership by event only | with Economy's budget view and Life's births and deaths | Laslett & Wall size and composition; Hajnal's marriage ages |
 | demography §1.7 | accounting identity, resolution conservation | with Life's ledger | P6 test 1 (age structure within 15 %), H1 development only |
@@ -393,7 +396,7 @@ gated by its REPORT verdict (Cognition's COG-16 pattern), never on every change.
 | SOC-Q5 | Class as a computed classification only (never stored on a person, never read by a mechanism), like government types? | yes |
 | SOC-Q6 | The first demonstration's analogue: a late-fourteenth-century English parish (H1, development only), with mutual-aid and religious fraternities; craft guilds wait for P5 Economy, political factions for P8 Government? | yes |
 | SOC-Q7 | DUP-61: "what the town knows" is Knowledge & Technology's (an aggregate over minds and records) on Society's network? | yes (Society builds no stock) |
-| SOC-Q8 | Approve DUP-58, DUP-59 and DUP-60 as proposed in `OVERLAPS-BATCH-2B.md`, with the refinements here (affordance port; the religious community as a view; preference transmission as content) | **decided (Rex, 2026-10-31): batch 2b approved** (owners as proposed; DUP-61 to K&T, which also settles SOC-Q7). Society agreed the acceptance tests with amendments (DUP-58 +no money in Society state, +no kind-label reads; DUP-59 +one household per person; DUP-60 +no trust on ties, +network writes no content), sent to the registry keeper |
+| SOC-Q8 | Approve DUP-58, DUP-59 and DUP-60 as proposed in `OVERLAPS-BATCH-2B.md`, with the refinements here (affordance port; the religious community as a view; preference transmission as content) | **decided (Rex, 2026-10-31): batch 2b approved**; DUP-58 and DUP-59 agreed by all parties with Economy's correction (money is on Settlement's ledger) and Settlement's (businesses keep their ids, pointing at one actor); DUP-60 waits on Reality — (owners as proposed; DUP-61 to K&T, which also settles SOC-Q7). Society agreed the acceptance tests with amendments (DUP-58 +no money in Society state, +no kind-label reads; DUP-59 +one household per person; DUP-60 +no trust on ties, +network writes no content), sent to the registry keeper |
 
 ## 6. After approval: the package and the first units (draft, not queued)
 
