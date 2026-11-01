@@ -255,7 +255,8 @@ Cognition rows it feeds (ROADMAP "After P7").
 ### 1.13 What goes to the registry keeper (proposed)
 
 New rows: `society.organisation.collective_choice`, `society.collective.action`, `society.population.demography`,
-`society.migration.flows`, `society.norm.sanction`, `society.class.structure`, and `society.affordance.offer` (the
+`society.migration.flows`, `society.norm.sanction`, `society.class.structure`, and `society.affordance.offer` (offers
+are re-checked against true state at attempt time, IF-46 amendment A; the
 single writer of `society.affordance`: the union of the social actions each source row permits a person now, with
 their stated terms; it decides, scores and filters by belief nothing; consumer Cognition via IF-46). Registered as
 proposed by the registry keeper 2026-10-31 (IF-46 affordances, IF-47 the watched boundary with Government;
@@ -282,7 +283,7 @@ process, read and write.
 |---|---|---|
 | Cognition → Society | `mind.intention` of the social kinds (join, leave, found, propose, support/oppose, pay, attend, participate, marry, move, seek/avoid contact) | to agree: Cognition's action generation takes candidates as host data, so these are candidates Society offers |
 | Cognition → Society | `mind.episode` of interactions (that a contact happened and how the mind recorded it) | registered input of the network row |
-| Society → Cognition | **affordances** (`society.affordance`): the candidate social actions available to this person now, with their stated terms (dues, obligations, benefits as the charter states them); the mind evaluates them with its own needs (safety, social connection, status) and beliefs | new port, proposed (C-Q6 closes into this: norms reach minds as observed acts and messages, never as internalised rules written by Society) |
+| Society → Cognition | **affordances** (`society.affordance`, writer `society.affordance.offer`): the candidate social actions open to this person now, by action and target; the mind evaluates them with its own needs (safety, social connection, a scenario-configured status need if any) and beliefs | **IF-46, agreed with Cognition (2026-10-31)** with two amendments: (A) `decision.generate` filters offers by the mind's *believed* preconditions, so **Society checks the action against its true state when the intention is attempted**; a refused attempt (not admitted, no quorum, cannot pay) is an outcome event the mind learns from; (B) **charter terms reach a mind only as observations or testimony** (a posted ordinance, a member's account, an observed payout), so a mind can misread a charter; Society never writes `mind.belief` or the believed repertoire (consistent with SOC-Q1). C-Q6 closes into this seam (pending the controller's confirmation of Rex's reading) |
 | Society → Cognition | outcome and public events (admitted, refused, a vote's result, a collective event seen) as observations through perception | the existing stimulus path; no new belief path |
 | Society → Cognition / Reality | contact opportunities (who meets whom, where, when) for `cognition.communication.encode` and `realism.communication.transmission` | IF-16 (registered) |
 
@@ -317,8 +318,8 @@ households (~300 people; the household count researched from Laslett & Wall for 
 a development-only analogue of late-fourteenth-century England, H1, because its fraternities are documented in the
 1388–89 guild returns; Rosser 2015). **No organisation exists at t0** except households. Residences and work posts
 from a fixture Settlement map; kin and household ties from a fixture genealogy; individual minds from the built
-Cognition baseline with needs **hunger, safety, social connection** (the benchmark set, C-Q5) and a host-supplied
-status need only if the Cognition keeper registers it. Shocks: illness, injury and death (Life stubs, labelled
+Cognition baseline with needs **hunger, safety, social connection** (the benchmark set, C-Q5) and, if the scenario wants
+it, a status need as a scenario-level configuration need row (Cognition, SOC-5); Society adds no workaround. Shocks: illness, injury and death (Life stubs, labelled
 fixture hazards) and a harvest fixture that changes household income (Economy stub budget, labelled). The run lasts
 long enough for founding and dissolution to repeat (the duration set by the unit from the yardsticks, e.g. 50
 simulated years), N ≥ 30 seeds.
@@ -341,6 +342,7 @@ benefits and ties change; splits after disputes; some organisations dying young.
 | D1 | every organisation in every seed has a founding event tracing to named founders' intentions; none exists at t0; no code path creates one at a threshold (a test over the source and the trace) | gate (G4) |
 | D2 | membership, money and population accounting close every step (membership identity §1.2; Settlement's ledger conserves; §1.7 identity) | gate (G1, mandatory) |
 | D3 | no person's offered contact hours or obligations exceed their available hours; no household pays dues it does not have | gate (rate limiter) |
+| D3b | every attempted social action is checked against Society's true state; a refused attempt (wrong belief about admission, terms or quorum) is an outcome event to that mind, and at least one seed shows a mind misreading a charter (IF-46 A, B) | gate |
 | D4 | seeds differ: the distribution of the number, size and charters of organisations at the end is not degenerate across N ≥ 30 seeds | graded (G6) |
 | D5 | **competition:** in seeds where two organisations draw on overlapping members, membership of one falls when the other lowers its dues or raises its benefit, with each transfer traced to a member's intention | graded, sign test |
 | D6 | **documented directions, reported as yardsticks, never tuned:** a higher fixture illness hazard raises the founding rate of organisations whose charters offer sick relief (demand for mutual insurance; van Leeuwen 2016); dissolution hazard falls with organisational age (liability of newness; Freeman, Carroll & Hannan 1983); membership duration rises with a member's ties inside and falls with niche overlap (Popielarz & McPherson 1995); members are more alike than random draws on occupation and kin (homophily from recruitment along ties; McPherson et al. 2001) | graded, sign and shape reported |
