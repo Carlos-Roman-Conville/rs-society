@@ -4,7 +4,7 @@
 
 `npm run bench:dsoc1` runs 30 fixed seeds in four paired conditions (baseline,
 higher illness, no network, no shocks), using all 250 people in the committed
-60-household village. It writes `REPORT.md` and `results.json`. Runtime is longer
+60-household village. It writes `REPORT.md`, `results.json` and `DIAGNOSIS.md`. Runtime is longer
 than the report test; four isolated simulation processes run concurrently.
 `npm run typecheck` and `npx vitest run test/dsoc1-report.test.ts` verify the
 committed evidence. A recorded FAIL is allowed by the integrity test and remains
@@ -22,6 +22,22 @@ learnable support in advance. Unknown topics stay ignorant. The topic bindings
 are host identity bookkeeping, not writes into mind beliefs. `ledger.ts` aliases
 person accounts to household purses and closes all flows through an external
 sector account. `report.ts` computes gates and graded signs from the saved runs.
+
+The 5163 rerun adds amendment proposals using existing positive money amounts,
+an explicit amendment procedure copied from each draft's ordinary majority,
+and expressed ballots. `resolveProposals()` closes the ballot window at the end
+of the same Kernel tick: Society requires the original intention time to equal
+its clock, and quorum requires current attendance. The host supplies neither
+attendance nor votes, and the study adds no deliberations. A regression with
+explicitly scheduled test decisions verifies acceptance and no-quorum refusal.
+The production neutral proposal forecast is unchanged; D5 can remain FAIL.
+
+`diagnostics.ts` saves observer-only founder need/observation/episode evidence
+before compaction, plus every decision's purse and consent affordability check.
+The study also saves named shocks, purse snapshots, paid ledger aggregates,
+amendment tallies, exits and dissolutions. `diagnose.ts` derives the diagnosis
+from those per-seed records; `npx tsx bench/d-soc-1/diagnose.ts` rebuilds it
+without rerunning the simulation. These observations never feed decisions.
 
 The older three-person fixture below remains an interface regression example,
 separate from the full study. The host now optionally accepts `drafts(person)`

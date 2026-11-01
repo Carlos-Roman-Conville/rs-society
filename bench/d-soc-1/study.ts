@@ -9,6 +9,7 @@ import { DSoc1Host } from "./host.ts";
 import { studyPorts } from "./ledger.ts";
 import { clamp, studyMind, studyModel } from "./models.ts";
 import { StudyMindsRunner } from "./runner.ts";
+import { decisionEvidence, type DecisionEvidence } from "./diagnostics.ts";
 
 export type Condition = "baseline" | "high-illness" | "no-network" | "no-shocks";
 export const CONDITIONS: readonly Condition[] = ["baseline", "high-illness", "no-network", "no-shocks"];
@@ -25,6 +26,10 @@ export interface StudyResult {
   youngExposure: number; oldExposure: number; youngDeaths: number; oldDeaths: number;
   memberPairs: number; sameOccupation: number; kinPairs: number; randomOccupation: number; randomKin: number;
   spells: Spell[]; foundingTrace: OrganisationEvent[]; eventCount: number; sourceIntentions: number;
+  decisions: DecisionEvidence[]; amendmentTrace: OrganisationEvent[]; exitTrace: OrganisationEvent[];
+  dissolutionTrace: OrganisationEvent[];
+  shockTrace: { t: number; ill: string[]; died: string[]; alive: number; skippedDead: number; purseTotal: number; emptyPurses: number }[];
+  ledgerTotals: Record<string, { count: number; amount: number }>;
 }
 
 /** Component product, not named reference forms. Cognition selects the found
@@ -40,7 +45,9 @@ function compose(person: PersonId, step: number): Draft[] {
       decision_procedure: { type: "simple_majority", base: "members", electorate: "all_members", eligibility: { type: "members" },
         quorum: { type: "count", value: F.charter.quorum } },
     };
-    return { target: `draft.${person}.${step}.${d}.${r}`, payload: { charter, founders: [person], purpose: "fixture household mutual aid and company" } };
+    return { target: `draft.${person}.${step}.${d}.${r}`, payload: {
+      charter: { ...charter, amendment: structuredClone(charter.decision_procedure) },
+      founders: [person], purpose: "fixture household mutual aid and company" } };
   }));
 }
 const terms = (charter: Charter) => ({
@@ -91,7 +98,8 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
     attempts: 0, refusals: 0, misreports: 0, mistakenPayments: 0, deliveredRefusals: 0, unresolved: 0, crossHousehold: 0,
     endSizes: [], endCharters: [], overlapSteps: 0, youngExposure: 0, oldExposure: 0, youngDeaths: 0, oldDeaths: 0,
     memberPairs: 0, sameOccupation: 0, kinPairs: 0, randomOccupation: occPairs / allPairs, randomKin: relatedPairs / allPairs,
-    spells: [], foundingTrace: [], eventCount: 0, sourceIntentions: 0 };
+    spells: [], foundingTrace: [], eventCount: 0, sourceIntentions: 0,
+    decisions: [], amendmentTrace: [], exitTrace: [], dissolutionTrace: [], shockTrace: [], ledgerTotals: {} };
   const opening = ports.ledger.total(), expected = new Map<OrgId, Set<PersonId>>(), births = new Map<OrgId, number>();
   const openSpells = new Map<string, Omit<Spell, "end" | "censored">>();
   const messages = new Map<PersonId, Map<string, { dues: number; relief: number; provenance: unknown }>>();
@@ -100,6 +108,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
   // supplying true numeric terms. Exhausted vocabulary remains ineligible.
   const topics = new Map<PersonId, Map<string, string>>();
   function topic(person: PersonId, target: string, allocate = false): string {
+    target = host.openProposals.find((p) => p.id === target)?.proposal.target ?? target;
     if (target.startsWith("draft.")) return `draft-option.${target.split(".").slice(-2).join(".")}`;
     const known = topics.get(person) ?? new Map<string, string>();
     if (allocate && !known.has(target) && known.size < F.cognition.organisationTopics) {
@@ -119,6 +128,13 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
       if (host.foundingCircles.some((c) => c.status === "open" && c.intention.person === person)) return [];
       const submitted = new Set(host.foundingCircles.map((c) => c.intention.target));
       return (prepared.get(person) ?? []).filter((d) => !submitted.has(d.target));
+    },
+    amendments: (offer) => {
+      if (offer.payload?.action !== "amend") return [];
+      const values = offer.payload.section === "obligations" ? F.charter.dues
+        : [...F.charter.dues, ...F.charter.sickRelief.filter((value) => value > 0)];
+      return values.filter((value) => value !== offer.terms.value)
+        .map((value) => ({ ...offer, payload: { ...offer.payload, value } }));
     },
     model: (offer) => studyModel({ ...offer, target: topic(deciding, offer.target) }, host.runner.state.minds.find((m) => m.id === host.mindIds.get(deciding))!),
     snapshot: () => ({ unavailable: people.filter((p) => !alive.has(p)) }),
@@ -166,7 +182,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
         const consumption = Math.min(F.economy.subsistence, ports.ledger.balance(household.id));
         if (consumption > 0) ports.ledger.transfer(household.id, "fixture.external", consumption, "fixture subsistence");
       }
-      const ill = new Set<PersonId>();
+      const ill = new Set<PersonId>(), died: string[] = [];
       for (const person of people) {
         // fixture Life draws stay paired even in no-shocks and after a death.
         const draws = random.get("fixture.life.hazards", person), sickness = draws(), death = draws();
@@ -178,14 +194,19 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
           for (const org of organisation.memberships(person)) organisation.claim({ org, person, eventId: `illness.${step}.${person}`, event: "illness", t: current.now });
         }
         if (death < F.life.death) {
-          alive.delete(person); result.deaths++; organisation.removePerson(person, "death"); network.cutPerson(person);
+          alive.delete(person); died.push(person); result.deaths++; organisation.removePerson(person, "death"); network.cutPerson(person);
         }
       }
       // A fixed rotating attention schedule, independent of wealth, illness,
       // organisation count and all verdicts. Every resident has a baseline mind;
       // only adults deliberate; pending founders additionally hear consent calls.
       const selected = new Set<PersonId>(Array.from({ length: F.calendar.decisionsPerStep }, (_, i) => adults[((step - 1) * F.calendar.decisionsPerStep + i) % adults.length]));
+      const scheduled = new Set(selected);
       for (const circle of current.foundingCircles) if (circle.status === "open") selected.add(circle.intention.person);
+      const purses = village.households.map((h) => ports.ledger.balance(h.id));
+      result.shockTrace.push({ t: current.now, ill: [...ill], died, alive: alive.size,
+        skippedDead: [...selected].filter((p) => !alive.has(p)).length,
+        purseTotal: purses.reduce((a, b) => a + b, 0), emptyPurses: purses.filter((b) => b === 0).length });
       for (const person of people.filter((p) => selected.has(p) && alive.has(p))) {
         deciding = person;
         const stimuli: Stimulus[] = [termStimulus("self", "balance", ports.ledger.balance(person), "sight"),
@@ -210,7 +231,11 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
         messages.delete(person);
         for (const org of organisation.organisations().filter((o) => o.members.some((m) => m.person === person))) {
           const about = topic(person, org.id, true);
-          stimuli.push(readyStimulus(about, "leave"), readyStimulus(about, "attend"), readyStimulus(about, "pay"));
+          stimuli.push(readyStimulus(about, "leave"), readyStimulus(about, "attend"), readyStimulus(about, "pay"), readyStimulus(about, "propose"));
+          for (const proposal of current.openProposals.filter((p) => p.proposal.target === org.id)) {
+            stimuli.push(...["support", "oppose", "abstain"].map((kind) => readyStimulus(about, kind)),
+              termStimulus(about, "proposed_value", Number(proposal.proposal.payload?.value), "sight"));
+          }
           // Founders can inspect their own posted terms. Other members retain
           // their possibly mistaken report until a refusal supplies evidence.
           if (org.founders.includes(person)) {
@@ -224,12 +249,17 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
           signals: { "body.hunger_signal": clamp(1 - ports.ledger.balance(person) / F.economy.openingPurse) },
           elapsedSeconds: (current.now - previous) / 1000, outcomeTags: [], cues: [] } });
         lastDecision.set(person, current.now);
+        const decisionBalance = ports.ledger.balance(person);
         current.decide(person);
+        result.decisions.push(decisionEvidence(current.runner.state.minds.find((m) => m.id === current.mindIds.get(person))!,
+          current.bindings.at(-1)!.offers, person, decisionBalance, ill.has(person), scheduled.has(person)));
       }
+      current.resolveProposals();
       // Independent observer accounting, every host step (including all dues
       // dates, since every draft uses this same explicit quarterly cadence).
       const events = organisation.events, roster = organisation.organisations();
       for (const event of events.slice(eventCursor)) {
+        if (event.intentions.some((i) => i.payload?.action === "amend")) result.amendmentTrace.push(event);
         if (event.kind === "founded") {
           result.foundings++; result.foundingTrace.push(event); births.set(event.org, event.t);
           const founding = event.intentions.find((i) => i.kind === "found") as FoundIntention | undefined;
@@ -239,8 +269,10 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
           expected.set(event.org, new Set(founders));
         } else if (event.kind === "joined") { result.joins++; expected.get(event.org)?.add(event.intentions[0].person); }
         else if (event.kind === "left" || event.kind === "expelled") {
+          result.exitTrace.push(event);
           result.leaves++; expected.get(event.org)?.delete((event.payload?.person ?? event.intentions[0]?.person) as PersonId);
         } else if (event.kind === "dissolved") {
+          result.dissolutionTrace.push(event);
           result.dissolutions++; expected.delete(event.org);
           if (event.t - (births.get(event.org) ?? event.t) <= 4 * period) result.youngDeaths++; else result.oldDeaths++;
         } else if (event.kind === "split") result.splits++;
@@ -309,6 +341,10 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
     })) result.ancestryErrors++;
   }
   result.finalPopulation = alive.size; result.finalMoney = ports.ledger.total(); result.transfers = ports.ledger.rows.length;
+  for (const row of ports.ledger.rows) {
+    const total = result.ledgerTotals[row.reason] ??= { count: 0, amount: 0 };
+    total.count++; total.amount += row.amount;
+  }
   result.eventCount = organisation.events.length;
   const final = organisation.organisations();
   result.endSizes = final.map((o) => o.members.length).sort((a, b) => a - b);

@@ -3,6 +3,7 @@ import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { FIXTURES as F } from "./fixtures.ts";
 import { renderReport } from "./report.ts";
+import { renderDiagnosis } from "./diagnose.ts";
 import { CONDITIONS } from "./study.ts";
 import type { Condition, StudyResult } from "./study.ts";
 
@@ -33,4 +34,5 @@ try { await Promise.all(Array.from({ length: 4 }, async () => {
 writeFileSync(new URL("./results.json", import.meta.url), JSON.stringify(results, null, 2) + "\n");
 const report = renderReport(results);
 writeFileSync(new URL("./REPORT.md", import.meta.url), report);
+writeFileSync(new URL("./DIAGNOSIS.md", import.meta.url), renderDiagnosis(results));
 console.log(report.split("\n").filter((line) => /^D\d/.test(line)).join("\n"));

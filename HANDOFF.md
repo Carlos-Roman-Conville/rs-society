@@ -1,6 +1,7 @@
 # HANDOFF: society
 
 ## State
+- 5163: amendment proposal/ballot transport and observer evidence added to D-SOC-1; fixed-seed 120-run rerun complete. D1/D2/D3/D3b/D4 PASS; D5/D6/D7 FAIL. Baseline/high/no-shocks relief foundings=1008/643/1463; 736 baseline amendment proposals, 733 no-quorum refusals, 3 ties, 0 executed. DIAGNOSIS.md is regenerated from per-seed decisions, shock/purse records, ledger aggregates, exits and charter tallies. No src or numeric fixture tuning. Requested gate passed: 22 tests across the three gate files and tsc --noEmit.
 - 5162: executable `propose` / `action: "amend"` for existing numeric obligation/benefit parameters, decided only by the charter's amendment procedure; validated before execution, numeric offers and observable change/tally evidence. Later dues/claims read the amended charter. Regression coverage in `test/amendment.test.ts`.
 - 2836-2839: Approved DESIGN; package scaffold/smoke/fences; shared records, Kernel ids, composable validation; network/clocks/exposure/decay/observer measures; 24 sourced historical compositions and vocabulary gaps.
 - 2840-2844: Reference verification; authority/obligations/atomic resource-view ports; collective choice/tie-breaks/pairwise cycle witnesses; intention-led founding/lifecycle, observer-only institution label; CHECK.md independent invariants (unit lists unchecked).
@@ -16,14 +17,15 @@
 
 ## Next
 - Research: source/vocabulary gaps, executable inputs without invented history.
-- D-SOC-1 follow-ups: keeper rulings on D5 execution/transport and D6/D7 model/fixture design (Blocked), then independent-data validation. REPORT.md records Acceptance: FAIL on D5, D6, D7.
+- D-SOC-1 follow-ups: keeper rulings on D5 meeting cadence/appraisal and D6/D7 model/fixture design (Blocked), then independent-data validation. REPORT.md records Acceptance: FAIL; D5, D6 and D7 remain FAIL.
 - 5065: pending kernel pin to v0.1.1; waits on kernel unit 5153.
 
 ## Blocked
-- D5: engine amendment execution is available (5162); bench host transport and rerun remain for 5163. Proposal payload: `{ action: "amend", section: "obligations" | "benefits", component: index, parameter: "amount" | "quantity" | "hours" | "repayment_period", value: number | null }`. Missing values refuse; offers supply the current numeric `terms.value`, leaving the proposed value to the member. Structural component/schedule replacement is outside this proposal shape. As with existing payments, unpaid dues use the charter amount at payment time.
+- D5 (5163): engine amendment execution and bench proposal/ballot transport exist. The unchanged one-decision-per-selected-person quarterly cadence cannot let a solitary member attend, propose and support in the same tick. Society requires the original attempted proposal time to equal its clock, while quorum uses current attendance; host closes ballots that tick. Keeper must specify meeting/deliberation semantics and, for cross-tick proposals, a compatible src API. Neutral proposal/ballot forecasts and undeclared proposed-value beliefs do not model term-sensitive competition. A paired amendment/transfer counterfactual remains missing; do not manufacture votes, attendance or extra deliberations. See bench/d-soc-1/DIAGNOSIS.md. Structural removal of benefit components is still outside the amendment payload.
 - split/secession not transported by the bench host.
-- D6/D7 inverted signs (relief foundings above baseline): fixture permits solitary founding and shock costs drain the founding purse; model/fixture design question for the keeper, not tuning.
-- bench/d-soc-1/results.json is 21.5 MB and committed (the report test hashes it): keeper rules whether it stays in git.
+- D6/D7 (5163): shared-purse illness/harvest costs feed a mind-side affordability condition on founding consent, while founding itself has no affordability filter. Company is forecast on every found/join but social deficits receive no positive-interaction resets. No illness effect on hours/body capacity exists. No-shocks also removes deaths, so its effect is bundled. Keeper must justify the liquidity/consent and insurance-demand model; no costs, hazards or seeds were tuned.
+- D6 age/ties (5163): young dissolutions are all deaths (32); older include 383 last-member voluntary leaves and 77 deaths. No founder has another decision within four quarters after any of the 1954 baseline foundings: cadence prevents early voluntary departure. Drafts have no adaptation/retention mechanism. Founders enter alone, later recruits contribute positive-tie spells, and completed-spell correlations are censored/composition-sensitive. The leave forecast reads neither inside ties nor niche overlap; contact does not reinforce ties or reset social need. Interaction/retention and life-cycle mechanisms require a keeper design ruling, not hazard tuning.
+- bench/d-soc-1/results.json is 89.0 MB with diagnostic evidence and committed (the report test hashes it): keeper rules whether it stays in git.
 - `@rex/cognition` live-link hazard (I-1048) until Cognition tags a release.
 
 ## Gotchas

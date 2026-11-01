@@ -15,6 +15,15 @@ import type { NeedDefinition } from "@rex/cognition";
  * fixture (learning): outcome episodes enabled, no charter-term latents or
  * positive-interaction reset tags in this study. Reason: a minimal forecast
  * baseline, with these omissions reported rather than fitted to D6. */
+// fixture (5163 amendment transport): reuse the ordinary charter majority and
+// quorum unchanged as its explicit amendment component. Proposals use existing
+// positive money amounts (dues 1/3; benefits 1/3/6), excluding the current value.
+// Reason: a finite member proposal vocabulary permitting both increases and
+// decreases without adding a numeric parameter; zero cannot remove a component.
+// One host tick is the ballot window because attempts require the original
+// intention time to equal the store clock. No extra deliberations or automatic
+// attendance/votes are supplied. Proposal forecasts retain the existing neutral
+// action model; this missing term-sensitive forecast is reported, never fitted.
 export const FIXTURES = {
   calendar: { label: "fixture", reason: "Quarterly host deliberation for five 360-day years; repeated dues, founding opportunities and deaths, not a historical generation.",
     day: DAY, period: 90 * DAY, steps: 20, seeds: Array.from({ length: 30 }, (_, i) => i + 1), decisionsPerStep: 12, adultAge: 16 },

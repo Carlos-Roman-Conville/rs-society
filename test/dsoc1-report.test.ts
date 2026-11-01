@@ -7,6 +7,7 @@ import { GATES, reportErrors, treeHash, VERDICTS } from "../bench/d-soc-1/integr
 import { CONDITIONS, runStudy } from "../bench/d-soc-1/study.ts";
 import type { StudyResult } from "../bench/d-soc-1/study.ts";
 import { renderReport } from "../bench/d-soc-1/report.ts";
+import { renderDiagnosis } from "../bench/d-soc-1/diagnose.ts";
 import { studyPorts } from "../bench/d-soc-1/ledger.ts";
 import { FIXTURES } from "../bench/d-soc-1/fixtures.ts";
 import { StudyMindsRunner } from "../bench/d-soc-1/runner.ts";
@@ -57,6 +58,40 @@ describe("D-SOC-1 committed study evidence", () => {
     expect(host).toContain("this.organisation.found(circle.intention, circle.joins, this.network)");
     expect(readFileSync(join(root, "bench/d-soc-1/study.ts"), "utf8")).not.toMatch(/organisation\.(?:found|split|secede|merge|attempt)\(/);
   });
+  it("rebuilds the diagnosis from named decisions, shock episodes, money flows and actual amendment tallies", () => {
+    const rows = JSON.parse(readFileSync(join(root, "bench/d-soc-1/results.json"), "utf8")) as StudyResult[];
+    expect(readFileSync(join(root, "bench/d-soc-1/DIAGNOSIS.md"), "utf8").replace(/\r\n/g, "\n"))
+      .toBe(renderDiagnosis(rows));
+    for (const row of rows) {
+      expect(row.decisions).toHaveLength(row.sourceIntentions);
+      expect(row.shockTrace.flatMap((s) => s.ill)).toHaveLength(row.illnesses);
+      expect(row.shockTrace.flatMap((s) => s.died)).toHaveLength(row.deaths);
+      expect(Object.values(row.ledgerTotals).reduce((n, r) => n + r.count, 0)).toBe(row.transfers);
+      expect(row.dissolutionTrace).toHaveLength(row.dissolutions);
+      expect(row.exitTrace).toHaveLength(row.leaves);
+      for (const event of row.foundingTrace) for (const source of event.intentions) {
+        const decision = row.decisions.find((d) => d.person === source.person && d.t === source.t &&
+          d.target === source.target && d.kind === source.kind);
+        expect(decision?.founding).toBeDefined();
+      }
+      for (const d of row.decisions.filter((d) => d.consentUnaffordable)) {
+        expect(d.consentOffered).toBe(true);
+        expect(d.eligibleConsent).toBe(0);
+      }
+      for (const event of row.amendmentTrace) for (const source of event.intentions) {
+        expect(row.decisions.some((d) => d.person === source.person && d.t === source.t &&
+          d.target === source.target && d.kind === source.kind)).toBe(true);
+      }
+      if (row.condition === "no-shocks") expect(row.illnesses + row.deaths).toBe(0);
+      if (row.condition === "baseline") {
+        const high = rows.find((r) => r.seed === row.seed && r.condition === "high-illness")!;
+        expect(row.shockTrace.map((s) => s.died)).toEqual(high.shockTrace.map((s) => s.died));
+        for (const [i, step] of row.shockTrace.entries()) {
+          expect(step.ill.every((person) => high.shockTrace[i].ill.includes(person))).toBe(true);
+        }
+      }
+    }
+  }, 60_000);
   it("aliases household purses, conserves ledger transfers, refuses overspending and restores transactions", () => {
     const { ledger } = studyPorts([{ id: "h", members: [{ person: "p1" }, { person: "p2" }] }]);
     const opening = ledger.total(), snapshot = ledger.snapshot();

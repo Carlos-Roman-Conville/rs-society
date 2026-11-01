@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { mapOffers } from "../bench/d-soc-1/host.ts";
-import { BELIEFS, fixtureMemory, fixtureModel, KINDS, mean } from "../bench/d-soc-1/beliefs.ts";
+import { DSoc1Host, mapOffers } from "../bench/d-soc-1/host.ts";
+import { BELIEFS, fixtureMemory, fixtureMind, fixtureModel, KINDS, mean } from "../bench/d-soc-1/beliefs.ts";
 import { FIXTURE, runThreePerson } from "../bench/d-soc-1/fixture.ts";
-import type { SocialOffer } from "../src/index.ts";
+import { streams } from "@rex/kernel";
+import { categorical } from "@rex/cognition";
+import { OrganisationStore, type SocialOffer } from "../src/index.ts";
+import { a, charter, foundFixture, network, setup, vote } from "./lifecycle-fixture.ts";
 
 // fixture (test only): seeds and numeric comparisons, not empirical calibration.
 describe("D-SOC-1 host / IF-46 (PLATFORM §11b level 2)", () => {
@@ -133,6 +136,49 @@ describe("D-SOC-1 host / IF-46 (PLATFORM §11b level 2)", () => {
     expect(found.capacityRequired).toBe(1);
     expect(found.eligible).toBe(false);
     expect(decision.intention.action).toBe("fixture.wait");
+  });
+
+  it.each([[true, "obligations"], [false, "obligations"], [true, "benefits"], [false, "benefits"]] as const)("transports expressed amendments and preserves actual quorum (attendance=%s, section=%s)", (present, section) => {
+    // fixture (test only): deliberately scheduled decisions prove transport,
+    // without changing the study's one-decision-per-person quarterly cadence.
+    const { ledger, views } = setup();
+    const store = new OrganisationStore({ start: 0, counters: {}, ledger, views,
+      capabilities: { events: ["illness"], ports: ["settlement.ledger"], procedures: ["simple_majority"] } });
+    const org = foundFixture(store, [a], { ...charter, amendment: vote,
+      benefits: [...charter.benefits!, { type: "transfer", event: "illness", amount: 3 }],
+      obligations: [{ type: "dues", amount: 3, schedule: { first: 2, period: 1 } }] });
+    let desired = "attend";
+    const host = new DSoc1Host({ seed: 27, period: 1, random: streams(27), organisation: store,
+      network: network([a]), ledger, people: [{ person: a, ...fixtureMind(a, [org]) }],
+      perception: { k: 0, weberFractions: { sight: 0.02, sound: 0.02, touch: 0.02, report: 0.02 } },
+      draft: () => { throw new Error("No draft needed"); }, drafts: () => [],
+      amendments: (offer) => offer.payload?.action === "amend" && offer.payload.section === section
+        ? [{ ...offer, payload: { ...offer.payload, value: 1 } }] : [],
+      model: (offer) => ({ ...fixtureModel(offer),
+        preconditions: [{ id: "fixture scheduled act", probability: () => +(offer.kind === desired) }],
+        naiveModel: () => categorical(["admitted", "refused"], [1, 0]) }),
+      feedback: () => [],
+      tick: (current) => {
+        if (present) current.decide(a);
+        desired = "propose"; current.decide(a);
+        expect(current.openProposals).toHaveLength(1);
+        expect(store.get(org)!.charter.obligations![0]).toMatchObject({ amount: 3 });
+        desired = "support"; current.decide(a);
+        current.resolveProposals();
+      },
+    });
+    host.scheduler.runUntil(1);
+    expect(host.openProposals).toEqual([]);
+    expect(section === "obligations" ? store.get(org)!.charter.obligations![0] : store.get(org)!.charter.benefits![1])
+      .toMatchObject({ amount: present ? 1 : 3 });
+    const outcome = store.events.filter((e) => e.intentions.some((i) => i.payload?.action === "amend")).at(-1)!;
+    expect(outcome.payload).toMatchObject(present ? { amendmentApplied: true } : { reason: "no quorum" });
+    expect(outcome.intentions.map((i) => i.kind)).toEqual(["propose", "support"]);
+    expect(host.runner.state.minds[0].intentions.every((i) => i.outcomeEvent !== undefined)).toBe(true);
+    const emitted = host.bus.since().filter((e) => e.type === "cognition.intention");
+    for (const event of host.bus.since().filter((e) => e.type === "fixture.social_outcome")) {
+      expect(emitted.some((i) => i.id === event.cause)).toBe(true);
+    }
   });
 
   it("keeps Cognition imports in bench and does not give Society a mind input", () => {

@@ -21,7 +21,7 @@ export function treeHash(root: string): string {
  * saved results out of their own fingerprint. */
 export function studyInputHash(root = "."): string {
   const paths = ["package-lock.json", "data/fixtures/village/village.json",
-    ...["beliefs", "fixtures", "host", "ledger", "models", "runner", "study"].map((name) => `bench/d-soc-1/${name}.ts`)];
+    ...["beliefs", "diagnostics", "fixtures", "host", "ledger", "models", "runner", "study"].map((name) => `bench/d-soc-1/${name}.ts`)];
   const hash = createHash("sha256");
   for (const path of paths.sort()) hash.update(JSON.stringify([path, readFileSync(join(root, path), "utf8").replace(/\r\n/g, "\n")]));
   return hash.digest("hex");

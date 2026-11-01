@@ -47,6 +47,7 @@ export interface HostPerson {
 }
 interface Pending { person: PersonId; intention: Intention; event: string; offer: SocialOffer }
 interface Circle { intention: FoundIntention; pending: Pending[]; joins: SocialIntention[]; status: FoundingCircle["status"] }
+interface Proposal { id: string; proposal: SocialIntention; pending: Pending[]; ballots: SocialIntention[]; status: "open" | "resolved" }
 export interface HostOptions {
   readonly seed: number;
   readonly period: number;
@@ -60,6 +61,7 @@ export interface HostOptions {
   readonly draft: (person: PersonId) => { target: string; payload: FoundIntention["payload"] };
   /** Optional component-product drafts: Cognition chooses among these offers. */
   readonly drafts?: (person: PersonId) => readonly { target: string; payload: FoundIntention["payload"] }[];
+  readonly amendments?: (offer: SocialOffer) => readonly SocialOffer[];
   /** Bench storage strategy; the default remains Cognition's baseline runner. */
   readonly runnerFactory?: (state: MindsState, configs: MindsConfig) => MindsRunner;
   readonly tick: (host: DSoc1Host, contacts: readonly ContactOpportunity<never>[]) => void;
@@ -83,6 +85,7 @@ export class DSoc1Host {
   private readonly configs: Record<string, MindConfig> = {};
   private readonly actionIds = new Map<string, string>();
   private readonly circles: Circle[] = [];
+  private readonly proposals: Proposal[] = [];
   private context?: ProcessContext;
   private readonly options: HostOptions;
 
@@ -123,6 +126,19 @@ export class DSoc1Host {
   get organisation(): OrganisationStore { return this.options.organisation; }
   get network(): CommunicationNetwork { return this.options.network; }
   get foundingCircles(): readonly FoundingCircle[] { return structuredClone(this.circles.map(({ intention, joins, status }) => ({ intention, joins, status }))); }
+  get openProposals() { return structuredClone(this.proposals.filter((p) => p.status === "open")
+    .map(({ id, proposal, status }) => ({ id, proposal, status }))); }
+  /** One host tick is the ballot window. Never rewrite a proposal's expressed
+   * time to evade Society's attempt-time check, or synthesize attendance/votes. */
+  resolveProposals(): void {
+    this.clock();
+    for (const entry of this.proposals.filter((p) => p.status === "open")) {
+      const result = this.organisation.attempt(entry.proposal,
+        { decision: { proposalId: entry.id, proposal: entry.proposal, ballots: entry.ballots } });
+      entry.status = "resolved";
+      for (const pending of entry.pending) this.finish(pending, result);
+    }
+  }
   private clock(): ProcessContext {
     if (!this.context) throw new Error("Mind input and intentions must run on the host Kernel tick");
     return this.context;
@@ -150,10 +166,13 @@ export class DSoc1Host {
   decide(person: PersonId): void {
     const ctx = this.clock();
     const snapshot: AffordanceState = { organisations: this.organisation.organisations(), obligations: this.organisation.obligations,
-      attendance: [], proposals: [], foundingCircles: this.foundingCircles,
+      attendance: this.organisation.events.filter((e) => e.cause === "attended" && e.t === ctx.t)
+        .map((e) => ({ org: e.org, person: e.intentions[0].person, activity: String(e.payload?.activity), t: e.t })),
+      proposals: this.openProposals, foundingCircles: this.foundingCircles,
       network: { known: [], ties: this.network.ties() }, ledger: this.options.ledger, facts: {}, unavailable: [],
       ...this.options.snapshot?.() };
     const offered = offers(person, ctx.t, snapshot).flatMap((offer) => {
+      if (offer.kind === "propose" && this.options.amendments) return [...this.options.amendments(offer)];
       if (offer.kind !== "found") return [offer];
       const drafts = this.options.drafts?.(person) ?? [this.options.draft(person)];
       return drafts.map((draft) => ({ ...offer, target: draft.target, payload: draft.payload }));
@@ -178,6 +197,19 @@ export class DSoc1Host {
       const { offer } = pending;
       if (offer.kind === "stand") throw new Error("Stand requires a host election proposal");
       const social: SocialIntention = { person, kind: offer.kind, target: offer.target, t: ctx.t, payload: offer.payload };
+      if (offer.kind === "propose" && offer.payload?.action === "amend" && this.options.amendments) {
+        this.proposals.push({ id: `fixture.proposal.${this.proposals.length + 1}`, proposal: social,
+          pending: [pending], ballots: [], status: "open" });
+        continue;
+      }
+      const proposal = this.proposals.find((p) => p.status === "open" && p.id === offer.target);
+      if (proposal && ["support", "oppose", "abstain"].includes(offer.kind)) {
+        // Only one expressed ballot per member; later expressions replace that
+        // member's earlier ballot, with all emitted intentions kept in the trace.
+        proposal.ballots = [...proposal.ballots.filter((b) => b.person !== person), social];
+        proposal.pending.push(pending);
+        continue;
+      }
       if (offer.kind === "found") {
         if (this.circles.some((c) => c.intention.target === offer.target)) throw new Error("Draft identity already submitted");
         this.circles.push({ intention: social as FoundIntention, pending: [pending], joins: [], status: "open" });
