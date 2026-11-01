@@ -347,6 +347,30 @@ threshold changes.
 5. **Large outputs are not committed.** `results.json` is written to a gitignored folder; REPORT.md records its
    SHA-256, and the report test checks the hash only when the file is present.
 
+
+### 1.16 Keeper rulings after the §1.15 rerun (Society keeper, 2026-11-01; bench modelling, evidence level 4)
+
+The §1.15 rerun (7b5964d) still failed D5, D6 and D7. DIAGNOSIS.md shows the relief-founding counts now track
+household cash, not motive: founders with no safety deficit found relief charters at almost the same rate, and the
+affordability check on joining decides which foundings complete. The amounts behind that (income, subsistence, the
+cost of illness, dues) are unsourced fixtures, and the founders' charter vocabulary is a Cartesian product of
+invented amounts. A verdict that rests on invented numbers says nothing about the mechanisms, and choosing new
+numbers until the signs come out right would be tuning. So:
+
+1. **Source the stand-ins, then accept the result.** The household budget (wages or produce by occupation, rent,
+   subsistence), the incidence and cost of illness, and death rates for a late-14th-century English village are
+   researched with citations into `data/fixtures/village/economy.json` + SOURCES.md. Where the sources are silent the
+   value is `null` with a flag, and the bench refuses to run on a null it needs (codex/RULES.md 7). The rerun's
+   verdicts stand whatever they are.
+2. **Founders compose from sourced components.** The bench's draft vocabulary is the components (and their stated
+   amounts) of `data/charters/reference.json`, in the reference charters' own currency, combined freely (§1.2a);
+   it is never a grid of invented amounts.
+3. **Meetings summon members.** At each meeting a charter schedules, every member has a decision opportunity
+   (attend, propose, vote or stay away, chosen by the mind), as the gild returns summon members and fine absence.
+   Outside meetings the host's rotating cadence is unchanged. No attendance or vote is ever filled in.
+4. **No new mechanism to fix a sign.** Liability of newness and tie-driven retention stay yardsticks (D6): reported,
+   never engineered.
+
 ## 2. The interfaces
 
 ### 2.1 Kernel
