@@ -9,7 +9,7 @@ import { a, b, c, d, people, charter, capabilities, setup, draft, joins, network
 describe("formation and dissolution (DESIGN §1.4)", () => {
   it("requires each named founder's join, preserves mint order, and records purpose and intentions", () => {
     const { store, views } = setup();
-    const intention = draft(store, [c, a], { ...charter, founding: { window: 10, minimum: 2 } });
+    const intention = draft(store, [c, a], { ...charter, founding: { window: 10, min_members: 2 } });
     const event = store.found(intention, joins(intention), network());
     expect(event.kind).toBe("founded");
     expect(store.get(event.org)?.founders).toEqual([a, c]);
@@ -21,15 +21,15 @@ describe("formation and dissolution (DESIGN §1.4)", () => {
   });
   it("reports validator errors verbatim and never inserts an invalid draft", () => {
     const { store } = setup();
-    const bad: Charter = { ...charter, admission: [], founding: { window: null, minimum: null } };
+    const bad: Charter = { ...charter, admission: [], founding: { window: null, min_members: null } };
     const intention = draft(store, [a], bad);
     const event = store.found(intention, joins(intention), network());
     expect(event.payload?.errors).toEqual(expect.arrayContaining(validateCharter(bad, capabilities)));
     expect(store.organisations()).toEqual([]);
   });
   it.each([
-    { founding: undefined }, { founding: { window: 10, minimum: 3 } },
-    { founding: { window: 0, minimum: 1 } }, { founding: { window: 1.5, minimum: 1 } },
+    { founding: undefined }, { founding: { window: 10, min_members: 3 } },
+    { founding: { window: 0, min_members: 1 } }, { founding: { window: 1.5, min_members: 1 } },
   ])("refuses missing/invalid founding parameters and insufficient membership: %j", (change) => {
     const { store } = setup();
     const intention = draft(store, [a, b], { ...charter, ...change });

@@ -12,6 +12,9 @@
 - 2843: Intention-driven founding/lifecycle and observer-only institution label.
 - 2844: Independent invariant check in CHECK.md; unit lists not checked.
 - 2913: Null diagnostics, typed institution evidence and declared-parameter DUP-58 (3) check.
+- 5053: All five DESIGN §1.14 rulings implemented and covered in `test/rulings.test.ts`.
+  Gate: 266 tests passed, including DUP-58/DUP-60; typecheck passed. Additional charter null/reference
+  checks: 422 passed, 27 existing todos for 5054.
 
 - 2982–2984: Fixture village reference, deterministic generator and CHECK-3 review.
 - 2992: Male/female spouse pairs preserve sex totals; default village regenerated, age structure retained.
@@ -22,23 +25,26 @@ Details, API conventions and verification limits: README.md.
 
 ## Next
 
-- Keeper design: DESIGN §1.2a null parameters; §1.3 `tie_break` and abstention denominator;
-  §1.4 founding window and `./institution` export; §1.1 per-day hours cap and multi-kind decay.
+- 5054: Annotate historical references and validate their structural evidence plus completed fixture drafts.
 - Charter research fixes: source/vocabulary gaps and executable inputs without invented history.
 - Affordance port with Cognition, requiring the Cognition keeper's agreement.
 - D-SOC-1 bench (waits on the Cognition affordance port) and independent-data validation.
 
 ## Blocked
 
-**2840 reference validation:** all 27 `data/charters/reference.json` rows fail `validateCharter` as faithful
-compositions (null schedules and amounts where the source is silent, missing admission components on five gild
-returns, `procedure: null` on sanctions/amendments, and positions with `type: null` — the validator throws on null
-`procedure.type`). See `test/charter-reference.test.ts` (`it.todo` per entry id with the first error bundle). Unblock
-when DESIGN §1.2a accepts researched null parameters on schedules or the reference file gains executable values without
-inventing history.
+**2840 / 5054 reference validation:** historical rows still need source-silent annotations and known
+component types before passing `validateReference`; executable drafts additionally need all missing inputs,
+admission, `founding: { window, min_members }`, and explicit majority `base`. The 27 reference-validation todos
+remain for unit 5054. Unit 5053 leaves `data/` unchanged. The null exceptions were fixed by 2913.
 
-2913 fixes the exception mentioned above; nulls remain invalid. Keeper design decisions listed in Next
-and the Cognition port agreement remain pending; this task does not change the spec or research data.
+5053 API notes: the old `founding.minimum` field is replaced by `min_members`, with no alias/default.
+Council majorities carry `base` on their nested majority procedure; council scope is applied first.
+`validateReference` accepts section-tagged research rows or charter-shaped references; null annotations use
+`source_silent: true` plus `note`/`notes` on the containing object or ancestor within that component.
+Null/unknown component types are still errors. The classifier is also exported from the package barrel.
+The pre-existing per-day rate and realised-hours limiters passed the new 30-day verification unchanged.
+Multi-kind decay now uses active exposures' maximum half-life; a residual tie with no kinds retains its last
+half-life until pruning, preserving §1.1 decay without inventing a parameter. Cognition integration remains pending.
 
 ## Gotchas
 - A test that uses the TypeScript compiler API sets an explicit timeout (60_000) and reuses one cached program.

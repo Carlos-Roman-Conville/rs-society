@@ -34,13 +34,20 @@ Shared records and Kernel-backed `mintId` are exported through `src/index.ts`; m
 labels. Its TypeScript interface accepts typed drafts; JSON-shaped missing/null fields return path-qualified
 errors rather than throwing. Null parameters remain invalid, and no schedule, amount or procedure is supplied
 by default. Omitted optional mechanisms remain valid, but an explicitly null mechanism is an incomplete draft.
-Observer `kind`/`name` metadata is ignored even on nested components. Validation does not execute a charter.
+Observer `kind`/`name` metadata is ignored even on nested components. Drafts require `founding.window` and
+`founding.min_members` (positive safe integers); majority rules
+require an explicit `base`. Validation does not execute a charter.
 
-The 24 historical compositions in `data/charters/reference.json` retain researched sources and vocabulary gaps.
-`test/charter-reference.test.ts` verifies provenance, component labels, unmapped statements and a novel composition.
-Its 24 `it.todo` entries remain pending the keeper's null-parameter decision or executable researched inputs;
-safe error reporting does not make the reference charters executable. `test/charter-nulls.test.ts` exercises
-reference null procedures/position types and null/missing fields across every executable component shape.
+`validateReference(reference)` separately checks structural evidence under DESIGN §1.14 1. It accepts a
+research row with section-tagged `components` or a charter-shaped reference, without requiring admission,
+founding terms or capability ports. Component types must be known. Every null needs `source_silent: true`
+and a nonempty `note` (or `notes`) on its containing object or an ancestor within the same component.
+Annotations never make a null component type valid or turn a reference into an executable draft.
+
+The 27 historical compositions in `data/charters/reference.json` retain researched sources and vocabulary gaps.
+Their annotations and reference-to-draft tests remain unit 5054's work; unit 5053 does not alter research data.
+`test/charter-reference.test.ts` retains 27 executable-validation todos. `test/charter-nulls.test.ts` exercises
+null/missing fields across every executable component shape.
 
 Unit 2844's independent review is recorded in `CHECK.md` (historical result: 315 passed, 24 todo). It checked
 DESIGN invariants, not the original unit lists, and noted that DUP-58 (3) only checked two absent setters.
@@ -65,9 +72,11 @@ Household and kin links contribute one exposure in each direction. No fallback g
 Call `nextOpportunity(until, payloads)` to get one event and act at its timestamp, or `advanceTo(until, payloads)`
 to collect a batch. Payload lists pass through unchanged and are never inspected or retained. The host resolves
 place and physical channel from the endpoints. `recordEpisode(i, j, network.now, kind?)` strengthens a tie;
-opportunities themselves do not. For multi-kind ties, the episode must name its kind. Its half-life governs
-the scalar strength until another reinforcing episode or seek names a kind; this convention fills an unspecified multi-kind case
-in DESIGN §1.1. Single-kind episodes may omit `kind`.
+opportunities themselves do not. For multi-kind ties, the episode must name its kind to select reinforcement
+`alpha`; decay uses the longest half-life among currently held kinds (DESIGN §1.14 5). An ended exposure
+removes its kind unless another structural or sought exposure of that kind remains. Changes decay the
+preceding interval before switching half-lives. If all exposures end, residual strength retains its last
+half-life until pruning. Single-kind episodes may omit `kind`.
 
 `seek_contact(i, j, now, kind, exposure)` supplies intentional exposure and strengthens the tie; repeated seeks
 replace that exposure rather than accumulating hours. `avoid_contact(i, j, now)` drops all directed exposure.
@@ -102,10 +111,14 @@ Every result retains the source intentions and a tally listing eligible/present/
 support, opposition, abstention, unexpressed votes, excluded ballots with reasons, denominator and quorum.
 Person records are emitted in numeric mint order.
 
-Execution conventions: simple majority requires more than half the declared electorate; qualified
+Under DESIGN §1.14 2, simple and qualified majorities require `base: "cast" | "present" | "members"` with no
+default. `cast` counts support plus opposition; `present` counts eligible attendance; `members` counts all
+eligible members. Abstentions and silence count only in the latter two denominators. `electorate` still
+controls who may cast a ballot. Simple majority requires more than half the selected denominator; qualified
 majority requires at least the supplied fraction; unanimity requires every elector's explicit support.
-Abstentions and silence remain in the present/all-member denominator. All-member ballots can be remote,
-but quorum counts eligible attendance. Voting eligibility also controls proposal eligibility. Councils
+Councils apply the required base on their nested majority rule after restricting eligibility to office holders.
+All-member ballots can be remote, but quorum counts eligible attendance. Voting eligibility also controls
+proposal eligibility. Councils
 restrict membership before applying their nested procedure, with one vote per person even if they hold
 multiple offices. For a position-holder procedure, any member of that scope may propose; the named
 holder must be present and explicitly support or oppose. These conventions resolve details not stated
@@ -140,7 +153,7 @@ and notification queues; restore must not throw. No adapter receives authority t
 `found(intention, joins, network)` is the only creation entry point (the former `create` seam is removed).
 The `FoundIntention` names a unique draft identity in `target` and carries `{ charter, founders, purpose,
 businesses? }` in its payload. Every named founder, including the proposer, must express a `join` targeting
-that draft. The charter must supply `founding: { window, minimum }`: a positive integer duration in Kernel
+that draft. The charter must supply `founding: { window, min_members }`: a positive integer duration in Kernel
 milliseconds and a positive integer membership minimum. The host accumulates joins and submits one resolved
 attempt; joins must fall within the inclusive interval `[intention.t, intention.t + window]`, never after
 the current clock. Incomplete submissions fail with `payload.errors` and `payload.missing`; a resolved draft
@@ -214,10 +227,10 @@ fallback; Economy and Settlement decide resource allocation. Society creates no 
 A split emptying the source also dissolves it. Merger and dissolution use the same lifecycle module and
 existing transactional view notifications.
 
-Observers import `classifyInstitution` from `@rex/society/institution`. It returns a boolean from occupied
-recognised positions with chartered succession, an actually applied sanction, and actually collected dues
-or admission fees. An approved but unfunded fine does not qualify. No other `src/` module imports this
-classifier, and it is deliberately absent from the mechanism barrel.
+Observers import `classifyInstitution` from `@rex/society` or `@rex/society/institution`. It returns a boolean
+from occupied recognised positions with chartered succession, an actually applied sanction, and actually
+collected dues or admission fees. An approved but unfunded fine does not qualify. The package barrel
+re-exports the observer (DESIGN §1.14 3); no `src/` mechanism imports or reads it.
 
 Classification reads `OrganisationEventPayload.sanctionApplied === true` and a finite positive
 `revenueCollected` amount, independent of human-readable `cause`, approval tallies or payment status text.
@@ -232,3 +245,6 @@ Verification: `npx vitest run test/formation.test.ts test/institution.test.ts`. 
 boundary, founding consent/window/network, fees and rollback, split/merger membership conservation, and
 identical traces under true/false classifier stubs. Liability of newness and density dependence remain
 D-SOC-1 validation yardsticks; no empirical validation is claimed here.
+
+Verification of the five keeper rulings: `npx vitest run test/rulings.test.ts`. This includes a seeded 30-day
+check of rate-hours and realised offered hours on each kernel day, plus active-kind decay transitions.

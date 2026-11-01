@@ -10,7 +10,8 @@ const people = Array.from({ length: 6 }, (_, person) => mintId({ person }, "pers
 const [a, b, c, d, e, outsider] = people;
 const org = mintId({}, "org").id;
 const majority = {
-  type: "simple_majority", electorate: "present", eligibility: { type: "members" },
+  type: "simple_majority", base: "present", // fixture (test only)
+  electorate: "present", eligibility: { type: "members" },
   quorum: { type: "count", value: 1 },
 } as const satisfies DecisionProcedure;
 const proposal: SocialIntention = { person: a, kind: "propose", target: org, t: 0 };
@@ -44,19 +45,19 @@ describe("collective choice applies the charter (DESIGN §1.3)", () => {
   it("present and all-member denominators differ, with remote votes only for all-member rules", () => {
     const votes = ["support", "support", "oppose", "oppose", "oppose"] as const;
     const present = choose(votes, { present: [a, b, c] });
-    const all = choose(votes, { present: [a, b, c], procedure: { ...majority, electorate: "all_members" } });
+    const all = choose(votes, { present: [a, b, c], procedure: { ...majority, base: "members", electorate: "all_members" } }); // fixture (test only)
     expect(present.payload.outcome).toBe("accepted");
     expect(present.payload.tally.excluded).toEqual([{ person: d, reason: "absent" }, { person: e, reason: "absent" }]);
     expect(all.payload.outcome).toBe("rejected");
     expect(all.payload.tally.denominator).toBe(5);
     expect(choose(["support", "support", "oppose"], {
-      present: [a, b, c], procedure: { ...majority, electorate: "all_members" },
+      present: [a, b, c], procedure: { ...majority, base: "members", electorate: "all_members" }, // fixture (test only)
     }).payload.tally.unexpressed).toEqual([d, e]);
   });
   it("count and fractional quorum count eligible attendance even with remote support", () => {
     for (const quorum of [{ type: "count", value: 4 }, { type: "fraction", value: 0.8 }] as const) {
       expect(choose(["support", "support", "support", "support", "support"], {
-        present: [a, b, c], procedure: { ...majority, electorate: "all_members", quorum },
+        present: [a, b, c], procedure: { ...majority, base: "members", electorate: "all_members", quorum }, // fixture (test only)
       })).toMatchObject({ kind: "refused", payload: { reason: "no quorum", tally: { quorumRequired: 4 } } });
       expect(choose(["support", "support", "support", "support"], {
         present: [a, b, c, d], procedure: { ...majority, quorum },
@@ -181,7 +182,8 @@ describe("only declared tie-breaks may resolve equal support and opposition", ()
   });
   it("charter validation checks tie-break references and rejects unknown tie-break vocabulary", () => {
     const capabilities = { events: [], ports: [], procedures: ["simple_majority"] as const };
-    const charter = { admission: [{ type: "open" as const }], decision_procedure: { ...majority, tie_break: { type: "lots" as const } } };
+    const charter = { founding: { window: 10, min_members: 1 }, // fixture (test only)
+      admission: [{ type: "open" as const }], decision_procedure: { ...majority, tie_break: { type: "lots" as const } } };
     expect(validateCharter(charter, capabilities)).toEqual([]);
     expect(validateCharter({ ...charter, decision_procedure: { ...majority, tie_break: { type: "position_holder", role: "missing" } } }, capabilities))
       .toEqual(["decision_procedure.tie_break.role: requires position missing"]);

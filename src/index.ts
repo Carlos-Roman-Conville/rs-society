@@ -1,5 +1,6 @@
 export * from "./types.ts";
-export { validateCharter } from "./charter.ts";
+export { validateCharter, validateReference } from "./charter.ts";
+export { classifyInstitution } from "./institution.ts";
 export * from "./network.ts";
 export * from "./choice.ts";
 export * from "./ports.ts";

@@ -88,10 +88,15 @@ describe("institution classification is an observer-only label (DESIGN §1.4)", 
       expect(stub).toHaveBeenCalledTimes(8);
     } finally { stub.mockRestore(); }
   });
-  it("no other src module imports or re-exports institution; observers use a dedicated package export", () => {
+  it("only the barrel re-exports institution; observers retain the dedicated package export", () => {
     const root = new URL("../src/", import.meta.url);
     for (const name of readdirSync(root, { recursive: true }).map(String).filter((n) => n.endsWith(".ts") && n !== "institution.ts")) {
       const code = readFileSync(new URL(name.replaceAll("\\", "/"), root), "utf8");
+      // DESIGN §1.14 3
+      if (name === "index.ts") {
+        expect(code).toContain('export { classifyInstitution } from "./institution.ts"');
+        continue;
+      }
       expect(code, name).not.toMatch(/(?:from\s*|import\s*\(\s*|require\s*\(\s*|import\s*)["'][^"']*institution(?:\.ts)?["']/);
       expect(code, name).not.toContain("classifyInstitution");
     }

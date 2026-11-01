@@ -13,7 +13,8 @@ const people = Array.from({ length: 12 }, () => {
   const next = mintId(counters, "person"); counters = next.counters; return next.id;
 });
 const [a, b, c, d] = people;
-const vote = { type: "simple_majority", electorate: "all_members", eligibility: { type: "members" },
+const vote = { type: "simple_majority", base: "members", // fixture (test only)
+  electorate: "all_members", eligibility: { type: "members" },
   quorum: { type: "count", value: 1 } } as const;
 const open: Charter = { admission: [{ type: "open" }] };
 const meeting = { type: "meeting", activity: "assembly", schedule: { first: 0, period: 1 } } as const;
@@ -74,7 +75,7 @@ function found(store: OrganisationStore, charter = open, founders: PersonId[] = 
   return event.org;
 }
 function foundingAttempt(store: OrganisationStore, charter: Charter, founders: PersonId[] = [c], businesses: string[] = []) {
-  const intention = draft(store, founders, { ...charter, founding: { window: 1, minimum: 1 } }, businesses);
+  const intention = draft(store, founders, { ...charter, founding: { window: 1, min_members: 1 } }, businesses);
   return store.found(intention, joins(intention), network(people, store.now));
 }
 function act(store: OrganisationStore, org: OrgId, person: PersonId, kind: SocialIntention["kind"], payload?: Record<string, unknown>) {

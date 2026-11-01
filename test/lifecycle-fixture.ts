@@ -6,9 +6,10 @@ import { CommunicationNetwork, OrganisationStore, mintId, type AccountId, type C
 // Every amount, time, rule parameter, identity and seed here is fixture (test only).
 export const people = Array.from({ length: 5 }, (_, i) => mintId({ person: i }, "person").id);
 export const [a, b, c, d, e] = people;
-export const vote = { type: "simple_majority", electorate: "all_members", eligibility: { type: "members" },
+export const vote = { type: "simple_majority", base: "members", // fixture (test only)
+  electorate: "all_members", eligibility: { type: "members" },
   quorum: { type: "count", value: 1 } } as const;
-export const charter: Charter = { admission: [{ type: "open" }], founding: { window: 10, minimum: 1 },
+export const charter: Charter = { admission: [{ type: "open" }], founding: { window: 10, min_members: 1 },
   decision_procedure: vote, benefits: [{ type: "meeting", activity: "assembly", schedule: { first: 0, period: 1 } }] };
 export const capabilities: CharterCapabilities = { events: [], ports: ["settlement.ledger"], procedures: ["simple_majority"] };
 export function network(persons: readonly PersonId[] = people, now = 0, connected = true): CommunicationNetwork {

@@ -43,8 +43,7 @@ export function found(intention: FoundIntention, joins: readonly SocialIntention
   const founders = [...intention.payload.founders].sort(mintOrder);
   const errors = [...new Set([...validateCharter(charter, context.capabilities), ...context.errors])];
   const window = charter.founding?.window;
-  const minimum = charter.founding?.minimum;
-  if (!charter.founding) errors.push("founding: requires window and minimum; no defaults");
+  const minimum = charter.founding?.min_members;
   if (intention.kind !== "found" || !intention.target.trim() || !purpose.trim()
     || !founders.includes(intention.person) || !founders.length) errors.push("requires a named founder, draft identity and purpose");
   if (new Set(founders).size !== founders.length) errors.push("duplicate named founder");

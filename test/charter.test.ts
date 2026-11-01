@@ -3,9 +3,11 @@ import { validateCharter } from "../src/charter.ts";
 import { mintId, type Charter, type CharterCapabilities, type DecisionProcedure } from "../src/types.ts";
 
 // All amounts, times, counts and thresholds in this file are fixture (test only).
+const founding = { window: 10, min_members: 1 }; // fixture (test only)
 const schedule = { first: 0, period: 7 };
 const vote = {
-  type: "simple_majority", electorate: "present", eligibility: { type: "members" },
+  type: "simple_majority", base: "present", // fixture (test only)
+  electorate: "present", eligibility: { type: "members" },
   quorum: { type: "count", value: 1 },
 } as const satisfies DecisionProcedure;
 const qualified = { ...vote, type: "qualified_majority", threshold: 0.75 } as const;
@@ -13,7 +15,7 @@ const unanimous = { ...vote, type: "unanimity", electorate: "all_members" } as c
 const holder = { type: "position_holder", role: "steward" } as const;
 const council = { type: "council", roles: ["steward"], procedure: qualified } as const;
 const position = { ...vote, position: "steward", term: 30 } as const;
-const open: Charter = { admission: [{ type: "open" }] };
+const open: Charter = { founding, admission: [{ type: "open" }] };
 const capabilities: CharterCapabilities = {
   events: ["life.death", "life.illness_onset"],
   ports: ["settlement.ledger", "economy.inventory", "fixture.occupation"],
@@ -22,6 +24,7 @@ const capabilities: CharterCapabilities = {
 
 // Deliberately invented composition, not selected from any historical catalogue.
 const novel: Charter = {
+  founding, // fixture (test only)
   name: "Fixture night gardeners", kind: "unclassified",
   admission: [
     { type: "open" }, { type: "sponsored", members: 2 },
@@ -60,7 +63,8 @@ describe("charter composition (DESIGN §1.2a)", () => {
     expect(validateCharter(open, { events: [], ports: [], procedures: [] })).toEqual([]);
   });
 
-  it.each([{}, { admission: [] }])("rejects an empty charter for missing admission: %j", (charter) => {
+  // DESIGN §1.14 3
+  it.each([{ founding }, { founding, admission: [] }])("rejects missing or empty admission: %j", (charter) => {
     expect(validateCharter(charter, capabilities)).toEqual([
       "admission: requires at least one admission rule",
     ]);
@@ -94,7 +98,7 @@ describe("charter composition (DESIGN §1.2a)", () => {
   });
 
   it.each([
-    ["admission[0]", { admission: [{ type: "unknown" }] }],
+    ["admission[0]", { founding, admission: [{ type: "unknown" }] }],
     ["obligations[0]", { ...open, obligations: [{ type: "unknown" }] }],
     ["benefits[0]", { ...open, benefits: [{ type: "unknown" }] }],
     ["decision_procedure", { ...open, decision_procedure: { type: "unknown" } }],
@@ -107,7 +111,7 @@ describe("charter composition (DESIGN §1.2a)", () => {
 
 describe("each unavailable input is diagnosed on its own component", () => {
   const ledgerCases: [string, Charter][] = [
-    ["admission[0]", { admission: [{ type: "fee", amount: 1 }] }],
+    ["admission[0]", { founding, admission: [{ type: "fee", amount: 1 }] }],
     ["obligations[0]", { ...open, obligations: [{ type: "dues", amount: 1, schedule }] }],
     ["benefits[0]", { ...open, benefits: [{ type: "transfer", event: "life.death", amount: 1 }] }],
     ["benefits[0]", { ...open, benefits: [{ type: "loan", event: "life.death", amount: 1, repayment_period: 7 }] }],
@@ -125,7 +129,7 @@ describe("each unavailable input is diagnosed on its own component", () => {
   });
 
   it("occupation admission requires its declared fact port", () => {
-    const charter: Charter = { admission: [{ type: "occupation", occupation: "gardener", port: "fixture.occupation" }] };
+    const charter: Charter = { founding, admission: [{ type: "occupation", occupation: "gardener", port: "fixture.occupation" }] };
     expect(validateCharter(charter, { ...capabilities, ports: [] }))
       .toEqual(["admission[0]: requires port fixture.occupation"]);
   });
@@ -140,7 +144,7 @@ describe("each unavailable input is diagnosed on its own component", () => {
   });
 
   const procedureCases: [string, Charter][] = [
-    ["admission[0].procedure", { admission: [{ type: "vote", procedure: vote }] }],
+    ["admission[0].procedure", { founding, admission: [{ type: "vote", procedure: vote }] }],
     ["decision_procedure", { ...open, decision_procedure: vote }],
     ["positions[0]", { ...open, positions: [position] }],
     ["sanctions[0].procedure", { ...open, sanctions: [{ type: "expulsion", procedure: vote }] }],
@@ -187,11 +191,11 @@ describe("each unavailable input is diagnosed on its own component", () => {
 
 describe("missing or unusable rule parameters block execution", () => {
   const invalidCases: [string, Charter][] = [
-    ["admission[0].members", { admission: [{ type: "sponsored", members: null }] }],
-    ["admission[0].members", { admission: [{ type: "sponsored", members: 1.5 }] }],
-    ["admission[0].relation", { admission: [{ type: "kinship", relation: " " }] }],
-    ["admission[0].occupation", { admission: [{ type: "occupation", occupation: "", port: "fixture.occupation" }] }],
-    ["admission[0].amount", { admission: [{ type: "fee", amount: null }] }],
+    ["admission[0].members", { founding, admission: [{ type: "sponsored", members: null }] }],
+    ["admission[0].members", { founding, admission: [{ type: "sponsored", members: 1.5 }] }],
+    ["admission[0].relation", { founding, admission: [{ type: "kinship", relation: " " }] }],
+    ["admission[0].occupation", { founding, admission: [{ type: "occupation", occupation: "", port: "fixture.occupation" }] }],
+    ["admission[0].amount", { founding, admission: [{ type: "fee", amount: null }] }],
     ["obligations[0].amount", { ...open, obligations: [{ type: "dues", amount: null, schedule }] }],
     ["obligations[0].schedule.first", { ...open, obligations: [{ type: "attendance", activity: "meet", schedule: { ...schedule, first: null } }] }],
     ["obligations[0].schedule.period", { ...open, obligations: [{ type: "attendance", activity: "meet", schedule: { ...schedule, period: null } }] }],
@@ -220,7 +224,7 @@ describe("missing or unusable rule parameters block execution", () => {
   });
 
   it.each([null, NaN, Infinity, -Infinity, 0, -1])("rejects unusable monetary amount %s", (amount) => {
-    expect(validateCharter({ admission: [{ type: "fee", amount }] }, capabilities))
+    expect(validateCharter({ founding, admission: [{ type: "fee", amount }] }, capabilities))
       .toEqual(["admission[0].amount: requires a finite positive number"]);
   });
 

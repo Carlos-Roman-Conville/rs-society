@@ -80,13 +80,16 @@ interface VotingConditions {
   readonly quorum: Quorum;
 }
 
+/** DESIGN §1.14 2: founder-supplied majority denominator, with no default. */
+export type MajorityBase = "cast" | "present" | "members";
+
 /** DESIGN §1.3; councils recursively use one of the same decision rules. */
 export type DecisionProcedure =
   | { readonly type: "position_holder"; readonly role: string }
-  | ({ readonly type: "simple_majority"; readonly tie_break?:
+  | ({ readonly type: "simple_majority"; readonly base: MajorityBase; readonly tie_break?:
       | { readonly type: "position_holder"; readonly role: string }
       | { readonly type: "lots" } } & VotingConditions)
-  | ({ readonly type: "qualified_majority"; readonly threshold: Parameter } & VotingConditions)
+  | ({ readonly type: "qualified_majority"; readonly base: MajorityBase; readonly threshold: Parameter } & VotingConditions)
   | ({ readonly type: "unanimity" } & VotingConditions)
   | { readonly type: "council"; readonly roles: readonly string[]; readonly procedure: DecisionProcedure };
 
@@ -139,7 +142,7 @@ export type Amendment = DecisionProcedure;
  */
 export interface Charter {
   /** DESIGN §1.4: founder-supplied duration (Kernel milliseconds) and minimum. */
-  readonly founding?: { readonly window: Parameter; readonly minimum: Parameter };
+  readonly founding?: { readonly window: Parameter; readonly min_members: Parameter };
   readonly kind?: string;
   readonly name?: string;
   readonly admission?: readonly Admission[];

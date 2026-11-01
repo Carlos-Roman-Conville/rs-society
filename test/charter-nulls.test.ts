@@ -5,12 +5,14 @@ import type { Charter, CharterCapabilities } from "../src/types.ts";
 
 // All numeric terms, roles and identifiers below are fixture (test only).
 const schedule = { first: 0, period: 1 };
-const vote = { type: "simple_majority", electorate: "present", eligibility: { type: "members" },
+const vote = { type: "simple_majority", base: "present", // fixture (test only)
+  electorate: "present", eligibility: { type: "members" },
   quorum: { type: "count", value: 1 }, tie_break: { type: "position_holder", role: "steward" } } as const;
-const council = { type: "council", roles: ["steward"], procedure: { type: "qualified_majority", electorate: "present",
+const council = { type: "council", roles: ["steward"], procedure: { type: "qualified_majority", base: "present", // fixture (test only)
+  electorate: "present",
   threshold: 0.5, eligibility: { type: "positions", roles: ["steward"] }, quorum: { type: "fraction", value: 1 } } } as const;
 const complete: Charter = {
-  founding: { window: 1, minimum: 1 },
+  founding: { window: 1, min_members: 1 },
   admission: [{ type: "open" }, { type: "sponsored", members: 1 }, { type: "vote", procedure: council },
     { type: "kinship", relation: "sibling" }, { type: "occupation", occupation: "smith", port: "facts" }, { type: "fee", amount: 1 }],
   obligations: [{ type: "dues", amount: 1, schedule }, { type: "attendance", activity: "meeting", schedule },
@@ -70,7 +72,7 @@ describe("JSON-shaped charter nulls return errors without inventing parameters (
     for (const value of [null, undefined, [null], [undefined]]) rejects(complete, { ...capabilities, [key]: value });
   });
   it("keeps array indexes in errors after a null component", () => {
-    expect(rejects({ admission: [null, { type: "fee", amount: null }] })).toEqual([
+    expect(rejects({ founding: complete.founding, admission: [null, { type: "fee", amount: null }] })).toEqual([
       "admission[0]: requires an object", "admission[1].amount: requires a finite positive number",
     ]);
   });

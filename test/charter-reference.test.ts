@@ -125,6 +125,7 @@ const scheduleFixture = { first: 0, period: 91 }; // fixture (test only)
 
 /** Components copied from reference rows; combination does not appear in any single entry. */
 const novelFromReference: Charter = {
+  founding: { window: 10, min_members: 1 }, // fixture (test only)
   kind: "unclassified",
   name: "Cross-reference fixture composition",
   admission: [

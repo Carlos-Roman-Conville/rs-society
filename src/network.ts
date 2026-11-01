@@ -69,7 +69,7 @@ interface TieState extends Pair {
   w: number;
   t_last: SimTime | null;
   decayedAt: SimTime;
-  decayKind?: TieKind;
+  halfLife?: number;
   lambda: number;
   next: number;
   /** Remaining integrated hazard survives zero rates and rate changes. */
@@ -220,9 +220,8 @@ export class CommunicationNetwork {
     this.#prune(); this.#rates();
   }
 
-  /** DESIGN §1.1: the caller names the episode's kind for a multi-kind tie.
-   * The most recent reinforcing act's kind supplies T until the next act. This is
-   * an explicit multi-kind convention: the spec gives scalar w but no mixed T.
+  /** DESIGN §1.1: the caller names the episode's kind for its reinforcement.
+   * DESIGN §1.14 5: decay uses the longest half-life of the active kinds.
    */
   recordEpisode(i: PersonId, j: PersonId, t: SimTime, kind?: TieKind): void {
     this.#at(t); this.#pair(i, j);
@@ -240,7 +239,6 @@ export class CommunicationNetwork {
     const updated = tie.w + alpha * (1 - tie.w);
     // Prevent floating-point rounding to 1 when the mathematical result is <1.
     tie.w = alpha < 1 && tie.w < 1 ? Math.min(1 - Number.EPSILON / 2, updated) : updated;
-    tie.decayKind = kind;
   }
 
   seek_contact(i: PersonId, j: PersonId, t: SimTime, kind: TieKind, exposure: number): void {
@@ -254,6 +252,8 @@ export class CommunicationNetwork {
     }
     rows.push({ i, j, kind, x: exposure });
     this.#checkExposures(rows);
+    const existing = this.#find(i, j);
+    if (existing) this.#decay(existing);
     const tie = this.#ensure(i, j, kind);
     // An intention specifies current exposure; repeats strengthen w, not hours.
     tie.exposures.get(kind)!.sought = exposure;
@@ -290,15 +290,23 @@ export class CommunicationNetwork {
   }
 
   #decay(tie: TieState): void {
-    if (tie.decayKind) {
+    const active = [...tie.exposures].filter(([, x]) => x.structural > 0 || x.sought > 0);
+    // DESIGN §1.14 5: max rule (keeper, level 4); kin direction (Roberts & Dunbar).
+    // With no remaining exposure, retain the last half-life for the residual
+    // strength's §1.1 decay to w_min; do not invent a new parameter.
+    if (active.length) tie.halfLife = Math.max(...active.map(([kind]) => this.#kind(kind).T));
+    if (tie.halfLife !== undefined) {
       // DESIGN §1.1: exponential half-life decay (Burt; Roberts & Dunbar).
-      tie.w *= 2 ** (-(this.#now - tie.decayedAt) / DAY / this.#kind(tie.decayKind).T);
+      tie.w *= 2 ** (-(this.#now - tie.decayedAt) / DAY / tie.halfLife);
     }
     tie.decayedAt = this.#now;
   }
   #prune(): void {
     for (const tie of this.#ties.values()) {
       this.#decay(tie);
+      for (const [kind, x] of tie.exposures) {
+        if (x.structural === 0 && x.sought === 0) tie.exposures.delete(kind);
+      }
       if (tie.w < this.#wMin && ![...tie.exposures.values()].some((x) => x.structural > 0)) {
         this.#ties.delete(tie.id);
       }
@@ -343,7 +351,8 @@ export class CommunicationNetwork {
     }
     for (const total of totals.values()) number(total * this.#duration, "total offered hours", 0);
     for (const tie of this.#ties.values()) {
-      // DESIGN §1.1 rate limiter: count incoming AND outgoing contact costs.
+      // DESIGN §1.1 / §1.14 4: rates and availableHours are per kernel day;
+      // count incoming AND outgoing contact costs.
       const scale = (person: PersonId): number => {
         const offered = (totals.get(person) ?? 0) * this.#duration;
         return offered === 0 ? 1 : Math.min(1, this.#person(person) / offered);
@@ -389,7 +398,7 @@ export class CommunicationNetwork {
       }
       next.hazard = this.#draw(next);
       this.#schedule(next, proposal);
-      // DESIGN §1.1: Poisson proposals alone bound only EXPECTED hours.
+      // DESIGN §1.1 / §1.14 4: Poisson proposals alone bound only EXPECTED hours.
       // Enforce the realised invariant too, in epoch-aligned Kernel days.
       const fits = (person: PersonId): boolean =>
         ((this.#offered.get(person) ?? 0) + 1) * this.#duration <= this.#person(person);

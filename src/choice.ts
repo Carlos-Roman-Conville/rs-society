@@ -71,6 +71,9 @@ function validateProcedure(rule: DecisionProcedure, positions: readonly Position
     case "simple_majority":
     case "qualified_majority":
     case "unanimity":
+      if (rule.type !== "unanimity" && !["cast", "present", "members"].includes(rule.base)) {
+        throw new Error("base requires cast, present or members; no default");
+      }
       if (rule.electorate !== "present" && rule.electorate !== "all_members") throw new Error("invalid electorate");
       if (rule.eligibility.type === "positions") roles(rule.eligibility.roles);
       else if (rule.eligibility.type !== "members") throw new Error("invalid eligibility");
@@ -87,8 +90,8 @@ function validateProcedure(rule: DecisionProcedure, positions: readonly Position
 }
 
 /** DESIGN §1.3 (May 1952; Arrow 1951, level 1).
- * Majority denominators are eligible persons present / all eligible members,
- * including abstentions and silence. Simple requires > half; qualified >= its
+ * DESIGN §1.14 2: majority base selects cast votes, eligible persons present,
+ * or all eligible members. Simple requires > half; qualified >= its
  * supplied threshold; unanimity requires every elector's expressed support.
  * May's symmetric binary rule applies when every elector expresses a side.
  * All-member ballots may be remote; quorum always counts eligible attendance.
@@ -145,7 +148,11 @@ export function collectiveChoice(input: ChoiceInput): ChoiceEvent {
     excluded: ballots.filter((v) => !electorate.includes(v.person)).map((v) => ({
       person: v.person, reason: eligible.includes(v.person) ? "absent" : "ineligible",
     })),
-    denominator: electorate.length, quorumRequired,
+    // DESIGN §1.14 2 (keeper ruling): councils use their scoped nested rule.
+    denominator: rule.type === "position_holder" || rule.type === "unanimity" ? electorate.length
+      : rule.base === "cast" ? votes.filter((v) => v.kind !== "abstain").length
+      : rule.base === "present" ? present.length : eligible.length,
+    quorumRequired,
   };
   const event = (outcome: ChoiceEvent["payload"]["outcome"], reason?: NoActReason,
     tieBreak?: ChoiceEvent["payload"]["tieBreak"]): ChoiceEvent => ({

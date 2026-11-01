@@ -81,6 +81,9 @@ export function validateCharter(charter: Charter, capabilities: CharterCapabilit
       case "simple_majority":
       case "qualified_majority":
       case "unanimity":
+        if (value.type !== "unanimity" && !["cast", "present", "members"].includes(value.base)) {
+          error(`${path}.base`, "requires cast, present or members; no default");
+        }
         if (value.electorate !== "present" && value.electorate !== "all_members") error(`${path}.electorate`, "requires present or all_members");
         if (object(value.eligibility, `${path}.eligibility`)) {
           if (value.eligibility.type === "positions") roles(value.eligibility.roles, `${path}.eligibility.roles`);
@@ -105,11 +108,12 @@ export function validateCharter(charter: Charter, capabilities: CharterCapabilit
     if (!procedures.has(value.type)) error(path, `requires implemented procedure ${value.type}`);
   };
 
-  if (charter.founding !== undefined && object(charter.founding, "founding")) {
+  // DESIGN §1.14 3: every executable draft supplies its founding terms.
+  if (object(charter.founding, "founding") && charter.founding) {
     positive(charter.founding.window, "founding.window", true);
-    positive(charter.founding.minimum, "founding.minimum", true);
+    positive(charter.founding.min_members, "founding.min_members", true);
     if (!Number.isSafeInteger(charter.founding.window)) error("founding.window", "requires safe integer milliseconds");
-    if (!Number.isSafeInteger(charter.founding.minimum)) error("founding.minimum", "requires a safe integer");
+    if (!Number.isSafeInteger(charter.founding.min_members)) error("founding.min_members", "requires a safe integer");
   }
   if (!charter.admission?.length) error("admission", "requires at least one admission rule");
   components(charter.admission, "admission").forEach((value, i) => {
@@ -203,5 +207,83 @@ export function validateCharter(charter: Charter, capabilities: CharterCapabilit
     }
   });
   if (charter.amendment !== undefined) procedure(charter.amendment, "amendment");
+  return errors;
+}
+
+/** DESIGN §1.14 1: references record evidence, not executable drafts.
+ * Accept a research row's section-tagged components or a charter-shaped record.
+ * A source-silent annotation on an object covers its nested null fields; each
+ * component starts a new annotation scope. Unknown types remain errors even
+ * when annotated. No admission, founding terms or execution ports are required.
+ */
+export function validateReference(reference: unknown): string[] {
+  const errors: string[] = [];
+  const error = (path: string, message: string): void => { errors.push(`${path}: ${message}`); };
+  const object = (value: unknown): value is Record<string, unknown> =>
+    value !== null && typeof value === "object" && !Array.isArray(value);
+  const procedures = ["position_holder", "simple_majority", "qualified_majority", "unanimity", "council"];
+  const sections: Record<string, readonly string[]> = {
+    admission: ["open", "sponsored", "vote", "kinship", "occupation", "fee"],
+    obligation: ["dues", "attendance", "service", "exclusivity"],
+    benefit: ["transfer", "goods", "meeting", "loan"],
+    sanction: ["fine", "suspension", "expulsion"],
+    position: procedures, decision_procedure: procedures, amendment: procedures,
+  };
+  const known = new Set([...Object.values(sections).flat(), "members", "positions", "count", "fraction", "lots"]);
+  const nestedTypes: Record<string, readonly string[]> = {
+    procedure: procedures, eligibility: ["members", "positions"], quorum: ["count", "fraction"],
+    tie_break: ["position_holder", "lots"],
+  };
+  const walk = (value: unknown, path: string, annotated = false, types?: readonly string[]): void => {
+    if (value === null) {
+      if (!annotated) error(path, "null requires source_silent: true and a nonempty note");
+      return;
+    }
+    if (Array.isArray(value)) {
+      if (types) { error(path, "requires a component object"); return; }
+      value.forEach((child, i) => walk(child, `${path}[${i}]`, annotated));
+      return;
+    }
+    if (!object(value)) {
+      if (types) error(path, "requires a component object");
+      return;
+    }
+    const note = value.note ?? value.notes;
+    const silent = annotated || (value.source_silent === true && typeof note === "string" && !!note.trim());
+    if (types || "type" in value) {
+      if (typeof value.type !== "string" || !(types ?? [...known]).includes(value.type)) {
+        error(`${path}.type`, "unsupported component type");
+      }
+    }
+    for (const [key, child] of Object.entries(value)) {
+      walk(child, `${path}.${key}`, silent, Object.hasOwn(nestedTypes, key) ? nestedTypes[key] : undefined);
+    }
+  };
+  if (!object(reference)) return ["reference: requires an object"];
+  if ("components" in reference) {
+    for (const [key, value] of Object.entries(reference)) if (key !== "components") walk(value, key);
+    if (!Array.isArray(reference.components)) error("components", "requires an array");
+    else reference.components.forEach((component, i) => {
+      const path = `components[${i}]`;
+      if (!object(component)) { error(path, "requires a component object"); return; }
+      const types = typeof component.section === "string" && Object.hasOwn(sections, component.section)
+        ? sections[component.section] : undefined;
+      if (!types) error(`${path}.section`, "unsupported component section");
+      walk(component, path, false, types ?? []);
+    });
+  } else {
+    const arrays: Record<string, string> = {
+      admission: "admission", obligations: "obligation", benefits: "benefit", positions: "position", sanctions: "sanction",
+    };
+    for (const [key, value] of Object.entries(reference)) {
+      if (Object.hasOwn(arrays, key)) {
+        if (!Array.isArray(value)) { error(key, "requires an array"); continue; }
+        value.forEach((component, i) => {
+          if (!object(component)) error(`${key}[${i}]`, "requires a component object");
+          else walk(component, `${key}[${i}]`, false, sections[arrays[key]]);
+        });
+      } else walk(value, key, false, Object.hasOwn(sections, key) ? sections[key] : undefined);
+    }
+  }
   return errors;
 }

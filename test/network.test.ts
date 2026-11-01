@@ -212,7 +212,7 @@ describe("strength, decay and expressed intentions (DESIGN §1.1)", () => {
     expect(net.ties()[0].w).toBeLessThan(1);
   });
 
-  it("requires an explicit episode kind on mixed ties and uses its alpha and half-life", () => {
+  it("requires an explicit episode kind for alpha, with the longest active half-life", () => {
     const net = network(27, { ...parameters, kinds: [
       ...parameters.kinds.filter((p) => p.kind !== "kin"), { kind: "kin", lambda0: 2, alpha: 0.5, T: 8 },
     ] });
@@ -224,7 +224,8 @@ describe("strength, decay and expressed intentions (DESIGN §1.1)", () => {
     net.recordEpisode(a, b, net.now, "neighbour");
     expect(net.ties()[0].w).toBeCloseTo(0.4375, 14);
     net.advanceTo(12 * DAY, []);
-    expect(net.ties()[0].w).toBeCloseTo(0.21875, 14);
+    // DESIGN §1.14 5
+    expect(net.ties()[0].w).toBeCloseTo(0.4375 * 2 ** (-4 / 8), 14);
   });
 
   it("seek creates/strengthens a tie and avoid drops exposure before eventual pruning", () => {
