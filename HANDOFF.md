@@ -1,6 +1,7 @@
 # HANDOFF: society
 
 ## State
+- 5194: DESIGN section 1.15 bench rerun, 30 seeds x 5 conditions; contact resets, perceived-peer forecasts, open ballots and illness-only diagnostic. D1-D4/D3b PASS, D5-D7 FAIL. Relief foundings baseline/high/no-shocks/illness-only=720/435/1075/969; no tuning. Gate: 25 tests/3 files + tsc; absent-results check: 7 pass/2 artifact checks skip. See REPORT.md and DIAGNOSIS.md.
 - 5193: open ballots via optional charter `decision_interval` (positive safe integer Kernel ms). `attempt(propose, { decision })` opens; `attend`/`support`/`oppose`/`abstain` target the proposal id; `advanceTo` closes at proposal time + interval, in mint order. No interval preserves same-tick decisions. `test/open-proposals.test.ts`.
 - 5193: interval attendance, current eligibility, leave/death exclusions, observable close results and amendment application; admission/split/merge consume closed approvals with their existing explicit intentions. `store.proposals` and `store.attendance` are detached affordance inputs. Gate: 113 tests/5 files + tsc; 28 new tests.
 - 5163: D-SOC-1 transport/evidence rerun; D1-D4/D3b PASS, D5-D7 FAIL; see DIAGNOSIS.md. Gate 22 tests/3 files + tsc; no src/numeric tuning.
@@ -16,17 +17,18 @@
 
 ## Next
 - Research source/vocabulary gaps; no invented history.
-- Keeper D5-D7 rulings, then independent-data validation; REPORT.md: FAIL.
+- Follow up the remaining D5-D7 mechanisms after the DESIGN section 1.15 rerun; then independent-data validation. See REPORT.md and DIAGNOSIS.md.
 
 ## Blocked
-- D5 (5163/5193): cross-tick API implemented; bench adoption/rerun, appraisal/paired-transfer rulings remain; no manufactured votes; structural benefit removal unsupported; see bench/d-soc-1/DIAGNOSIS.md
-- D6/D7 (5163): keeper liquidity/consent/insurance model ruling; no hazard/cost/seed tuning; see bench/d-soc-1/DIAGNOSIS.md
-- D6 age/ties (5163): cadence, censoring/composition, missing interaction/retention/life-cycle mechanisms need keeper ruling; see bench/d-soc-1/DIAGNOSIS.md
+- D5 (5194): bench uses cross-tick ballots; sparse expressed attendance/votes, neutral term appraisal and the missing paired-transfer experiment remain. No manufactured votes; structural benefit removal unsupported. See bench/d-soc-1/DIAGNOSIS.md.
+- D6/D7 (5194): section 1.15.3 retains purse squeeze and affordability; reversed insurance directions remain diagnostic fixture findings. No hazard/cost/seed tuning; see bench/d-soc-1/DIAGNOSIS.md.
+- D6 age/ties (5194): contact resets and perceived inside-contact retention are implemented. Cadence, censoring/composition and missing organisational life-cycle mechanisms still limit yardsticks; see bench/d-soc-1/DIAGNOSIS.md.
 - Bench host lacks split/secession transport.
-- bench/d-soc-1/results.json: 89.0 MB (89,026,649 B), committed, report-test hashed; past GitHub's 50 MB warning, near 100 MB limit; Keeper/Rex rules git retention (review fix 44); no session rewrites history or runs the bench again until ruled.
 - Cognition live-link hazard I-1048 until release tag.
 
 ## Gotchas
+- 5194: large output is local at `bench/d-soc-1/results/results.json`, gitignored; old tracked output removed without history rewriting. Rebuild with `npm run bench:dsoc1`. Artifact-dependent report/hash tests skip when absent; source/report structure checks always run.
+- 5194: each realised contact resets both minds through Cognition at contact time, delivered on the next host tick. Timed ballot attempts complete immediately; closure is a separate observation. Ballots open at the fixed horizon are censored, never auto-filled. Two-quarter interval and peer-count forecast are labelled fixtures, not researched values.
 - 5193: interval is [proposal.t, closesAt); close precedes obligations due at that boundary. Procedure/duration captured at opening; active membership/offices rechecked for votes and close. Proposer's accepted opening survives their departure; removed members cannot restore that ballot by rejoining. One expressed ballot/person; duplicates refused. Admission/lifecycle consumers pass the original proposal identity/content, not a newly dated proposal.
 - Generator test `.mjs` resolves `scripts/build-village.d.mts`.
 - Compiler-API: 60_000 timeout/cached program. Fence bans grievance/unrest/rebellion/legitimacy/source_credibility/mind.belief even in src comments; imports @rex/kernel/relative only. kernel.json: processes/reads/writes.

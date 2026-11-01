@@ -2,7 +2,7 @@ import { DAY } from "@rex/kernel";
 import type { NeedDefinition } from "@rex/cognition";
 
 /** Every value here is a fixture, not a researched estimate. Fixed throughout
- * the final 120-run protocol; D4-D6 are observations, never calibration targets.
+ * the 150-run protocol; D4-D6 are observations, never calibration targets.
  *
  * fixture (inherited 5056 vocabulary, beliefs.ts): readiness support no/yes has
  * probabilities .5/.5; numeric terms start at mean 0, variance 1,000,000. Reason:
@@ -12,17 +12,18 @@ import type { NeedDefinition } from "@rex/cognition";
  * fixture (baseline host action units): duration=1 deliberation, capacity=1;
  * need setpoints=0 and weights=1. Reason: neutral shared baseline units. The
  * original fixtureMind beta=100 is explicitly replaced by DEFAULT_COGNITIVE_PARAMS.
- * fixture (learning): outcome episodes enabled, no charter-term latents or
- * positive-interaction reset tags in this study. Reason: a minimal forecast
- * baseline, with these omissions reported rather than fitted to D6. */
+ * fixture (learning): outcome episodes enabled, no charter-term latents.
+ * Realised contacts reset social need through Cognition (DESIGN §1.15.1). */
 // fixture (5163 amendment transport): reuse the ordinary charter majority and
 // quorum unchanged as its explicit amendment component. Proposals use existing
 // positive money amounts (dues 1/3; benefits 1/3/6), excluding the current value.
 // Reason: a finite member proposal vocabulary permitting both increases and
 // decreases without adding a numeric parameter; zero cannot remove a component.
-// One host tick is the ballot window because attempts require the original
-// intention time to equal the store clock. No extra deliberations or automatic
-// attendance/votes are supplied. Proposal forecasts retain the existing neutral
+// fixture (DESIGN §1.15.2): decision interval is two quarterly meeting periods,
+// reusing the founding consent window length. Reason: keep a ballot open across
+// a meeting boundary without changing who deliberates or how often. This is
+// not a historically sourced interval or one selected to obtain quorum.
+// No extra deliberations or automatic attendance/votes. Forecasts retain the neutral
 // action model; this missing term-sensitive forecast is reported, never fitted.
 export const FIXTURES = {
   calendar: { label: "fixture", reason: "Quarterly host deliberation for five 360-day years; repeated dues, founding opportunities and deaths, not a historical generation.",
@@ -39,10 +40,19 @@ export const FIXTURES = {
     dues: [1, 3], sickRelief: [0, 6], foundingWindowPeriods: 2, minMembers: 1, quorum: 1, meeting: "assembly" },
   cognition: { label: "fixture", reason: "Cognition baseline with three needs; subjective one-step forecasts and finite deliberation cadence are scenario assumptions, not fitted behavior.",
     initialHunger: 0.25, initialSafety: 0.1, initialSocial: 0.5, socialRate: 1 / (90 * 86400),
-    threshold: 0.75, foundCost: 0.1, actionCost: 0.02, hungerCostScale: 12, reliefScale: 6, socialAfter: 0.25,
+    threshold: 0.75, foundCost: 0.1, actionCost: 0.02, hungerCostScale: 12, reliefScale: 6,
     weber: 0.02, wrongDues: 0.5, misreportEvery: 3,
     organisationTopics: 8 }, // fixture finite declared vocabulary; unknown topics remain ignorant, never patched at runtime.
 } as const;
+
+// fixture (DESIGN §1.15.1): posted rosters/testimony report other members;
+// members recognise their previously contacted peers on that roster. Unknown
+// counts start at zero with the existing broad numeric prior variance. Reason:
+// company requires perceived peers, never a reward for the organisation label.
+// The saturating n/(n+1) forecast has a one-peer scale, an unsourced one-step
+// expectation, not a contact hazard or a fitted retention coefficient.
+export const COMPANY = { label: "fixture", peerScale: 1, priorMean: 0, priorVariance: 1_000_000,
+  peers: "company_peers", inside: "inside_contacts" } as const;
 
 // fixture Cognition need definitions, following its hungry-pair baseline. Safety
 // is appraised from perceived illness, not supplied to Society as a mind value.

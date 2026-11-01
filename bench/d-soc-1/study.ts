@@ -4,15 +4,15 @@ import { CommunicationNetwork, OrganisationStore } from "../../src/index.ts";
 import type { Charter, FoundIntention, OrgId, OrganisationEvent, PersonId, SharedHours } from "../../src/index.ts";
 import village from "../../data/fixtures/village/village.json" with { type: "json" };
 import { BELIEFS, mean, readyStimulus, termStimulus } from "./beliefs.ts";
-import { FIXTURES as F } from "./fixtures.ts";
+import { COMPANY, FIXTURES as F } from "./fixtures.ts";
 import { DSoc1Host } from "./host.ts";
 import { studyPorts } from "./ledger.ts";
 import { clamp, studyMind, studyModel } from "./models.ts";
 import { StudyMindsRunner } from "./runner.ts";
 import { decisionEvidence, type DecisionEvidence } from "./diagnostics.ts";
 
-export type Condition = "baseline" | "high-illness" | "no-network" | "no-shocks";
-export const CONDITIONS: readonly Condition[] = ["baseline", "high-illness", "no-network", "no-shocks"];
+export type Condition = "baseline" | "high-illness" | "no-network" | "no-shocks" | "illness-only";
+export const CONDITIONS: readonly Condition[] = ["baseline", "high-illness", "no-network", "no-shocks", "illness-only"];
 type Draft = { target: string; payload: FoundIntention["payload"] };
 export interface Spell { person: string; org: string; start: number; end: number; censored: boolean; ties: number; overlap: number }
 export interface StudyResult {
@@ -30,6 +30,7 @@ export interface StudyResult {
   dissolutionTrace: OrganisationEvent[];
   shockTrace: { t: number; ill: string[]; died: string[]; alive: number; skippedDead: number; purseTotal: number; emptyPurses: number }[];
   ledgerTotals: Record<string, { count: number; amount: number }>;
+  networkContacts: number; positiveInteractions: number; openBallots: number;
 }
 
 /** Component product, not named reference forms. Cognition selects the found
@@ -37,6 +38,7 @@ export interface StudyResult {
 function compose(person: PersonId, step: number): Draft[] {
   return F.charter.dues.flatMap((dues, d) => F.charter.sickRelief.map((relief, r) => {
     const charter: Charter = {
+      decision_interval: F.charter.foundingWindowPeriods * F.calendar.period,
       founding: { window: F.charter.foundingWindowPeriods * F.calendar.period, min_members: F.charter.minMembers },
       admission: [{ type: "open" }],
       obligations: [{ type: "dues", amount: dues, schedule: { first: (step + 1) * F.calendar.period, period: F.calendar.period } }],
@@ -99,10 +101,12 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
     endSizes: [], endCharters: [], overlapSteps: 0, youngExposure: 0, oldExposure: 0, youngDeaths: 0, oldDeaths: 0,
     memberPairs: 0, sameOccupation: 0, kinPairs: 0, randomOccupation: occPairs / allPairs, randomKin: relatedPairs / allPairs,
     spells: [], foundingTrace: [], eventCount: 0, sourceIntentions: 0,
-    decisions: [], amendmentTrace: [], exitTrace: [], dissolutionTrace: [], shockTrace: [], ledgerTotals: {} };
+    decisions: [], amendmentTrace: [], exitTrace: [], dissolutionTrace: [], shockTrace: [], ledgerTotals: {},
+    networkContacts: 0, positiveInteractions: 0, openBallots: 0 };
   const opening = ports.ledger.total(), expected = new Map<OrgId, Set<PersonId>>(), births = new Map<OrgId, number>();
   const openSpells = new Map<string, Omit<Spell, "end" | "censored">>();
-  const messages = new Map<PersonId, Map<string, { dues: number; relief: number; provenance: unknown }>>();
+  const messages = new Map<PersonId, Map<string, { dues: number; relief: number; peers: number; provenance: unknown }>>();
+  const contacted = new Map<PersonId, Set<PersonId>>();
   // Host identity bindings for a finite, initially ignorant declared vocabulary.
   // A topic is allocated on perception only, never by inspecting a mind or by
   // supplying true numeric terms. Exhausted vocabulary remains ineligible.
@@ -116,7 +120,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
     }
     return known.get(target) ?? "unknown-topic";
   }
-  const prepared = new Map<PersonId, Draft[]>(), lastDecision = new Map<PersonId, number>();
+  const prepared = new Map<PersonId, Draft[]>();
   const offeredHours = new Map<string, number>();
   let eventCursor = 0, outcomeCursor = 0, deciding = people[0];
   const host: DSoc1Host = new DSoc1Host({ seed, period, random, organisation, network, ledger: ports.ledger,
@@ -153,6 +157,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
       const step = current.now / period, existing = organisation.organisations();
       for (const org of existing) (current.now - org.founded_at <= 4 * period ? result.youngExposure++ : result.oldExposure++);
       for (const contact of contacts) {
+        result.networkContacts++;
         for (const person of [contact.i, contact.j]) {
           const key = `${person}/${Math.floor(contact.t / F.calendar.day)}`;
           const hours = (offeredHours.get(key) ?? 0) + F.network.contactHours;
@@ -160,11 +165,14 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
           if (hours > F.network.hours) result.hourErrors++;
         }
         for (const [speaker, listener] of [[contact.i, contact.j], [contact.j, contact.i]] as const) {
+          const peers = contacted.get(listener) ?? new Set<PersonId>();
+          peers.add(speaker); contacted.set(listener, peers);
           const org = existing.find((o) => o.founded_at <= contact.t && o.members.some((m) => m.person === speaker));
           if (!org) continue;
           const values = terms(org.charter), wrong = Number(listener.split(".").at(-1)) % F.cognition.misreportEvery === 0;
           const inbox = messages.get(listener) ?? new Map();
           inbox.set(org.id, { ...values, dues: wrong ? F.cognition.wrongDues : values.dues,
+            peers: org.members.filter((m) => m.person !== listener).length,
             provenance: { label: "fixture", kind: "member testimony", speaker, contact, wrong } });
           messages.set(listener, inbox);
         }
@@ -187,7 +195,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
         // fixture Life draws stay paired even in no-shocks and after a death.
         const draws = random.get("fixture.life.hazards", person), sickness = draws(), death = draws();
         if (!alive.has(person) || condition === "no-shocks") continue;
-        if (sickness < (condition === "high-illness" ? F.life.highIllness : F.life.illness)) {
+        if (sickness < (condition === "illness-only" ? 0 : condition === "high-illness" ? F.life.highIllness : F.life.illness)) {
           ill.add(person); result.illnesses++;
           const cost = Math.min(F.economy.illnessCost, ports.ledger.balance(person));
           if (cost > 0) ports.ledger.transfer(person, "fixture.external", cost, "fixture illness cost");
@@ -218,19 +226,28 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
           const value = terms(draft.payload.charter);
           const about = topic(person, draft.target);
           stimuli.push(termStimulus(about, "dues", value.dues, "sight"), termStimulus(about, "relief", value.relief, "sight"), readyStimulus(about, "found"));
+          stimuli.push(termStimulus(about, COMPANY.peers, draft.payload.founders.filter((p) => p !== person).length, "sight"));
         }
         for (const circle of current.foundingCircles.filter((c) => c.status === "open" && c.intention.person === person)) {
           stimuli.push(readyStimulus(topic(person, circle.intention.target), "join"));
+          stimuli.push(termStimulus(topic(person, circle.intention.target), COMPANY.peers,
+            circle.intention.payload.founders.filter((p) => p !== person).length, "sight"));
         }
         for (const [target, message] of messages.get(person) ?? []) {
           const about = topic(person, target, true);
-          current.observe(person, [termStimulus(about, "dues", message.dues, "report"), termStimulus(about, "relief", message.relief, "report")], { ...message.provenance as object, target, topic: about });
+          current.observe(person, [termStimulus(about, "dues", message.dues, "report"), termStimulus(about, "relief", message.relief, "report"),
+            termStimulus(about, COMPANY.peers, message.peers, "report")], { ...message.provenance as object, target, topic: about });
           result.misreports += +(message.provenance as { wrong: boolean }).wrong;
           stimuli.push(readyStimulus(about, "join"), readyStimulus(about, "pay"));
         }
         messages.delete(person);
         for (const org of organisation.organisations().filter((o) => o.members.some((m) => m.person === person))) {
           const about = topic(person, org.id, true);
+          // fixture posted roster + recognised contact identities, sent through
+          // sight perception. The forecast never reads this true-state roster.
+          const peers = org.members.filter((m) => m.person !== person);
+          stimuli.push(termStimulus(about, COMPANY.peers, peers.length, "sight"),
+            termStimulus(about, COMPANY.inside, peers.filter((m) => contacted.get(person)?.has(m.person)).length, "sight"));
           stimuli.push(readyStimulus(about, "leave"), readyStimulus(about, "attend"), readyStimulus(about, "pay"), readyStimulus(about, "propose"));
           for (const proposal of current.openProposals.filter((p) => p.proposal.target === org.id)) {
             stimuli.push(...["support", "oppose", "abstain"].map((kind) => readyStimulus(about, kind)),
@@ -244,11 +261,7 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
           }
         }
         current.observe(person, stimuli, { label: "fixture", kind: "own draft, purse and local notices", step });
-        const previous = lastDecision.get(person) ?? 0;
-        current.runner.run({ type: "tickNeeds", mind: current.mindIds.get(person)!, inputs: {
-          signals: { "body.hunger_signal": clamp(1 - ports.ledger.balance(person) / F.economy.openingPurse) },
-          elapsedSeconds: (current.now - previous) / 1000, outcomeTags: [], cues: [] } });
-        lastDecision.set(person, current.now);
+        current.tickNeeds(person, { "body.hunger_signal": clamp(1 - ports.ledger.balance(person) / F.economy.openingPurse) });
         const decisionBalance = ports.ledger.balance(person);
         current.decide(person);
         result.decisions.push(decisionEvidence(current.runner.state.minds.find((m) => m.id === current.mindIds.get(person))!,
@@ -327,6 +340,8 @@ export function runStudy(seed: number, condition: Condition, steps: number = F.c
     },
   });
   host.scheduler.runUntil(steps * period);
+  result.positiveInteractions = host.runner.log.filter((c) => c.type === "tickNeeds" && c.inputs.outcomeTags.includes("positive_interaction")).length;
+  result.openBallots = host.openProposals.length;
   for (const spell of openSpells.values()) result.spells.push({ ...spell, end: host.now, censored: true });
   const events = host.bus.since();
   const intentions = events.filter((e) => e.type === "cognition.intention");

@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { FIXTURES as F } from "./fixtures.ts";
 import { renderReport } from "./report.ts";
@@ -31,7 +31,8 @@ try { await Promise.all(Array.from({ length: 4 }, async () => {
     console.log(`${++completed}/${jobs.length}: seed ${job.seed} ${job.condition}; foundings=${results[index].foundings}`);
   }
 })); } catch (error) { controller.abort(); throw error; }
-writeFileSync(new URL("./results.json", import.meta.url), JSON.stringify(results, null, 2) + "\n");
+mkdirSync(new URL("./results/", import.meta.url), { recursive: true });
+writeFileSync(new URL("./results/results.json", import.meta.url), JSON.stringify(results, null, 2) + "\n");
 const report = renderReport(results);
 writeFileSync(new URL("./REPORT.md", import.meta.url), report);
 writeFileSync(new URL("./DIAGNOSIS.md", import.meta.url), renderDiagnosis(results));

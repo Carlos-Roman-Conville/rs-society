@@ -106,6 +106,15 @@ describe("D-SOC-1 host / IF-46 (PLATFORM §11b level 2)", () => {
     expect(run.ledger.reduce((sum, [, balance]) => sum + balance, 0)).toBe(203);
     expect(run.ledger.find(([person]) => person === FIXTURE.people[2])![1]).toBe(3);
     expect(run.clocks).toEqual({ kernel: FIXTURE.horizon, organisation: FIXTURE.horizon, network: FIXTURE.horizon });
+    const contacts = run.events.filter((e) => e.type === "society.contact");
+    const resets = run.commands.filter((c) => c.type === "tickNeeds" && c.inputs.outcomeTags.includes("positive_interaction"));
+    expect(contacts.length).toBeGreaterThan(0);
+    expect(resets).toHaveLength(2 * contacts.length);
+    const personMind = new Map(FIXTURE.people.map((p, i) => [p, run.initial.minds[i].id]));
+    expect(resets.map((c) => "mind" in c ? c.mind : undefined)).toEqual(contacts.flatMap((e) => {
+      const contact = e.payload as { i: typeof FIXTURE.people[number]; j: typeof FIXTURE.people[number] };
+      return [personMind.get(contact.i), personMind.get(contact.j)];
+    }));
   });
 
   it("replays the complete run byte-identically and keeps perception/decision/contact streams per entity", () => {
@@ -179,6 +188,47 @@ describe("D-SOC-1 host / IF-46 (PLATFORM §11b level 2)", () => {
     for (const event of host.bus.since().filter((e) => e.type === "fixture.social_outcome")) {
       expect(emitted.some((i) => i.id === event.cause)).toBe(true);
     }
+  });
+
+  it.each([true, false])("uses cross-tick ballots and never fills missing attendance (present=%s)", (present) => {
+    // fixture (test only): one deliberately selected action per tick; this
+    // checks transport, not the unchanged study's rotating selection schedule.
+    const { ledger, views } = setup();
+    const store = new OrganisationStore({ start: 0, counters: {}, ledger, views,
+      capabilities: { events: ["illness"], ports: ["settlement.ledger"], procedures: ["simple_majority"] } });
+    const org = foundFixture(store, [a], { ...charter, amendment: vote, decision_interval: 3,
+      obligations: [{ type: "dues", amount: 3, schedule: { first: 10, period: 10 } }] });
+    let desired = "propose";
+    const host = new DSoc1Host({ seed: 27, period: 1, random: streams(27), organisation: store,
+      network: network([a]), ledger, people: [{ person: a, ...fixtureMind(a, [org]) }],
+      perception: { k: 0, weberFractions: { sight: 0.02, sound: 0.02, touch: 0.02, report: 0.02 } },
+      draft: () => { throw new Error("No draft needed"); }, drafts: () => [],
+      amendments: (offer) => offer.payload?.action === "amend" && offer.payload.section === "obligations"
+        ? [{ ...offer, payload: { ...offer.payload, value: 1 } }] : [],
+      model: (offer) => ({ ...fixtureModel(offer), preconditions: [{ id: "fixture scheduled act",
+        probability: () => +(offer.kind === desired && (desired !== "attend" || offer.target.startsWith("fixture.proposal."))) }],
+        naiveModel: () => categorical(["admitted", "refused"], [1, 0]) }),
+      feedback: () => [], tick: (current) => {
+        if (current.now === 1) current.decide(a);
+        if (current.now === 2 && present) { desired = "attend"; current.decide(a); }
+        if (current.now === 3) { desired = "support"; current.decide(a); }
+        current.resolveProposals();
+        if (current.now < 4) {
+          expect(current.openProposals).toHaveLength(1);
+          expect(store.get(org)!.charter.obligations![0]).toMatchObject({ amount: 3 });
+        }
+      } });
+    host.scheduler.runUntil(4);
+    expect(host.openProposals).toEqual([]);
+    const closed = store.proposals[0];
+    expect(closed.ballots.map((v) => [v.kind, v.t])).toEqual([["support", 3]]);
+    expect(closed.present).toEqual(present ? [a] : []);
+    expect(closed.result?.payload).toMatchObject(present ? { outcome: "accepted" } : { reason: "no quorum" });
+    expect(store.get(org)!.charter.obligations![0]).toMatchObject({ amount: present ? 1 : 3 });
+    expect(host.runner.state.minds[0].intentions.every((i) => i.outcomeEvent !== undefined)).toBe(true);
+    expect(host.inputs.filter((i) => (i.provenance as { kind?: string }).kind === "ballot closed"))
+      .toHaveLength(present ? 3 : 2);
+    expect(host.bus.since().filter((e) => e.type === "cognition.intention")).toHaveLength(present ? 3 : 2);
   });
 
   it("keeps Cognition imports in bench and does not give Society a mind input", () => {

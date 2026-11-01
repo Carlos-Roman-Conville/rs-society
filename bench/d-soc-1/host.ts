@@ -4,7 +4,7 @@ import { MindsRunner, createMindsState, perceive } from "@rex/cognition";
 import type { ActionDefinition, Intention, MindConfig, MindInput, MindsConfig, MindsState, PerceptionParams, Stimulus } from "@rex/cognition";
 import { FORMATION_PROCESS, offers } from "../../src/index.ts";
 import type { AffordanceState, AttemptContext, CommunicationNetwork, ContactOpportunity, FoundIntention,
-  FoundingCircle, LedgerPort, OrganisationEvent, OrganisationStore, PersonId, SocialIntention,
+  FoundingCircle, LedgerPort, OrgId, OrganisationEvent, OrganisationStore, PersonId, SocialIntention,
   SocialOffer, TieKind } from "../../src/index.ts";
 
 export type ActionModel = Omit<ActionDefinition, "id" | "target" | "targetKind" | "terms">;
@@ -47,7 +47,7 @@ export interface HostPerson {
 }
 interface Pending { person: PersonId; intention: Intention; event: string; offer: SocialOffer }
 interface Circle { intention: FoundIntention; pending: Pending[]; joins: SocialIntention[]; status: FoundingCircle["status"] }
-interface Proposal { id: string; proposal: SocialIntention; pending: Pending[]; ballots: SocialIntention[]; status: "open" | "resolved" }
+interface Proposal { id: string; proposal: SocialIntention; pending: Pending[]; ballots: SocialIntention[]; status: "open" | "resolved"; timed: boolean }
 export interface HostOptions {
   readonly seed: number;
   readonly period: number;
@@ -86,6 +86,7 @@ export class DSoc1Host {
   private readonly actionIds = new Map<string, string>();
   private readonly circles: Circle[] = [];
   private readonly proposals: Proposal[] = [];
+  private readonly needTimes = new Map<PersonId, number>();
   private context?: ProcessContext;
   private readonly options: HostOptions;
 
@@ -111,7 +112,15 @@ export class DSoc1Host {
         try {
           const contacts = options.network.advanceTo<never>(ctx.t, []);
           options.organisation.advanceTo(ctx.t);
-          for (const contact of contacts) ctx.emit("society.contact", contact);
+          // DESIGN §1.15.1: each realised contact reaches both minds. Preserve
+          // its time for accumulation, though delivery waits for this host tick.
+          for (const contact of [...contacts].sort((a, b) => a.t - b.t)) {
+            ctx.emit("society.contact", contact);
+            for (const person of [contact.i, contact.j]) {
+              this.tickNeeds(person, undefined, ["positive_interaction"], contact.t);
+            }
+          }
+          this.resolveProposals();
           for (const circle of this.circles) {
             if (circle.status === "open" && ctx.t > circle.intention.t + circle.intention.payload.charter.founding!.window!) {
               this.resolveCircle(circle);
@@ -126,13 +135,27 @@ export class DSoc1Host {
   get organisation(): OrganisationStore { return this.options.organisation; }
   get network(): CommunicationNetwork { return this.options.network; }
   get foundingCircles(): readonly FoundingCircle[] { return structuredClone(this.circles.map(({ intention, joins, status }) => ({ intention, joins, status }))); }
-  get openProposals() { return structuredClone(this.proposals.filter((p) => p.status === "open")
-    .map(({ id, proposal, status }) => ({ id, proposal, status }))); }
-  /** One host tick is the ballot window. Never rewrite a proposal's expressed
-   * time to evade Society's attempt-time check, or synthesize attendance/votes. */
+  get openProposals() { return [...this.organisation.proposals.filter((p) => p.status === "open"),
+    ...structuredClone(this.proposals.filter((p) => !p.timed && p.status === "open")
+      .map(({ id, proposal, status }) => ({ id, proposal, status })))]; }
+  /** Timed ballots close in Society.advanceTo. Legacy drafts without an
+   * interval retain same-tick resolution. Never synthesize attendance/votes. */
   resolveProposals(): void {
     this.clock();
     for (const entry of this.proposals.filter((p) => p.status === "open")) {
+      if (entry.timed) {
+        const closed = this.organisation.proposals.find((p) => p.id === entry.id);
+        if (!closed?.result) continue;
+        entry.status = "resolved";
+        // Opening/attending/voting completed at their accepted attempts. Closure
+        // is a separate observable result, not a second outcome for an intention.
+        for (const pending of entry.pending) {
+          this.clock().emit("fixture.proposal_result", closed.result, pending.event);
+          this.observe(pending.person, this.options.feedback(closed.result, pending.intention),
+            { kind: "ballot closed", proposal: entry.id, result: closed.result });
+        }
+        continue;
+      }
       const result = this.organisation.attempt(entry.proposal,
         { decision: { proposalId: entry.id, proposal: entry.proposal, ballots: entry.ballots } });
       entry.status = "resolved";
@@ -147,6 +170,20 @@ export class DSoc1Host {
     const id = this.mindIds.get(person);
     if (!id) throw new Error("Unknown host person");
     return id;
+  }
+  /** Cognition owns need updates. Retain body signals unless the fixture sends
+   * a new reading; contact resets must not double-count time before decisions. */
+  tickNeeds(person: PersonId, signals?: Readonly<Record<string, number>>,
+    outcomeTags: readonly string[] = [], at = this.now): void {
+    this.clock();
+    const mind = this.runner.state.minds.find((m) => m.id === this.mind(person))!;
+    const previous = this.needTimes.get(person) ?? 0;
+    if (at < previous) throw new Error("Need inputs must retain contact/decision time order");
+    const retained = Object.fromEntries(mind.needs.needs.flatMap((n) =>
+      "signal" in n.definition.source ? [[n.definition.source.signal, n.deficit]] : []));
+    this.runner.run({ type: "tickNeeds", mind: mind.id, inputs: {
+      signals: signals ?? retained, elapsedSeconds: (at - previous) / 1000, outcomeTags, cues: [] } });
+    this.needTimes.set(person, at);
   }
   private perceive(person: PersonId, stimuli: readonly Stimulus[], provenance: unknown) {
     const ctx = this.clock();
@@ -166,8 +203,7 @@ export class DSoc1Host {
   decide(person: PersonId): void {
     const ctx = this.clock();
     const snapshot: AffordanceState = { organisations: this.organisation.organisations(), obligations: this.organisation.obligations,
-      attendance: this.organisation.events.filter((e) => e.cause === "attended" && e.t === ctx.t)
-        .map((e) => ({ org: e.org, person: e.intentions[0].person, activity: String(e.payload?.activity), t: e.t })),
+      attendance: this.organisation.attendance,
       proposals: this.openProposals, foundingCircles: this.foundingCircles,
       network: { known: [], ties: this.network.ties() }, ledger: this.options.ledger, facts: {}, unavailable: [],
       ...this.options.snapshot?.() };
@@ -198,11 +234,25 @@ export class DSoc1Host {
       if (offer.kind === "stand") throw new Error("Stand requires a host election proposal");
       const social: SocialIntention = { person, kind: offer.kind, target: offer.target, t: ctx.t, payload: offer.payload };
       if (offer.kind === "propose" && offer.payload?.action === "amend" && this.options.amendments) {
-        this.proposals.push({ id: `fixture.proposal.${this.proposals.length + 1}`, proposal: social,
-          pending: [pending], ballots: [], status: "open" });
+        const entry: Proposal = { id: `fixture.proposal.${this.proposals.length + 1}`, proposal: social,
+          pending: [pending], ballots: [], status: "open",
+          timed: this.organisation.get(offer.target as OrgId)?.charter.decision_interval !== undefined };
+        this.proposals.push(entry);
+        if (entry.timed) {
+          const opened = this.organisation.attempt(social,
+            { decision: { proposalId: entry.id, proposal: social, ballots: [] } });
+          this.finish(pending, opened);
+          if (opened.kind === "refused") entry.status = "resolved";
+        }
         continue;
       }
       const proposal = this.proposals.find((p) => p.status === "open" && p.id === offer.target);
+      if (proposal?.timed && ["attend", "support", "oppose", "abstain"].includes(offer.kind)) {
+        const result = this.organisation.attempt(social);
+        this.finish(pending, result);
+        if (result.kind !== "refused") proposal.pending.push(pending);
+        continue;
+      }
       if (proposal && ["support", "oppose", "abstain"].includes(offer.kind)) {
         // Only one expressed ballot per member; later expressions replace that
         // member's earlier ballot, with all emitted intentions kept in the trace.

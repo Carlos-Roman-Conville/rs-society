@@ -1,13 +1,13 @@
 # D-SOC-1 host: Society ↔ Cognition (IF-46)
 
-## Full fixture study (5057)
+## Full fixture study (5194)
 
-`npm run bench:dsoc1` runs 30 fixed seeds in four paired conditions (baseline,
-higher illness, no network, no shocks), using all 250 people in the committed
-60-household village. It writes `REPORT.md`, `results.json` and `DIAGNOSIS.md`. Runtime is longer
+`npm run bench:dsoc1` runs 30 fixed seeds in five paired conditions (baseline,
+higher illness, no network, no shocks, and the diagnostic illness-only knockout), using all 250 people in the committed
+60-household village. It writes `REPORT.md`, `DIAGNOSIS.md` and gitignored `results/results.json`. Runtime is longer
 than the report test; four isolated simulation processes run concurrently.
 `npm run typecheck` and `npx vitest run test/dsoc1-report.test.ts` verify the
-committed evidence. A recorded FAIL is allowed by the integrity test and remains
+committed report and optional local results (including their exact SHA-256). A recorded FAIL is allowed by the integrity test and remains
 a failed demonstration: read the report and HANDOFF rather than treating a green
 integrity test as P6 acceptance.
 
@@ -23,14 +23,28 @@ are host identity bookkeeping, not writes into mind beliefs. `ledger.ts` aliases
 person accounts to household purses and closes all flows through an external
 sector account. `report.ts` computes gates and graded signs from the saved runs.
 
-The 5163 rerun adds amendment proposals using existing positive money amounts,
-an explicit amendment procedure copied from each draft's ordinary majority,
-and expressed ballots. `resolveProposals()` closes the ballot window at the end
-of the same Kernel tick: Society requires the original intention time to equal
-its clock, and quorum requires current attendance. The host supplies neither
-attendance nor votes, and the study adds no deliberations. A regression with
-explicitly scheduled test decisions verifies acceptance and no-quorum refusal.
-The production neutral proposal forecast is unchanged; D5 can remain FAIL.
+The 5194 rerun applies DESIGN section 1.15. Every realised network contact sends
+`positive_interaction` to both minds through Cognition's need reducer. Contact
+time is preserved for accumulation; delivery occurs at the next host tick.
+Found/join/attend forecasts use perceived other members, and leave forecasts use
+perceived previously contacted members inside. Posted rosters and testimony
+supply those numeric cues through perception; the saturating forecast and its
+ignorant priors are labelled fixtures, not researched retention parameters.
+
+Drafts retain the existing majority/quorum and positive amendment amounts. Their
+explicit decision interval reuses the two-quarter founding window as a fixture.
+The 5193 API holds ballots open across ticks; selected members can choose
+attendance and votes, and Society closes them at the charter boundary. The host
+supplies no votes, attendance or extra deliberations. Accepted opening and ballot
+attempts receive causal outcomes; closing tallies are separate observations.
+Still-open ballots are reported at the fixed horizon. The neutral proposal
+forecast is unchanged, so D5 can remain FAIL.
+
+The illness-only diagnostic removes illness while preserving named death draws
+and harvest losses. It does not replace the bundled D7 gate. Purse costs,
+affordability checks, hazards, seeds, thresholds and decision cadence are fixed.
+The old tracked results file is removed from the index without rewriting history;
+local results can be regenerated, and artifact-dependent tests skip when absent.
 
 `diagnostics.ts` saves observer-only founder need/observation/episode evidence
 before compaction, plus every decision's purse and consent affordability check.

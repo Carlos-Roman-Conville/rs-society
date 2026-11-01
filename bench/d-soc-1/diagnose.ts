@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
+import { renderReport } from "./report.ts";
 import { FIXTURES as F } from "./fixtures.ts";
 import type { StudyResult } from "./study.ts";
 import type { DecisionEvidence } from "./diagnostics.ts";
@@ -30,7 +31,9 @@ const observedIll = (d: DecisionEvidence) => d.founding?.observations.some((o) =
 export function renderDiagnosis(rows: StudyResult[]): string {
   const base = rows.filter((r) => r.condition === "baseline"), high = rows.filter((r) => r.condition === "high-illness"),
     none = rows.filter((r) => r.condition === "no-shocks");
-  const groups = [base, high, none];
+  const illnessOnly = rows.filter((r) => r.condition === "illness-only");
+  const groups = [base, high, none, illnessOnly];
+  const verdictLines = renderReport(rows).split("\n").filter((line) => /^D[567]:/.test(line));
   const founderTable = groups.map((group) => {
     const founders = founderRecords(group), decisions = group.flatMap((r) => r.decisions);
     const proposals = decisions.filter((d) => d.kind === "found" && d.target?.endsWith(".1"));
@@ -59,8 +62,8 @@ export function renderDiagnosis(rows: StudyResult[]): string {
     return `- ${row.condition}, seed ${row.seed}, ${event.org}: ${d.person}, ${d.intention}, ${d.target}, decision quarter ${d.t / F.calendar.period}, consent/founding quarter ${event.t / F.calendar.period}. Purse=${d.balance}; illness=${d.ill}; observed danger=${observedIll(d) ? "yes" : "no"}; deficits=${JSON.stringify(e.needs)}; drive-power changes=${JSON.stringify(e.drivePowers)}; chosen probability=${fmt(e.probability)}; matching episode IDs=${JSON.stringify(e.matchingEpisodes.map((episode) => episode.id))}.`;
   }).join("\n");
   const perSeed = base.map((row) => {
-    const h = high.find((r) => r.seed === row.seed)!, n = none.find((r) => r.seed === row.seed)!;
-    return `| ${row.seed} | ${[row, h, n].map((r) => r.reliefFoundings).join(" | ")} | ${[row, h, n].map((r) => r.decisions.filter((d) => d.consentUnaffordable).length).join(" | ")} |`;
+    const h = high.find((r) => r.seed === row.seed)!, n = none.find((r) => r.seed === row.seed)!, i = illnessOnly.find((r) => r.seed === row.seed)!;
+    return `| ${row.seed} | ${[row, h, n, i].map((r) => r.reliefFoundings).join(" | ")} | ${[row, h, n, i].map((r) => r.decisions.filter((d) => d.consentUnaffordable).length).join(" | ")} |`;
   }).join("\n");
   const baseRelief = sum(base.map((r) => r.reliefFoundings)), highRelief = sum(high.map((r) => r.reliefFoundings)), noRelief = sum(none.map((r) => r.reliefFoundings));
   const dissolve = base.flatMap((r) => r.dissolutionTrace.map((e) => ({ event: e,
@@ -100,15 +103,26 @@ export function renderDiagnosis(rows: StudyResult[]): string {
   const firstRun = base.find((r) => r.amendmentTrace.includes(traceExample))!;
   const commonPeople = groups.map((g) => g.map((r) => r.shockTrace.flatMap((s) => s.died)));
   const pairedDeaths = JSON.stringify(commonPeople[0]) === JSON.stringify(commonPeople[1]);
-  return `# D-SOC-1 diagnosis (5163)
+  return `# D-SOC-1 diagnosis (5194, DESIGN §1.15)
 
-Evidence: results.json SHA256 ${createHash("sha256").update(JSON.stringify(rows, null, 2) + "\n").digest("hex")}. Rebuild with \`npx tsx bench/d-soc-1/diagnose.ts\`. All ${rows.length} runs use the same 30 seeds and the original numeric hazards, budgets, horizon, thresholds and decision cadence. No failed direction was tuned. The authorized change adds an explicit amendment component using the existing majority/quorum, proposal amounts drawn from existing positive money amounts, and proposal/ballot notices. That changes the action/perception sequence, so this is a rerun, not a claim of byte identity to 6aac409.
+Evidence: results.json SHA256 ${createHash("sha256").update(JSON.stringify(rows, null, 2) + "\n").digest("hex")}. Rebuild with \`npx tsx bench/d-soc-1/diagnose.ts\`. All ${rows.length} runs use the same 30 seeds and the original numeric hazards, budgets, horizon, thresholds and decision cadence. No failed direction was tuned. The §1.15 changes alter action/perception sequences; this is a paired rerun, not byte identity or an isolated estimate of each ruling's effect.
+
+## What each §1.15 ruling changed
+
+1. Company/contact: ${sum(rows.map((r) => r.networkContacts))} realised contacts deliver ${sum(rows.map((r) => r.positiveInteractions))} positive_interaction tags, two per contact (previous run: zero tags). Found/join/attend now use perceived peer counts; leave uses perceived previously contacted inside peers. Solitary drafts advertise zero other founders. Prior baseline relief foundings=1008 and social-dominant founders=1008; now relief=${sum(base.map((r) => r.reliefFoundings))}, social-dominant=${founderRecords(base).filter(({ evidence: e }) => e.drivePowers.social_connection > e.drivePowers.safety && e.drivePowers.social_connection > e.drivePowers.hunger).length}. This is the combined rerun effect, not attribution to one code change.
+2. Open proposals: charter decision interval=${F.charter.foundingWindowPeriods} quarters, reusing the existing founding window as a labelled fixture. Baseline proposal/ballot/amendment counts were 736/3/0; now ${proposalDecisions.length}/${ballots.length}/${applied.length}. Attendance and votes are individually chosen at the unchanged cadence. Baseline open ballots at the horizon=${sum(base.map((r) => r.openBallots))}; these are censored, never auto-closed or filled.
+3. Purse/consent: illness cost=${F.economy.illnessCost}, normal/bad-harvest income=${F.economy.income}/${F.economy.badHarvestIncome}, subsistence=${F.economy.subsistence}; join/pay still require believed balance >= believed dues. Prior baseline/high-illness unaffordable-consent checks=3363/5561; now ${base.flatMap((r) => r.decisions).filter((d) => d.consentUnaffordable).length}/${high.flatMap((r) => r.decisions).filter((d) => d.consentUnaffordable).length}. Amounts and the predicate are unchanged; frequencies respond to the altered choices.
+4. Knockouts: bundled D7 remains unchanged. Diagnostic illness-only (never a gate): relief foundings=${sum(illnessOnly.map((r) => r.reliefFoundings))}, baseline minus illness-only=${baseRelief - sum(illnessOnly.map((r) => r.reliefFoundings))}, illnesses=${sum(illnessOnly.map((r) => r.illnesses))}, deaths=${sum(illnessOnly.map((r) => r.deaths))}. Named deaths and income transfers match baseline exactly; harvest losses remain enabled. Prior bundled baseline/no-shocks relief=1008/1463; current=${baseRelief}/${noRelief}.
+5. Retention of evidence: ${rows.length} runs (same 30 seeds, now five conditions) live in gitignored results/results.json. The previously committed file is removed from the index, without history changes. REPORT.md records the exact SHA-256; tests check it and rebuild reports when local results exist, and skip those artifact-dependent checks on a clean checkout.
+
+${verdictLines.join("\n")}
+
 
 The observer retains decisions before diagnostic compaction. Society never receives these mind records. Founding events link to decisions by person, target and original intention time; the stored intention ID then identifies the Cognition emission. Shock records contain named illness/death episodes by quarter. Ledger aggregates come from actual transfers. These are fixture mechanisms and descriptive paired comparisons, not identified historical causal effects.
 
 ## D7
 
-FAIL: baseline relief foundings ${baseRelief}, no-shocks ${noRelief}, delta ${baseRelief - noRelief}. No-network cross-household snapshots=${sum(rows.filter((r) => r.condition === "no-network").map((r) => r.crossHousehold))}; that half of the knockout holds. No-shocks has more relief foundings in ${base.filter((r) => none.find((n) => n.seed === r.seed)!.reliefFoundings > r.reliefFoundings).length}/30 paired seeds.
+${baseRelief > noRelief && sum(rows.filter((r) => r.condition === "no-network").map((r) => r.crossHousehold)) === 0 ? "PASS" : "FAIL"}: baseline relief foundings ${baseRelief}, no-shocks ${noRelief}, delta ${baseRelief - noRelief}. No-network cross-household snapshots=${sum(rows.filter((r) => r.condition === "no-network").map((r) => r.crossHousehold))}; that half of the knockout holds. No-shocks has more relief foundings in ${base.filter((r) => none.find((n) => n.seed === r.seed)!.reliefFoundings > r.reliefFoundings).length}/30 paired seeds.
 
 ### What the founders were responding to
 
@@ -118,7 +132,7 @@ The following counts refer to the original found intention for every **successfu
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 ${founderTable}
 
-All baseline successful relief founders have social deficit range ${fmt(Math.min(...allFounders.map((f) => f.evidence.needs.social_connection)))}/${fmt(Math.max(...allFounders.map((f) => f.evidence.needs.social_connection)))}. The fixture forecasts social deficit falling to ${F.cognition.socialAfter}, and safety falling by perceived relief, for both founding and joining. Hunger increases by perceived dues/${F.cognition.hungerCostScale}. Social accumulation receives **zero positive_interaction reset tags** in study.ts, and illness is a current sight cue, not a dedicated action-outcome memory episode. New draft identities give each found action a new action ID; the recorded matching-episode column shows whether any prior outcome actually entered that action's expectation. Therefore relief-chartered is not equivalent to illness-motivated: the composition also buys the fixture's forecast company. Action selection remains stochastic.
+Baseline successful relief founders have social deficit range ${fmt(Math.min(...allFounders.map((f) => f.evidence.needs.social_connection)))}/${fmt(Math.max(...allFounders.map((f) => f.evidence.needs.social_connection)))}. The company forecast is now deficit/(1 + believed other members), with no fixed socialAfter reward and no company reward for pay. Leaving forecasts a saturated loss from believed inside contacts. Safety still falls by perceived relief; hunger rises by perceived dues/${F.cognition.hungerCostScale}. Contact resets use Cognition's reducer, with elapsed time counted once between contact and decision. Illness remains a current sight cue, not a dedicated action-outcome memory episode. New draft identities give each found action a new action ID; matching episodes show whether prior outcomes entered that action's expectation. Action selection remains stochastic.
 
 Named examples (the observations, need powers and matching episodes are stored in decisions[].founding):
 
@@ -136,13 +150,13 @@ ${founderResources}
 
 Illness costs up to ${F.economy.illnessCost} from the shared household purse per sick person, including children. Every fourth quarter harvest income falls ${F.economy.income}→${F.economy.badHarvestIncome} while subsistence asks ${F.economy.subsistence}. These precede that quarter's decisions; automatic dues precede the tick's income/shocks. Expense shortfalls are capped to available cash, so paid expense understates requested expense in impoverished runs. In models.ts founding has **no affordability precondition**, but its separate join consent requires believed balance >= believed dues. The original four draft topics are reused across successive drafts, so perceived amounts may differ from true terms. The observed failed consent checks above are that exact predicate, not a proxy for poverty. Higher cash is not needed by Society to register the founder; it is needed by this fixture's mind-side consent filter. min_members=${F.charter.minMembers} permits self-consent and solitary founding.
 
-Available contact hours remain ${F.network.hours}/person/day and body capacity remains 1 in every condition; illness never reduces either. Actual maximum offered hours baseline/high/no-shocks=${groups.map((g) => fmt(Math.max(...g.map((r) => r.maxOfferedHours)))).join("/")}. Death removes people, cuts their ties and prevents their later decisions; it does not close their ledger estates. No-shocks jointly removes illness, harvest losses **and death**, so the relief delta cannot be attributed solely to an insurance-demand effect. Death identity/order in baseline and high-illness is exactly paired: ${pairedDeaths}. The tables separate observed survival loss from liquidity and choice evidence; they do not claim a numerical mediation fraction from this bundled knockout.
+Available contact hours remain ${F.network.hours}/person/day and body capacity remains 1 in every condition; illness never reduces either. Actual maximum offered hours baseline/high/no-shocks/illness-only=${groups.map((g) => fmt(Math.max(...g.map((r) => r.maxOfferedHours)))).join("/")}. Death removes people, cuts their ties and prevents their later decisions; it does not close their ledger estates. No-shocks jointly removes illness, harvest losses **and death**, so the relief delta cannot be attributed solely to an insurance-demand effect. Death identity/order in baseline and high-illness is exactly paired: ${pairedDeaths}. The tables separate observed survival loss from liquidity and choice evidence; they do not claim a numerical mediation fraction from this bundled knockout.
 
-Keeper decision needed: this is an unsourced fixture coupling (shared-purse illness expenses + affordability-gated founding consent + persistent forecast company), not evidence that shocks reduce historical mutual insurance demand. Fixing it requires a justified model/fixture design, not smaller illness costs, cheaper dues or selected seeds. Parked in HANDOFF Blocked.
+§1.15.3 deliberately retains the shared-purse expense and affordability-gated consent path. Any remaining reversed insurance direction is a fixture result, not evidence that shocks reduce historical mutual insurance demand. The tables distinguish paid expenses, refusals and survival; they do not identify a mediation fraction. No cost or hazard is tuned to reverse it.
 
 ## D6
 
-FAIL, with the individual directions retained in REPORT.md. High illness relief foundings ${highRelief} versus ${baseRelief} baseline (delta ${highRelief - baseRelief}); high illness is lower in ${base.filter((r) => high.find((h) => h.seed === r.seed)!.reliefFoundings < r.reliefFoundings).length}/30 pairs. The same founder-need and observed-episode decomposition above applies here. Baseline/high deaths are identical, hours and capacity are fixed, while more illness expenses and affordability refusals accompany fewer completed foundings. Thus the concrete suppressing path is the purse/consent fixture, despite any higher subjective safety reward. This paired treatment isolates illness probability, but does not separately identify its expenditure and appraisal pathways.
+The individual directions and their combined verdict are retained in REPORT.md. High illness relief foundings ${highRelief} versus ${baseRelief} baseline (delta ${highRelief - baseRelief}); high illness is lower in ${base.filter((r) => high.find((h) => h.seed === r.seed)!.reliefFoundings < r.reliefFoundings).length}/30 pairs. The same founder-need and observed-episode decomposition above applies here. Baseline/high deaths are identical, hours and capacity are fixed, while more illness expenses and affordability refusals accompany fewer completed foundings. Thus the concrete suppressing path is the purse/consent fixture, despite any higher subjective safety reward. This paired treatment isolates illness probability, but does not separately identify its expenditure and appraisal pathways.
 
 ### Age and dissolution
 
@@ -158,24 +172,22 @@ Every dissolution is traced to its recorded last-member event. These drafts cont
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 ${spellTable}
 
-Founders enter alone with zero inside ties; positive-tie entries are recruits into existing organisations. Recruitment, entry time, mortality, voluntary leave and censoring therefore differ across the groups above. The reported correlation uses only completed spells, not a survival model. More decisively, models.ts never includes inside ties or niche overlap in the leave forecast: it forecasts less hunger and more unmet social connection from leaving, with no peer-specific reward. Network contact carries testimony but does not reinforce ties, and no positive-interaction need resets are delivered. The simulation has no modeled retention response to its measured inside ties. The negative association is compatible with the observed entry/completion composition above; the correlation does not identify the contributions of selection and censoring or a causal tie effect. Overlap's negative sign and the occupation/kin homophily comparisons remain separately reported in REPORT.md; none validates the failed mechanisms.
+Completed-spell entry overlap distribution=${counts(spells.filter((s) => !s.censored).map((s) => String(s.overlap)))}; right-censored positive-overlap spells=${spells.filter((s) => s.censored && s.overlap > 0).length}. The overlap yardstick is unmeasurable when the completed-spell distribution has only one value: a zero-variance correlation is NA.
 
-Keeper decision needed: supply justified interaction/retention and organisational life-cycle mechanisms or revise the scope of the yardstick demonstration. No src change is made by this task.
+Founders enter alone with zero inside ties; positive-tie entries are recruits into existing organisations. Recruitment, entry time, mortality, voluntary leave and censoring therefore differ across the groups above. The reported correlation uses only completed spells, not a survival model. The §1.15 leave forecast now includes perceived inside contacts; the entry-tie statistic measures structural ties, not the identical subjective count. Contact resets and peer observations provide a retention pathway, but neither that pathway nor the structural association guarantees a positive completed-spell correlation. Network contact carries testimony without reinforcing tie strength. The observed association also reflects entry/completion composition and censoring; it does not identify a causal tie effect. Overlap and occupation/kin comparisons remain separately reported in REPORT.md. Any failed age direction still lacks an organisational life-cycle mechanism; no src change is made here.
 
 ## D5
 
-${applied.length === 0 ? "FAIL: no executed amendment, hence no amendment-induced member transfer." : "FAIL: executed amendments alone do not identify an amendment-induced membership transfer counterfactual."} Baseline proposal decisions=${proposalDecisions.length}, proposer roles=${counts(proposalRoles)}, proposal sections=${counts(proposalsBySection)}, expressed ballot decisions=${ballots.length}, executed amendments=${applied.length}. Resolved proposal reasons/outcomes=${counts(resolved.map((e) => String(e.payload?.reason ?? e.payload?.outcome)))}. Overlap run-steps=${sum(base.map((r) => r.overlapSteps))}.
+${applied.length === 0 ? "FAIL: no executed amendment, hence no amendment-induced member transfer." : "FAIL: executed amendments alone do not identify an amendment-induced membership transfer counterfactual."} Baseline proposal decisions=${proposalDecisions.length}, proposer roles=${counts(proposalRoles)}, closed proposal sections=${counts(proposalsBySection)}, expressed ballot decisions=${ballots.length}, executed amendments=${applied.length}. Closed proposals=${resolved.length}; resolved reasons/outcomes=${counts(resolved.map((e) => String(e.payload?.reason ?? e.payload?.outcome)))}. Overlap run-steps=${sum(base.map((r) => r.overlapSteps))}.
 
-Example: seed ${firstRun.seed}, ${traceExample.org}, quarter ${traceExample.t / F.calendar.period}, proposal ${traceExample.payload?.proposalId}: ${JSON.stringify(traceExample.payload)}. Its proposal is an expressed Cognition decision; the absent attendance or ballots are not filled by the host. Events retain the actual amendment payload and the charter tally.
+Example: seed ${firstRun?.seed ?? "NA"}, ${traceExample?.org ?? "NA"}, quarter ${traceExample ? traceExample.t / F.calendar.period : "NA"}, proposal ${traceExample?.payload?.proposalId ?? "NA"}: ${JSON.stringify(traceExample?.payload ?? {})}. Its proposal is an expressed Cognition decision; the host fills neither attendance nor ballots.
 
-The host now transports member proposals and support/oppose/abstain, resolves the charter's amendment procedure, and causally returns the result to every participating mind. Regression tests demonstrate both an accepted amendment with expressed attendance/support and a no-quorum refusal without attendance. Production cadence remains one decision per selected person per quarter. Society's attempt API requires the original proposal's time to equal the store clock, while quorum counts attendance at that clock: the fixture closes ballots in the same tick. A solitary member cannot attend, propose and support in that one decision. Another selected member can attend or vote, but is not manufactured or rescheduled. Proposal and ballot forecasts retain the existing neutral action model and have no term-sensitive gain; new proposed-value notices do not add undeclared learned vocabulary. These are transport/cadence and appraisal gaps, not an unavailable engine amendment act.
-
-Parked: the keeper must specify a multi-act meeting/deliberation contract (and, if cross-tick proposals are required, a compatible src API), declared proposal-term beliefs/forecasts and a paired competition experiment. Ordinary exits are not counted as amendment-induced transfers. No attendance, votes, better forecasts, funds or extra deliberations were injected to obtain a pass.
+The host opens proposals through the 5193 API and offers attendance and support/oppose/abstain throughout the charter interval. Society closes them on advanceTo; the host sends the closing observation to the proposer and expressed ballot participants. Opening and individual ballot attempts get their own causal outcomes, so an open ballot at the horizon is not an unresolved attempted action. Regression tests cover cross-tick attendance/support and no-quorum closure. Production keeps one decision per selected person per quarter; a two-quarter interval does not guarantee that a particular member is selected again. Proposal and ballot forecasts remain neutral, without term-sensitive gain. The remaining D5 limitation is sparse expressed participation plus missing term appraisal and a paired transfer counterfactual; ordinary exits cannot establish amendment-induced competition. No extra deliberations, funds or better forecasts were injected to pass.
 
 ## Per-seed checks
 
-| Seed | Baseline relief | High illness relief | No shocks relief | Baseline unaffordable consent checks | High illness checks | No shocks checks |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Seed | Baseline relief | High illness relief | No shocks relief | Illness-only relief | Baseline unaffordable consent checks | High illness checks | No shocks checks | Illness-only checks |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 ${perSeed}
 
 Trace locations: foundingTrace → decisions (person/target/t); decisions[].founding.observations for the actual danger/purse cue and matchingEpisodes for action-outcome memory; shockTrace for named illness/death and purse snapshots; ledgerTotals for paid flows; dissolutionTrace and exitTrace for deaths/leave; spells for duration/censoring; amendmentTrace for payloads and tallies. Counts of opportunities/refusals are repeated decision checks, not distinct people. Purses are measured after income and shocks, before individual decisions. All numerical limitations and failed directions remain visible.
@@ -183,6 +195,6 @@ Trace locations: foundingTrace → decisions (person/target/t); decisions[].foun
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const rows = JSON.parse(readFileSync(new URL("./results.json", import.meta.url), "utf8")) as StudyResult[];
+  const rows = JSON.parse(readFileSync(new URL("./results/results.json", import.meta.url), "utf8")) as StudyResult[];
   writeFileSync(new URL("./DIAGNOSIS.md", import.meta.url), renderDiagnosis(rows));
 }
