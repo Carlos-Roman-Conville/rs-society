@@ -297,6 +297,9 @@ world, no fiction value); each is recorded here as the keeper's ruling, evidence
    - `validateReference` checks a reference: every component's `type` is known; every null field carries
      `source_silent: true` and a note; components the source does not record are simply absent (five gild returns
      record no admission rule).
+   - A component the source records whose type it does not (a warden exists, the election method is unrecorded)
+     keeps `type: null` with `source_silent: true` and a note: absence would erase the evidence that the component
+     exists (keeper, 2026-11-01, resolving 5053 vs 5054).
    - `validateCharter` stays strict for **drafts**, the charters a founder's mind actually proposes: no nulls, an
      admission component required.
    - A reference becomes a draft only when a founder supplies every missing value. A test shows each reference,
