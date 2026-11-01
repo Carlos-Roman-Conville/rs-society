@@ -13,6 +13,9 @@
 - 2844: Independent invariant check in CHECK.md; unit lists not checked.
 - 2913: Null diagnostics, typed institution evidence and declared-parameter DUP-58 (3) check.
 
+- 2982–2984: Fixture village reference, deterministic generator and CHECK-3 review.
+- 2992: Male/female spouse pairs preserve sex totals; default village regenerated, age structure retained.
+
 Details, API conventions and verification limits: README.md.
 
 ## Next
@@ -21,7 +24,7 @@ Details, API conventions and verification limits: README.md.
   §1.4 founding window and `./institution` export; §1.1 per-day hours cap and multi-kind decay.
 - Charter research fixes: source/vocabulary gaps and executable inputs without invented history.
 - Affordance port with Cognition, requiring the Cognition keeper's agreement.
-- Fixture village, then D-SOC-1 bench and independent-data validation.
+- D-SOC-1 bench (waits on the Cognition affordance port) and independent-data validation.
 
 ## Blocked
 

@@ -92,10 +92,9 @@ export function generateVillage(seed = FIXTURE.default_seed.value, reference = r
   const ageList = shuffle(apportion(population, ages).flatMap((n, i) =>
     Array.from({ length: n }, () => ages[i].min + Math.floor(rng() * (ages[i].max - ages[i].min + one)))));
   const males = Math.round(population * ratio / (ratio + FIXTURE.ratio_unit.value));
-  const sexes = shuffle([...Array(males).fill('male'), ...Array(population - males).fill('female')]);
   let counters = {};
   function id(kind) { const result = mint(counters, kind); counters = result.counters; return result.id; }
-  const persons = ageList.map((age, i) => ({ id: id('person'), sex: sexes[i], age }));
+  const persons = ageList.map(age => ({ id: id('person'), sex: null, age }));
   // Eldest people fill parent/spouse slots first; younger residual members become children.
   // Relations are relative to the head; adults too old to be children are unrelated co-residents.
   const available = [...persons].sort((a, b) => b.age - a.age);
@@ -115,6 +114,21 @@ export function generateVillage(seed = FIXTURE.default_seed.value, reference = r
     return { id: id('household'), residence: parcel('residence'), formed_at: FIXTURE.formed_at.value, members };
   });
   const byId = new Map(persons.map(person => [person.id, person]));
+  // DESIGN §3 fixture: reserve one of each sex per couple without changing ages or roles.
+  const couples = households.filter(household => household.members.length === pair);
+  const females = population - males;
+  if (Math.min(males, females) < couples.length) {
+    throw new Error('Sex ratio cannot supply one male and one female per head/spouse pair');
+  }
+  for (const household of couples) {
+    const sexes = shuffle(['male', 'female']);
+    household.members.forEach((member, i) => { byId.get(member.person).sex = sexes[i]; });
+  }
+  const remainingSexes = shuffle([
+    ...Array(males - couples.length).fill('male'),
+    ...Array(females - couples.length).fill('female'),
+  ]);
+  persons.filter(person => person.sex === null).forEach((person, i) => { person.sex = remainingSexes[i]; });
   const kin = [];
   function link(from, to, relation, inverse = relation) {
     kin.push({ from, to, relation }, { from: to, to: from, relation: inverse });

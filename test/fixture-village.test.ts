@@ -43,6 +43,29 @@ describe('DESIGN §3 fixture village', () => {
     expect(changed.provenance.sex_ratio).toBe('reference.sex_ratio');
   });
 
+  it('every head/spouse pair is male+female', () => {
+    for (const seed of [1, 2, 3]) {
+      for (const ratio of [100, 200]) {
+        const inputs = reference.map(row => row.key === 'sex_ratio' ? { ...row, value: ratio } : row);
+        const generated = generateVillage(seed, inputs);
+        const persons = new Map(generated.persons.map(person => [person.id, person]));
+        let couples = 0;
+        for (const household of generated.households) {
+          const spouse = household.members.find(member => member.relation === 'spouse');
+          if (!spouse) continue;
+          const head = household.members.find(member => member.relation === 'head')!;
+          expect([persons.get(head.person)!.sex, persons.get(spouse.person)!.sex].sort()).toEqual(['female', 'male']);
+          couples++;
+        }
+        expect(couples).toBe(55);
+        expect(generated.persons.filter(person => person.sex === 'male')).toHaveLength(
+          Math.round(generated.persons.length * ratio / (ratio + FIXTURE.ratio_unit.value)));
+      }
+    }
+    const impossible = reference.map(row => row.key === 'sex_ratio' ? { ...row, value: 0 } : row);
+    expect(() => generateVillage(1, impossible)).toThrow('Sex ratio cannot supply');
+  });
+
   it('puts each minted person in exactly one household with one unique residence', () => {
     const members = village.households.flatMap(h => h.members.map(m => m.person));
     expect([...members].sort()).toEqual(village.persons.map(p => p.id).sort());
