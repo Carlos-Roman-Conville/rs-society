@@ -23,6 +23,20 @@ examples and validation baselines, and never bound what founders may compose. Ev
   scan. Page numbers are the OCR running heads and may be off by one; where the Toulmin Smith record numbers
   (CCCIX, CCCX, CCCVIII) were found but no page, `pages` says so. Figures marked garbled in an entry were garbled in
   the OCR. The keeper should check amounts against the scan before relying on any single figure.
+- **OCR check (2996, round 2).** All 24 entries are marked `ocr_checked: true`: each amount and page was compared
+  with the archive.org full-text OCR of `englishgildsorig00smit` (16 Toulmin Smith returns and the Arnstadt passage),
+  `cu31924032474722` (5 Westlake entries) and `b28773135_0003` (2 Eden entries). The OCR was read in 100 KB windows
+  through WebFetch with targeted questions and short OCR snippets; no file was downloaded, and contested figures were
+  read twice. Corrected: Norwich Peltyers weekly benefit 0.25 → 14d; Norwich Tailors Holy Thursday wax fine ½ lb → 1 lb;
+  Lynn Shipmen the 12d fine belongs to the dean, not the skeuyn. Set to null (garbled or not found, each noted
+  `(2914) searched:`): Bishop's Lynn St Thomas ale-chamber fine, Holy Cross sleeping fine, North Lynn St James
+  ale-chamber fine, Oxburgh hardship aid, Kendal Free Society admission fine; wax figures for refusing office at North
+  Lynn and Bishop's Lynn St Thomas left out of the prose. Pages filled for the 7 "not extracted" entries (Norwich St
+  George 17-18, Peltyers 28-32, Tailors 33-36, North Lynn St James 103-105, Wiggenhall 111-113, East Winch 119-120,
+  Oxburgh 121) and for Arnstadt (Brentano pp. cliv-clv); page ranges corrected for St Katherine Aldersgate, Poor Men's,
+  Holy Cross, Bury, Kirkby Lonsdale and Kendal Free Society (770-772 → 765-766). Still read from damaged OCR and flagged
+  in the entries: the Garlekhith 20d feast payment, the Lynn St Thomas 1376 entry fee, the Wiggenhall obol fines, the
+  Poor Men's founding year.
 
 ## Sources
 

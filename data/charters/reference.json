@@ -118,7 +118,8 @@
       "Quarrels go first to the wardens and wise members for an award before any other remedy (internal dispute settlement).",
       "Members who are able give voluntary gifts to the box as they wish."
     ],
-    "notes": "Wardens' election, term and amendment are not stated in the return. Read through a summarising fetch of the archive.org OCR; verify amounts against the scan."
+    "notes": "Wardens' election, term and amendment are not stated in the return. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; all amounts match (6s 8d entry, 2d quarterage, 14d weekly, 40s warden fine, 1 lb wax); the 20d feast payment is garbled in the OCR (xx.d) and its purpose stays uncertain; the return opens p. 3 in the contents and p. 4 is the first running head found.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -128,7 +129,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return II (record CCCIX.9)",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "pp. 6-7 (OCR page markers)"
+      "pages": "pp. 6-8 (OCR page markers; tapers on p. 8)"
     },
     "kind": "religious gild with mutual aid and loans",
     "components": [
@@ -236,7 +237,8 @@
       "Five wax tapers of 20 lb lit on high feasts, two at Sunday high mass (maintenance of lights).",
       "Aid is withheld where the misfortune was the member's own wretchedness (a fault exclusion)."
     ],
-    "notes": "Expulsion and exclusivity toward other gilds: not addressed in the return. Whether this return and Westlake's 'Holy Trinity' gild are the same body is not settled here."
+    "notes": "Expulsion and exclusivity toward other gilds: not addressed in the return. Whether this return and Westlake's 'Holy Trinity' gild are the same body is not settled here. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; all amounts match (3d quarterage, 2s a year for a couple, 14d weekly, 20 lb tapers, ten miles); pages were 6-7, now 6-8.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -356,7 +358,8 @@
       "Seven tapers (about 21 lb, figure partly garbled) lit on high feasts, two at Sunday high mass.",
       "Property: two vestments, a chalice, a missal, silver in a pyx, and a tenement held by feoffees worth about 7 marks a year (13s quitrent) whose income supports lights, vestments and alms (endowment income, not member dues)."
     ],
-    "notes": "The 'whole brotherhood' reading for amendment follows the return's wording only loosely."
+    "notes": "The 'whole brotherhood' reading for amendment follows the return's wording only loosely. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; all amounts match (half a mark, 3d, 40d, 14d, seven tapers of 21 lb, 7 marks, 13s quitrent).",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -366,7 +369,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return VI (record CCCX.35)",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "page not extracted from the OCR (Part I, Norwich returns)"
+      "pages": "pp. 17-18 (OCR page markers, Part I, return VI)"
     },
     "kind": "religious gild with poor relief",
     "components": [
@@ -420,7 +423,8 @@
       "The surplus of the weekly fund goes to making an image of St George (residual use of the fund).",
       "Candles offered on the feast day."
     ],
-    "notes": "Officers, admission, sanctions and amendment: not found in the summarised text."
+    "notes": "Officers, admission, sanctions and amendment: not found in the summarised text. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; farthing weekly, farthing for the soul and penny for a mass match; the page is now filled (pp. 17-18); also in the return: two candles of six pounds of wax at a death.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -430,7 +434,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return XI (record CCCX.116)",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "page not extracted from the OCR (Part I, Norwich returns)"
+      "pages": "pp. 28-32 (OCR page markers: running heads 29-31; the ordinances begin p. 30)"
     },
     "kind": "craft gild with religious and poor-relief functions",
     "components": [
@@ -460,8 +464,8 @@
         "section": "benefit",
         "type": "transfer",
         "event": "need",
-        "amount": 0.25,
-        "stated": "weekly farthing for a member in need unless the trouble was his own folly (reading of the summary: whether this is a payment by each member or to the needy member is not clear)",
+        "amount": 14,
+        "stated": "every brother and sister gives a farthing a week; a member in need receives 14d a week out of those farthings, the rest going to the gild stock; nothing if the trouble is his own folly",
         "label": "researched",
         "unit": "penny (English d.)"
       }
@@ -472,7 +476,8 @@
       "Four torches and four poor men attend a member's funeral (funeral provision with paid mourners).",
       "Aid excluded where the trouble was the member's own folly."
     ],
-    "notes": "A craft body whose return records the religious gild function; the craft itself imposes no trade rule in the summarised text."
+    "notes": "A craft body whose return records the religious gild function; the craft itself imposes no trade rule in the summarised text. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; corrected: benefit amount (component 2) was 0.25, now 14 (the farthing is each member's weekly payment, the needy member receives 14d, OCR \"xiiij.d.\"); 3 lb wax fines, four torches and four poor men, goods £4 4s match; page now filled.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -482,7 +487,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return XII (record CCCX.120)",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "page not extracted from the OCR (Part I, Norwich returns)"
+      "pages": "pp. 33-36 (OCR page markers, Part I, return XII)"
     },
     "kind": "craft gild with religious and poor-relief functions",
     "components": [
@@ -527,12 +532,13 @@
       }
     ],
     "unmapped": [
-      "Absence from the Holy Thursday assembly costs half a pound of wax (fine in wax).",
-      "Funeral attendance with one halfpenny offered per member; members fetch bodies dying up to seven miles away.",
+      "Absence from the Holy Thursday assembly costs one pound of wax; absence from the Friday requiem, or from the Friday meeting to choose the alderman, costs half a pound (fines in wax).",
+      "Funeral attendance with a halfpenny offered per member for the soul and a penny for a mass; members fetch bodies dying within seven miles.",
       "A Latin certificate precedes the English ordinances (form of the return).",
       "Aid is denied to those proved thieves (a conduct exclusion)."
     ],
-    "notes": "Admission and fees: not found in the summarised text."
+    "notes": "Admission and fees: not found in the summarised text. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; corrected: Holy Thursday absence fine in wax was half a pound, now one pound (the half pound is the Friday requiem); 7d weekly, halfpenny offering and seven miles match; page now filled.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -542,7 +548,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return XIV (records CCCX.212-217)",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "p. 41 (fragment)"
+      "pages": "pp. 40-41 (fragment)"
     },
     "kind": "religious gild of poor craftsmen with sick pay",
     "components": [
@@ -568,11 +574,12 @@
       }
     ],
     "unmapped": [
-      "Members attend burials within seven miles of the city and pay for masses for the soul (figure garbled).",
+      "Members attend burials within seven miles of the city and pay thirty pence for thirty masses for the soul (OCR \"xxx.cl for xxx. messes\", \"cl\" read as d).",
       "Candle offered at St Augustine's; the indorsement lists members and notes candles given by a separate Trinity gild.",
       "Weekly payment continuing until recovery (recurring benefit with an end condition)."
     ],
-    "notes": "The return is cut off before the full aid rules; the benefit is the part that survives."
+    "notes": "The return is cut off before the full aid rules; the benefit is the part that survives. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; 3d weekly and seven miles match; the masses figure is now read (30 masses for 30d, OCR \"cl\" read as d); page was p. 41, now pp. 40-41. The founding year stays 1384: the OCR numerals are garbled (one pass read 1380, the 4th year of Richard II) and the text could not settle it.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -618,7 +625,7 @@
         "position": "alderman",
         "type": null,
         "term": null,
-        "stated": "alderman, skeuyn, dean and clerk; election not stated in the summary",
+        "stated": "alderman, skeuyn, dean and clerk; election not stated in the return",
         "label": "researched"
       },
       {
@@ -634,7 +641,7 @@
         "type": "fine",
         "amount": 36,
         "procedure": null,
-        "stated": "a resigning alderman is fined 3s",
+        "stated": "an alderman who refuses office is fined 3s",
         "label": "researched",
         "unit": "penny (English d.)"
       },
@@ -643,7 +650,7 @@
         "type": "fine",
         "amount": 12,
         "procedure": null,
-        "stated": "a resigning skeuyn is fined 12d (partly garbled)",
+        "stated": "a dean who refuses office is fined 12d; the skeuyn's fine is garbled in the OCR (one pass read 3s or 4s, not certain)",
         "label": "researched",
         "unit": "penny (English d.)"
       },
@@ -670,7 +677,8 @@
       "Each member pays 6d 'for ilk a fare' (context garbled; possibly a voyage levy).",
       "Breaking the gild's counsel (secrecy) as a sanctioned offence."
     ],
-    "notes": "Ordinances were added after the original foundation (1381, 1382): an amendment-in-practice with no procedure stated."
+    "notes": "Ordinances were added after the original foundation (1381, 1382): an amendment-in-practice with no procedure stated. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; corrected: component 6 was the skeuyn fined 12d, now the dean fined 12d (OCR \"ye den, xij.d.\"); (2914) searched: two windows of the OCR for the skeuyn's fine, garbled (\"\\].s.\"), not read; house fees 4d/2d/2d, 3s alderman, 3d per brother, a pound of wax, two stone of wax, 6d \"for ilk a fare\" and the 2 lb wax of 1381 match; pages 54-57 confirmed.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -680,7 +688,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return CCCVIII.118",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "p. 48"
+      "pages": "pp. 48-49"
     },
     "kind": "religious gild",
     "components": [
@@ -688,7 +696,7 @@
         "section": "admission",
         "type": "fee",
         "amount": null,
-        "stated": "newcomers pay a fee; figure garbled, possibly 5s",
+        "stated": "newcomers pay a fee; the OCR figure is garbled (\"Y.8.\"), one pass read 5s and another 1s, so none is recorded",
         "label": "researched",
         "unit": "penny (English d.)"
       },
@@ -727,7 +735,8 @@
       "Thirty masses sung for a dead member within three days, from gild funds (event-triggered rite paid by the gild).",
       "Goods total 40s (stock held by the gild)."
     ],
-    "notes": "Illustrates a Lynn returns pattern: four meetings, a fixed number of masses per death, expulsion for dishonesty."
+    "notes": "Illustrates a Lynn returns pattern: four meetings, a fixed number of masses per death, expulsion for dishonesty. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; (2914) searched: two windows of the OCR for the entry fee, garbled, left null; 1376 foundation, four meetings, 2 lb candle, thirty masses and goods of 40s match; pages were p. 48, now pp. 48-49.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -745,7 +754,7 @@
         "section": "admission",
         "type": "fee",
         "amount": 160,
-        "stated": "13s 4d (one mark), or sureties in its place; plus house fees alderman 2d, wax 1d, clerk 1d, dean 1d",
+        "stated": "13s 4d (one mark), or sureties in its place; plus house fees alderman 2d (OCR \"ij.J.\", read as 2d), wax 1d, clerk 1d, dean 1d",
         "label": "researched",
         "unit": "penny (English d.)"
       },
@@ -793,7 +802,8 @@
       "Entry may be by money or by sureties (an alternative admission guarantee).",
       "Goods about £2 3s (partly garbled)."
     ],
-    "notes": "Officer salaries recorded as positions with stated pay in `stated`; no component carries a salary."
+    "notes": "Officer salaries recorded as positions with stated pay in `stated`; no component carries a salary. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; 13s 4d, clerk 3s 4d, dean 2s, 60 masses, five candles, four torches, half a pound of wax for the hood and goods of about £2 3s (OCR unreliable) match; the alderman's house fee is read as 2d from a garbled numeral.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -857,9 +867,9 @@
       {
         "section": "sanction",
         "type": "fine",
-        "amount": 2,
+        "amount": null,
         "procedure": null,
-        "stated": "entering the ale chamber without leave costs 2d",
+        "stated": "entering the ale chamber without leave is fined; the numeral is garbled in the OCR",
         "label": "researched",
         "unit": "penny (English d.)"
       },
@@ -875,10 +885,11 @@
       "Dead member receives 24 masses.",
       "Malicious insult costs half a pound of wax (fine in wax).",
       "Resignation fines paid in wax: alderman 1 lb, skeuyn 1/2 lb, dean 1/4 lb.",
-      "Stewards must find sureties, with a 2 lb wax penalty for failure.",
+      "Stewards must find sureties; a wax penalty for failure is stated but its numeral is garbled in the OCR.",
       "Conduct at the feast is regulated item by item (the gild's own table manners)."
     ],
-    "notes": "Text breaks off in the summary after the ale-chamber rule."
+    "notes": "Text breaks off in the summary after the ale-chamber rule. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; corrected: ale-chamber fine (component 5) was 2d, now null; corrected: steward wax penalty was 2 lb, now unstated in unmapped; (2914) searched: two windows of the OCR for both numerals (\"\\].d.\", \"\\].li. waxse\"), garbled, not found; 1d absence, ½d house fees, 2d false charge, 3d noise, 1d sleeping, 24 masses, resignation wax fines match.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -888,7 +899,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return CCCX.123",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "pp. 83-84 (OCR page markers)"
+      "pages": "pp. 83-85 (OCR page markers; editor's footnote on p. 85)"
     },
     "kind": "religious gild with sickness and pilgrimage aid",
     "components": [
@@ -942,9 +953,9 @@
       {
         "section": "sanction",
         "type": "fine",
-        "amount": 1,
+        "amount": null,
         "procedure": null,
-        "stated": "sleeping during drink, or staying after the alderman rises, costs 1d",
+        "stated": "sleeping during drink, or staying after the alderman rises: no legible clause found in the OCR, so no fine is recorded",
         "label": "researched",
         "unit": "penny (English d.)"
       },
@@ -965,7 +976,8 @@
       "The editor notes a unique exemption of John Clerke from all payments.",
       "Stewards who fail to produce goods pay a fine (figure unclear); a 2s penalty is attached to the stewards' sureties."
     ],
-    "notes": "Amounts as read from a garbled OCR summary; the 'picked men' electoral rule has no component."
+    "notes": "Amounts as read from a garbled OCR; the 'picked men' electoral rule has no component. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; corrected: component 5 fine was 1d, now null; (2914) searched: two windows of the OCR for a sleeping or staying fine in this return, not found (the sleeping 1d is in the St Thomas return); 6s 8d entry plus 6d, half a pound of wax, 1d after prime, 4 lb for striking, a halfpenny offering, 30 masses, 2s steward penalty and the gallon of ale match; pages were 83-84, now 83-85.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -975,7 +987,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), Part I, North Lynn (St James)",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "page not extracted from the OCR"
+      "pages": "pp. 103-105 (OCR page markers; the p. 104 head is garbled)"
     },
     "kind": "religious gild with small poor relief",
     "components": [
@@ -1024,20 +1036,21 @@
       {
         "section": "sanction",
         "type": "fine",
-        "amount": 1,
+        "amount": null,
         "procedure": null,
-        "stated": "entering the ale chamber without leave costs 1d",
+        "stated": "entering the ale chamber without leave is fined to the light; the numeral is garbled in the OCR",
         "label": "researched",
         "unit": "penny (English d.)"
       }
     ],
     "unmapped": [
-      "Absence costs half a pound of wax; refusing office costs the alderman 1 lb, stewards 1/2 lb, dean 1/4 lb (fines in wax).",
-      "Tongue-rebellion costs half a pound of wax; wronging another costs 1 lb.",
-      "Thirty masses for a dead member; absent members pay 1d alms.",
+      "Absence costs half a pound of wax; refusing office is fined in wax for alderman, stewards and dean (figures not settled: two windows of the OCR read the stewards' fine differently).",
+      "Tongue-rebellion costs half a pound of wax; wronging another member is fined in wax (figure destroyed in the OCR).",
+      "Thirty masses for a dead member (OCR \"xxx.d\", probably thirty); an absent member pays a penny to alms at the next meeting (OCR \"yd.\", read as j.d.).",
       "Dean's salary 4d yearly."
     ],
-    "notes": "The editor records alderman John Knolles and no goods held."
+    "notes": "The editor records alderman John Knolles and no goods held. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; corrected: ale-chamber fine (component 4) was 1d, now null; the wax fines for refusing office and for wronging another are removed from unmapped; (2914) searched: two windows of the OCR for those numerals, conflicting or destroyed, not found; house fees 2d/1d/1d/1d, halfpenny per meeting, 4d weekly, half a pound for absence and for rebellious speech, dean 4d yearly match; page now filled (pp. 103-105).",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1047,7 +1060,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), Part I, Wiggenhall (Assumption)",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "page not extracted from the OCR"
+      "pages": "pp. 111-113 (OCR page markers: running heads 112 and 113; the neighbouring markers are garbled)"
     },
     "kind": "small religious gild with search-and-burial duty",
     "components": [
@@ -1075,11 +1088,12 @@
     ],
     "unmapped": [
       "Sudden death by water or land: members search six miles for the body before burial (a duty of search tied to an event).",
-      "Nine masses the next Sunday; absence from a burial costs an obol to the light.",
+      "Nine masses the next Sunday; absence from a burial costs an obol to the light (OCR \"oh.\", read as ob.).",
       "False accusation costs an obol.",
       "Holdings: Robert Helys has 6s and some money; Thomas Drewre owes 40d (gild funds lodged with members)."
     ],
-    "notes": "A very small village gild: the smallest composition in the file."
+    "notes": "A very small village gild: the smallest composition in the file. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; the obol fines are garbled in the OCR (\"oo.\", \"oh.\") and read as ob.; six miles search, nine masses, 8 Ric. II and Helys 6s match (the pence of Helys's sum and the last letter of Drewre's 40d are uncertain); page now filled.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1089,7 +1103,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), Part I, East Winch",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "page not extracted from the OCR"
+      "pages": "pp. 119-120 (OCR page markers; the p. 120 head reads \"130\")"
     },
     "kind": "village religious gild with sickness help in kind",
     "components": [
@@ -1135,7 +1149,8 @@
       "Refusing office costs half a pound of wax (alderman) and a quarter pound (each steward).",
       "Dead members: a farthing offering, another farthing for the soul, 13 masses; absent members pay 1d alms."
     ],
-    "notes": "Entry is 1d for wax plus 1d for the clerk; recorded as 2d in all."
+    "notes": "Entry is 1d for wax plus 1d for the clerk; recorded as 2d in all. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; penny for wax and penny for the clerk, four meetings, loaf and pot of ale, half pound / quarter pound of wax, farthing offerings and 1d alms match; thirteen masses rests on the OCR \"be det\" read as \"be ded\"; page now filled.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1145,7 +1160,7 @@
     "source": {
       "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), Part I, Oxburgh (St Peter)",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "page not extracted from the OCR"
+      "pages": "p. 121 (OCR page markers)"
     },
     "kind": "village religious gild holding barley stock",
     "components": [
@@ -1177,8 +1192,8 @@
         "section": "benefit",
         "type": "transfer",
         "event": "hardship",
-        "amount": 4,
-        "stated": "hardship: 4d a year (figure partly unclear)",
+        "amount": null,
+        "stated": "hardship aid: the OCR shows \"iiij.\" but its unit is garbled, so no amount is recorded",
         "label": "researched",
         "unit": "penny (English d.)"
       },
@@ -1196,7 +1211,8 @@
       "On a death, each couple gives 3d.",
       "Goods: five quarters of barley at 20d each (stock held in grain)."
     ],
-    "notes": "Sister gild St John Baptist, Oxburgh (founded 1307) holds 20 quarters of barley at 20d each, with a mass penny, farthing offering and farthing to the poor; not separately entered."
+    "notes": "Sister gild St John Baptist, Oxburgh (founded 1307) holds 20 quarters of barley at 20d each, with a mass penny, farthing offering and farthing to the poor; not separately entered. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; corrected: hardship aid (component 2) was 4d a year, now null; (2914) searched: the OCR window for the Oxburgh St Peter return, unit of the \"iiij.\" garbled, not found; farthing at mass, a pound of wax, 3d per couple, five quarters of barley (price \"xx.a.\", read as 20d) and the sister gild's 20 quarters (1307) match; page now filled.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1273,7 +1289,8 @@
       "Rule for wakes: no hideous masks, no mockery of the dead, no indecent games; women may watch only if of the household (conduct at a funeral).",
       "Gild holds vestments bequeathed by the Earl of March."
     ],
-    "notes": "Entry fees, fine amounts and how decisions were made: not stated in the summarised passage."
+    "notes": "Entry fees, fine amounts and how decisions were made: not stated in the summarised passage. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; the 1284 foundation, seven priests, thirty-two almsfolk, help limited to three occasions and the Earl of March vestments match (pp. 18-19).",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1407,7 +1424,8 @@
       "Disputes settled internally before any court action; wardens who fail to reconcile parties must testify against the wrongdoer in court.",
       "Wardens come half from one occupation and half from the parish (a mixed-constituency electorate)."
     ],
-    "notes": "The loan amount records the lowest stated sum; the range is in the stated field. Poverty aid is conditional on a public hearing of the claim."
+    "notes": "The loan amount records the lowest stated sum; the range is in the stated field. Poverty aid is conditional on a public hearing of the claim. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; minimum entrance fee 6s 8d and 3d quarterage (p. 84), 12d/8d feast (p. 81), half a pound of wax, seven years, loans of 40s or 4-5 marks for 1-3 months, a penny a day beyond 40 days, bedell 12d, ten marks and livery two years match.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1538,7 +1556,8 @@
       "A master could not be re-elected within five years (a bar on re-election).",
       "The Gild Book entry fee rule is cancelled in the margin (a rule revised in the record itself)."
     ],
-    "notes": "Westlake treats the 1389 return and the Gild Book as one gild. Whether this is the same body as Toulmin Smith's return III (Fabian and Sebastian) is not settled; treated here as a separate dated composition."
+    "notes": "Westlake treats the 1389 return and the Gild Book as one gild. Whether this is the same body as Toulmin Smith's return III (Fabian and Sebastian) is not settled; treated here as a separate dated composition. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; half a mark (1389, p. 69) and 2s cancelled in the margin (Gild Book rule 24, p. 72), 3d, 40d, 14d, loan 20s or two marks, refusal fines 10s/20s, tapers 21 lb and thirteen of six pounds, ten and five miles, 10½ marks and the five-year bar match.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1548,7 +1567,7 @@
     "source": {
       "citation": "Westlake, H. F., The Parish Gilds of Mediaeval England (SPCK, London, 1919), ch. II",
       "url": "https://archive.org/details/cu31924032474722",
-      "pages": "pp. 13-14"
+      "pages": "pp. 12-14"
     },
     "kind": "gild led by twelve priests",
     "components": [
@@ -1576,7 +1595,8 @@
       "Special collections for poor members.",
       "Membership capped at twelve priests plus sixty (a size limit); who admits the sixty is not stated."
     ],
-    "notes": "Governance details beyond 'twelve priests govern' are not in the summarised passage."
+    "notes": "Governance details beyond 'twelve priests govern' are not in the summarised passage. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; pages were 13-14, now 12-14 (foundation by twelve priests and the cap of sixty are on p. 12); no amounts in this entry.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1636,7 +1656,8 @@
       "Guests at feasts limited in number unless the steward gave leave.",
       "Death away from home: thirty men fetch the body; at Abbotsbury the steward called everyone to attend the corpse to the minster."
     ],
-    "notes": "Earliest entry. Date is the reign, not a precise year."
+    "notes": "Earliest entry. Date is the reign, not a precise year. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; a penny or its worth in wax three days before the mass, fifteen men within sixty miles for a sick brother, thirty for a dead one, the broad loaf and full brethren match (p. 3); the entrance fee has no amount.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1646,7 +1667,7 @@
     "source": {
       "citation": "Eden, F. M., The State of the Poor (London, 1797), vol. III, parochial reports, Westmorland (Kirkby Lonsdale)",
       "url": "https://archive.org/details/b28773135_0003",
-      "pages": "approx. pp. 774-776 (OCR page markers)"
+      "pages": "pp. 773-776 (OCR page markers; the Kirkby Lonsdale heading is on p. 771)"
     },
     "kind": "friendly society (pub club)",
     "components": [
@@ -1810,7 +1831,8 @@
       "Death benefit is paid at the first month-night after the death, free of deductions.",
       "A surplus from the feast dinner is returned to each member in the liquor he prefers."
     ],
-    "notes": "Articles 1 and 6-10 (and any amendment rule) are not in the summarised text. £ amounts converted at 240d to the pound; 1s 6d etc. as written."
+    "notes": "Articles 1 and 6-10 (and any amendment rule) are not in the summarised text. £ amounts converted at 240d to the pound; 1s 6d etc. as written. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; all amounts match (3s/4s entry, 1s every fourth Monday as 10d and 2d, 1s a day, 3s 6d, 4s at 60, £3, £3, £5, 1s 4d and 10s 6d at the dinner, 14s clerk, 3s advance, 1s 6d); pages were 774-776, now 773-776.",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1820,15 +1842,15 @@
     "source": {
       "citation": "Eden, F. M., The State of the Poor (London, 1797), vol. III, parochial reports, Westmorland (Kendal)",
       "url": "https://archive.org/details/b28773135_0003",
-      "pages": "approx. pp. 770-772 (OCR page markers)"
+      "pages": "approx. pp. 765-766 (OCR page markers; the start is inferred from the sequence, the passage ends before the running head 767)"
     },
     "kind": "friendly society (pub club) with committee",
     "components": [
       {
         "section": "admission",
         "type": "fee",
-        "amount": 66,
-        "stated": "admission fine 5s 6d; members must be under 36",
+        "amount": null,
+        "stated": "admission fine: the OCR prints \"ys. 6d.\" (a garbled first numeral), so no amount is recorded; no person above 36 can be admitted",
         "label": "researched",
         "unit": "penny (English d.)"
       },
@@ -1929,7 +1951,8 @@
       "Stewards rotate by turn (rotation by seniority or turn rather than election).",
       "Disputes settled by the committee (internal court)."
     ],
-    "notes": "Described in prose in Eden, not as numbered articles. No amendment, expulsion or loan rules in the summarised text. The committee entry's voting rule is a reading and not stated."
+    "notes": "Described in prose in Eden, not as numbered articles. No amendment, expulsion or loan rules in the summarised text. The committee entry's voting rule is a reading and not stated. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; corrected: admission fine (component 0) was 5s 6d (66d), now null; the age rule is \"no person above 36\", not \"under 36\"; (2914) searched: the OCR window and a web search for the Free Society admission fine, \"ys. 6d.\" garbled, not found; 10d and 2d monthly, 6s sick, 3s for life, two stewards every three months, the master and the committee of seven match; pages were 770-772, now 765-766 (the Kirkby Lonsdale heading is on p. 771).",
+    "ocr_checked": true
   },
   {
     "evidence": 3,
@@ -1939,7 +1962,7 @@
     "source": {
       "citation": "Brentano, L., 'On the History and Development of Gilds', preliminary essay in Toulmin Smith, J. (ed.), English Gilds (EETS o.s. 40, London, 1870), citing Berlepsch, Chronik der Gewerke, vol. IV",
       "url": "https://archive.org/details/englishgildsorig00smit",
-      "pages": "Brentano's essay, citing Berlepsch vol. IV, pp. 67-72 (page in the Toulmin Smith volume not extracted)"
+      "pages": "Brentano's essay, pp. cliv-clv (black list p. clvi), citing Berlepsch vol. IV, pp. 67-72"
     },
     "kind": "journeymen's fraternity",
     "components": [
@@ -2032,6 +2055,7 @@
       "Sick support repayable if the member recovers (a repayable benefit, i.e. a loan triggered by sickness).",
       "All members attend funerals."
     ],
-    "notes": "Currency in groschen and pfennige as stated; no pence conversion attempted. A later German example from Brentano's essay; the Toulmin Smith volume is the carrier, Berlepsch the original."
+    "notes": "Currency in groschen and pfennige as stated; no pence conversion attempted. A later German example from Brentano's essay; the Toulmin Smith volume is the carrier, Berlepsch the original. (2996) OCR check: amounts re-read against the archive.org full-text OCR in windows, not a summary of the whole book; one groschen entry, six pfennige fortnightly, one groschen quarterly (OCR garbled, wording clear), four pfennige lodging, two groschen meal, 1628 and the fire match; page now filled from the Toulmin Smith volume.",
+    "ocr_checked": true
   }
 ]
