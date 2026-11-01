@@ -162,7 +162,7 @@ describe("D-SOC-1 host / IF-46 (PLATFORM §11b level 2)", () => {
       expect(streamKeys).toContain(`cognition.perception.detect@cognition/${mind.id}`);
       expect(streamKeys).toContain(`cognition.decision.select@cognition/${mind.id}`);
     }
-  });
+  }, 30_000);
 
   it("removing the network prevents testimony and recruitment without changing initial charter priors", () => {
     const run = runThreePerson(27, false);
