@@ -11,9 +11,9 @@ export function classifyInstitution(org: Organisation, history: readonly Organis
     && org.members.some((member) => member.person === office.holder)
     && org.charter.positions?.some((rule) => rule.position === office.role));
   const own = history.filter((event) => event.org === org.id && event.t >= org.founded_at);
-  const sanction = own.some((event) => event.kind === "act" && event.cause === "sanction applied");
-  const revenue = own.some((event) => (event.kind === "act" && event.cause === "dues paid"
-    && event.payload?.status === "paid") || ((event.kind === "founded" || event.kind === "joined")
-    && typeof event.payload?.admissionFeeCollected === "number" && event.payload.admissionFeeCollected > 0));
+  const sanction = own.some((event) => event.kind === "act" && event.payload?.sanctionApplied === true);
+  const revenue = own.some((event) => (event.kind === "act" || event.kind === "founded" || event.kind === "joined")
+    && typeof event.payload?.revenueCollected === "number" && Number.isFinite(event.payload.revenueCollected)
+    && event.payload.revenueCollected > 0);
   return recognised && sanction && revenue;
 }

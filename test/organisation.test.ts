@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { Scheduler, streams, type Counters } from "@rex/kernel";
 import { describe, expect, it } from "vitest";
 import { draft, joins, network } from "./lifecycle-fixture.ts";
+import { publicAuthority } from "./public-authority.ts";
 import { OrganisationStore, ORGANISATION_PROCESS, mintId, type AccountId, type Charter, type CharterCapabilities,
   type DecisionRequest, type InventoryPort, type LedgerPort, type OrganisationFacts, type OrgId,
   type PersonId, type SocialIntention, type ViewsPort } from "../src/index.ts";
@@ -108,8 +109,27 @@ describe("organisation authority and lifecycle (DESIGN §1.2, DUP-58)", () => {
     });
     expect(refusal).toMatchObject({ kind: "refused", cause: "admission requires current sponsor facts" });
     expect(store.organisations()).toHaveLength(1);
-    expect(Object.getOwnPropertyNames(Views.prototype)).not.toContain("setMembers");
-    expect(Object.getOwnPropertyNames(OrganisationStore.prototype)).not.toContain("setLeader");
+  });
+  it("DUP-58 (3): every public callable's declared adapters lack membership/leadership authority", () => {
+    const result = publicAuthority();
+    expect(result.checked).toEqual(expect.arrayContaining(["mintId", "validateCharter", "collectiveChoice",
+      "pairwiseCollectiveChoice", "CommunicationNetwork", "OrganisationStore", "OrganisationStore.attempt", "OrganisationStore.found"]));
+    expect(result.violations).toEqual([]);
+  });
+  it("DUP-58 (3): the export/parameter check catches renamed functions and nested decision ports", () => {
+    const result = publicAuthority(`
+      export { collectiveChoice as renamedChoice } from "./src/choice.ts";
+      interface HiddenPort { chooseMembers(): string[]; elect(): string }
+      export function innocuous(options: { ports: { settlement: HiddenPort } }): void {}
+      export class InnocuousStore {
+        update(input: { views: { decide(): boolean } }): void {}
+        static configure(views: { select(): string }): void {}
+      }
+    `);
+    expect(result.checked).toContain("renamedChoice");
+    expect(result.violations.some((error) => error.startsWith("innocuous.options.ports:"))).toBe(true);
+    expect(result.violations.some((error) => error.startsWith("InnocuousStore.update.input.views:"))).toBe(true);
+    expect(result.violations.some((error) => error.startsWith("InnocuousStore.configure.views:"))).toBe(true);
   });
   it("dissolves on last exit and closes each pointing business exactly once", () => {
     const { store, views } = setup();

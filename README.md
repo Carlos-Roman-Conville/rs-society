@@ -21,6 +21,34 @@ npm run typecheck # tsc --noEmit
 
 `test/fence.test.ts` checks the fence over `src/`.
 
+## Package state and charter validation
+
+Units 2836–2844 delivered the package scaffold, shared records/schema, network, historical charter research,
+reference verification, organisation store, collective choice, formation and the independent check. DESIGN
+was approved on 2026-10-31 (SOC-Q1–Q8). `kernel.json` declares the network, collective-choice, actor and
+formation processes and their reads/writes; actor and lifecycle processes share the three Society writes.
+Each later mechanism must add its own manifest contract. The scaffold's smoke and import-fence tests remain.
+
+Shared records and Kernel-backed `mintId` are exported through `src/index.ts`; mint counters belong to the caller.
+`validateCharter(charter, capabilities)` checks executable component inputs and references, never historical
+labels. Its TypeScript interface accepts typed drafts; JSON-shaped missing/null fields return path-qualified
+errors rather than throwing. Null parameters remain invalid, and no schedule, amount or procedure is supplied
+by default. Omitted optional mechanisms remain valid, but an explicitly null mechanism is an incomplete draft.
+Observer `kind`/`name` metadata is ignored even on nested components. Validation does not execute a charter.
+
+The 24 historical compositions in `data/charters/reference.json` retain researched sources and vocabulary gaps.
+`test/charter-reference.test.ts` verifies provenance, component labels, unmapped statements and a novel composition.
+Its 24 `it.todo` entries remain pending the keeper's null-parameter decision or executable researched inputs;
+safe error reporting does not make the reference charters executable. `test/charter-nulls.test.ts` exercises
+reference null procedures/position types and null/missing fields across every executable component shape.
+
+Unit 2844's independent review is recorded in `CHECK.md` (historical result: 315 passed, 24 todo). It checked
+DESIGN invariants, not the original unit lists, and noted that DUP-58 (3) only checked two absent setters.
+The strengthened organisation test resolves all public barrel exports and their declared function, constructor
+and public method parameters, recursively checking nested adapter contracts. Synthetic unsafe exports prove it
+detects membership/leadership decision ports. This verifies Society's public boundary; real engine integration,
+migration re-entry and loan servicing remain with their owning units.
+
 ## Communication network (DESIGN §1.1)
 
 `CommunicationNetwork` is exported from the package barrel. Construct it with caller-owned Kernel
@@ -190,6 +218,15 @@ Observers import `classifyInstitution` from `@rex/society/institution`. It retur
 recognised positions with chartered succession, an actually applied sanction, and actually collected dues
 or admission fees. An approved but unfunded fine does not qualify. No other `src/` module imports this
 classifier, and it is deliberately absent from the mechanism barrel.
+
+Classification reads `OrganisationEventPayload.sanctionApplied === true` and a finite positive
+`revenueCollected` amount, independent of human-readable `cause`, approval tallies or payment status text.
+Successful fine/suspension/expulsion applications emit the flag; successful dues and admission-fee transfers
+emit the amount in the same transaction. Founding revenue totals all founders' fees, while a joining event
+records that joiner's fee. The older `admissionFeeCollected` field remains the per-person admission fee for
+existing consumers; it is no longer classification evidence. Failed operations emit neither evidence field.
+Lifecycle forwarding in `formation.ts` uses the same typed payload contract. Logs predating these fields need
+typed evidence supplied by their producer to qualify; cause strings are never a fallback.
 
 Verification: `npx vitest run test/formation.test.ts test/institution.test.ts`. Tests check the creation
 boundary, founding consent/window/network, fees and rollback, split/merger membership conservation, and

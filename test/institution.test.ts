@@ -49,7 +49,7 @@ describe("institution classification is an observer-only label (DESIGN §1.4)", 
     expect(observer.classifyInstitution(store.get(org)!, store.events)).toBe(false);
     const applied = scenario();
     const unpaid = applied.store.events.map((event) => event.cause === "dues paid"
-      ? { ...event, payload: { ...event.payload, status: "unpaid" } } : event);
+      ? { ...event, payload: { ...event.payload, status: "unpaid", revenueCollected: 0 } } : event);
     expect(observer.classifyInstitution(applied.store.get(applied.org)!, unpaid)).toBe(false);
   });
   it("records suspension and expulsion as applied sanctions too", () => {

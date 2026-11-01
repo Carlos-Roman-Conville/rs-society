@@ -3,7 +3,7 @@ import type { ChoiceEvent } from "./choice.ts";
 import { validateCharter } from "./charter.ts";
 import type { ViewsPort } from "./ports.ts";
 import type { DecisionRequest, Organisation } from "./organisation.ts";
-import type { Charter, CharterCapabilities, OrganisationEvent, OrgId, PersonId, SocialIntention } from "./types.ts";
+import type { Charter, CharterCapabilities, OrganisationEvent, OrganisationEventPayload, OrgId, PersonId, SocialIntention } from "./types.ts";
 
 export const FORMATION_PROCESS = "society.institution.formation_dissolution";
 
@@ -172,7 +172,7 @@ export interface LifecycleHost {
   remove(id: OrgId): void;
   members(org: Organisation, joins: readonly PersonId[], removals: readonly PersonId[]): void;
   emit(org: OrgId, kind: OrganisationEvent["kind"], cause: string,
-    intentions?: readonly SocialIntention[], payload?: Record<string, unknown>): OrganisationEvent;
+    intentions?: readonly SocialIntention[], payload?: OrganisationEventPayload): OrganisationEvent;
   refuse(org: OrgId, cause: string, intentions?: readonly SocialIntention[]): OrganisationEvent;
   choose(org: Organisation, request: DecisionRequest): ChoiceEvent;
   join(org: Organisation, intention: SocialIntention): OrganisationEvent;

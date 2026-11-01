@@ -6,7 +6,7 @@ import { validateCharter } from "./charter.ts";
 import { collectiveChoice, type ChoiceEvent } from "./choice.ts";
 import type { InventoryPort, LedgerPort, OrganisationFacts, ViewsPort } from "./ports.ts";
 import { mintId, type Charter, type CharterCapabilities, type DecisionProcedure, type OrganisationEvent,
-  type OrgId, type PersonId, type Schedule, type SocialIntention } from "./types.ts";
+  type OrganisationEventPayload, type OrgId, type PersonId, type Schedule, type SocialIntention } from "./types.ts";
 
 export const ORGANISATION_PROCESS = "society.organisation.actors";
 export interface Membership {
@@ -112,7 +112,7 @@ export class OrganisationStore {
     return transaction(participants, work);
   }
   #emit(org: OrgId, kind: OrganisationEvent["kind"], cause: string,
-    intentions: readonly SocialIntention[] = [], payload: Record<string, unknown> = {}): OrganisationEvent {
+    intentions: readonly SocialIntention[] = [], payload: OrganisationEventPayload = {}): OrganisationEvent {
     const event = structuredClone({ org, kind, t: this.now, cause, intentions, payload });
     this.#state.events.push(event);
     return structuredClone(event);
@@ -173,7 +173,8 @@ export class OrganisationStore {
       this.#state.organisations.sort((a, b) => compare(a.id, b.id));
       this.#options.views.onCreated(id);
       return this.#emit(id, "founded", "founders' commitments", intentions,
-        { founding: intention.target, purpose: intention.payload.purpose, admissionFeeCollected: fees });
+        { founding: intention.target, purpose: intention.payload.purpose, admissionFeeCollected: fees,
+          revenueCollected: fees * result.organisation.founders.length });
     });
   }
 
@@ -300,7 +301,7 @@ export class OrganisationStore {
     if (fees > this.#options.ledger.balance(person)) return refuse("cannot pay admission fee");
     if (fees) this.#options.ledger.transfer(person, org.id, fees, "admission fee");
     this.#members(org, [person], []);
-    return this.#emit(org.id, "joined", "accepted join", [intention], { admissionFeeCollected: fees });
+    return this.#emit(org.id, "joined", "accepted join", [intention], { admissionFeeCollected: fees, revenueCollected: fees });
   }
   #exclusive(org: Organisation, person: PersonId): boolean {
     const memberships = this.memberships(person);
@@ -321,7 +322,7 @@ export class OrganisationStore {
     }
     this.#options.ledger.transfer(due.person, org.id, rule.amount!, "organisation dues");
     due.status = "paid";
-    return this.#emit(org.id, "act", "dues paid", intentions, { ...due });
+    return this.#emit(org.id, "act", "dues paid", intentions, { ...due, revenueCollected: rule.amount! });
   }
   #scheduled(schedule: { first: number; period: number }, t: number): boolean {
     return t >= schedule.first && (t - schedule.first) % schedule.period === 0;
@@ -426,7 +427,7 @@ export class OrganisationStore {
     if (sanction) {
       if (sanction.type === "expulsion") {
         this.#members(org, [], [person]);
-        this.#emit(org.id, "act", "sanction applied", result.intentions, { person, component, sanction });
+        this.#emit(org.id, "act", "sanction applied", result.intentions, { person, component, sanction, sanctionApplied: true });
         this.#emit(org.id, "expelled", "passed sanction", result.intentions, { person });
         if (!org.members.length) this.#dissolve(org, "last member expelled", result.intentions);
       } else if (sanction.type === "suspension") {
@@ -436,7 +437,7 @@ export class OrganisationStore {
         if (this.#options.ledger.balance(person) < sanction.amount!) return this.#refuse(org.id, "fine failed for want of resources", result.intentions);
         this.#options.ledger.transfer(person, org.id, sanction.amount!, "passed fine");
       }
-      if (sanction.type !== "expulsion") this.#emit(org.id, "act", "sanction applied", result.intentions, { person, component, sanction });
+      if (sanction.type !== "expulsion") this.#emit(org.id, "act", "sanction applied", result.intentions, { person, component, sanction, sanctionApplied: true });
     }
     return structuredClone(result);
   }

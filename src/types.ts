@@ -45,6 +45,13 @@ export interface Affordance {
 }
 
 /** DESIGN §1.2–§1.4: observable outcomes retain their cause and source acts. */
+export interface OrganisationEventPayload extends Readonly<Record<string, unknown>> {
+  /** Execution evidence, emitted only after the chosen sanction succeeds. */
+  readonly sanctionApplied?: boolean;
+  /** Amount actually transferred under a dues or admission revenue rule. */
+  readonly revenueCollected?: number;
+}
+
 export interface OrganisationEvent {
   readonly org: OrgId;
   readonly kind: "founded" | "joined" | "left" | "expelled" | "office_changed"
@@ -52,7 +59,7 @@ export interface OrganisationEvent {
   readonly t: number;
   readonly cause: string;
   readonly intentions: readonly SocialIntention[];
-  readonly payload?: Readonly<Record<string, unknown>>;
+  readonly payload?: OrganisationEventPayload;
 }
 
 // DESIGN §1.2a–§1.3: all amounts, periods, terms, counts and thresholds below
