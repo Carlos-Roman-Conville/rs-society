@@ -255,7 +255,11 @@ Cognition rows it feeds (ROADMAP "After P7").
 ### 1.13 What goes to the registry keeper (proposed)
 
 New rows: `society.organisation.collective_choice`, `society.collective.action`, `society.population.demography`,
-`society.migration.flows`, `society.norm.sanction`, `society.class.structure`. Changes: the ten existing rows get
+`society.migration.flows`, `society.norm.sanction`, `society.class.structure`, and `society.affordance.offer` (the
+single writer of `society.affordance`: the union of the social actions each source row permits a person now, with
+their stated terms; it decides, scores and filters by belief nothing; consumer Cognition via IF-46). Registered as
+proposed by the registry keeper 2026-10-31 (IF-46 affordances, IF-47 the watched boundary with Government;
+`society.religious_community` retired to an alias of `society.organisation`; SOC-1 applied). Changes: the ten existing rows get
 the contract fields above; `society.doctrine.transmission_divergence` and `society.religion.community_ritual` drop the
 `mind.belief` input (SOC-Q1); `society.religion.community_ritual` becomes a view over `society.organisation.actors`;
 `society.transmission.preferences` becomes content on the network (DUP-60). New quantities: `society.organisation`,
