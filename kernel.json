@@ -1,6 +1,11 @@
 {
   "processes": [
     {
+      "id": "society.organisation.actors",
+      "reads": ["mind.intention", "life.death", "life.departure", "life.illness_onset", "settlement.balance_changes", "economy.inventory"],
+      "writes": ["society.organisation", "society.membership", "society.organisation_event"]
+    },
+    {
       "id": "society.network.communication",
       "reads": [
         "settlement.residence",

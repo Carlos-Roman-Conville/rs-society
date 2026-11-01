@@ -25,6 +25,15 @@ tie-breaks, and pairwise cycle witnesses. `DecisionProcedure.simple_majority` no
 May verification covers fully expressed binary ballots; abstentions/silence count in the declared
 head-count denominator. No empirical validation is claimed: consequences remain D-SOC-1.
 
+Unit 2841 implemented: `OrganisationStore` and outbound ledger/inventory/views interfaces, exported
+through the barrel; `society.organisation.actors` declares the three Society writes. Includes current-state
+attempts, charter-composed admission with collective-choice votes, Kernel-time obligations, atomic resource
+transfers and events, conditional benefits, elected offices/sanctions, removal and dissolution, and mergers
+approved by both actors. Tests use stub ports and verify membership identity, ledger conservation, rollback,
+one actor id, lifecycle notifications and label independence. See README for host API and timing conventions.
+Formation-circle policy, real engine adapters, migration re-entry and loan-account servicing remain with
+their owning units; this store supplies the actor authority and transaction boundary.
+
 ## Next
 Units 2837–2844 in order (see DESIGN §6): registry rows and quantities; network §1.1; organisations, collective
 choice and formation §1.2–§1.4; charter-forms data file; affordance port with Cognition; fixture village and

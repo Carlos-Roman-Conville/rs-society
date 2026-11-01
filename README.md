@@ -99,3 +99,58 @@ only a proposal beating every other proposal is returned as the winner; unresolv
 
 Verification: `npx vitest run test/choice.test.ts`. Procedure verification includes hand-worked boundaries,
 May's three conditions and a Condorcet cycle. Consequence validation remains D-SOC-1 (DESIGN §3).
+
+## Organisation store (DESIGN §1.2, §2.2–2.3)
+
+`OrganisationStore` owns actor records, membership and observable events. Construct it with `start`,
+Kernel `counters`, charter `capabilities`, and synchronous `ledger`/`views` ports. Supply `inventory`
+for goods, current `facts` for sponsorship/kinship/occupation/service, and Kernel `streams` for
+chartered lots. Adapters implement Kernel `Participant`: snapshots include balances, transfer rows
+and notification queues; restore must not throw. No adapter receives authority to edit members or offices.
+`get`, `organisations`, `memberships`, `events` and `obligations` return detached observations.
+
+`create({ intentions, charter, businesses })` accepts named `found` commitments from a founding circle
+already assembled by §1.4. It validates executable charter inputs, mints the Society id and notifies
+`views.onCreated(id)`. Reachability, founding windows and minimum founding sizes belong to the formation
+unit; this store does not invent them. Offices begin vacant and are filled by an election proposal.
+
+Call `advanceTo(ctx.t)` from the host's Kernel process before delivering intentions at that time.
+No scheduling frequency is invented here: the host supplies its process period. All intervening dues
+dates are visited in time/actor/member order. Obligations accrue strictly after joining (no charge
+at the exact joining tick). An insufficient balance records unpaid dues without a sanction; a later
+`pay` intention identifies `{ component, due_at }` in its payload. An adapter exception rolls back
+the entire call, including time, events and transfers, so the host can retry. Attendance obligations
+can be fulfilled by attendance later in the same tick.
+
+`attempt(intention, { decision? })` handles join, leave, pay, attend and propose. Admissions combine
+all components, querying current facts and current member sponsors. `attend` names `{ activity }`
+and must match a chartered meeting time; only attendance in the current tick supplies quorum.
+Vote admission requires a `DecisionRequest` with `proposalId`, an actual member's proposal whose
+payload is `{ action: "admit", person: applicant }`, and expressed `ballots` targeting that proposal id.
+A resolved proposal id cannot be reused, even if a later admission component refuses the attempt.
+
+For `propose`, the attempted intention is authoritative; the decision context supplies the proposal
+id and ballots. Payload actions are `act` (also used when action is omitted), `dissolve`,
+`elect` with `{ role, person }`, or `sanction` with `{ component, person }`. Elections and sanctions
+use their component's procedure; other acts use the charter's decision procedure. There is no
+direct leadership or expulsion setter. Malformed transport inputs throw; valid refused attempts
+produce events with reasons. A successful choice event means approval; inspect subsequent events
+for execution failures such as an unfunded fine.
+
+`claim({ org, person, eventId, event, t })` is a trusted host event ingress, not a member's assertion.
+Transfer/loan benefits debit only the organisation's ledger account; goods use inventories. Repeated
+event identities cannot pay again, including after a recorded resource failure. Loan repayment terms
+remain in the benefit event for the owning adapter; this unit does not implement a credit ledger.
+Deliver a death-conditioned claim before `removePerson(person, "death")` if a death benefit is due.
+`removePerson(person, "death" | "departure")` removes all memberships and rejects later stale attempts
+by that person. Arrival/re-entry policy belongs to the population/migration integration.
+
+`merge(survivingId, sourceId, [survivorDecision, sourceDecision])` requires both current actors to pass
+matching `{ action: "merge", survivor, source }` proposals. The survivor retains its charter and offices;
+members are unioned and businesses are repointed by `views.onMerged(source, survivor)`. Historical
+source obligations stay in the event/obligation record; settlement of claims remains with adapters.
+Passed dissolution or the last member's removal calls `closeBusiness` exactly once per pointing
+business and `onDissolved(id)`. All lifecycle notifications share the Kernel transaction.
+
+Verification: `npx vitest run test/organisation.test.ts`. Ports are interfaces with stub tests;
+real Settlement/Economy integration and formation policy remain separate units.
