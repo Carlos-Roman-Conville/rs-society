@@ -8,6 +8,15 @@ Unit 2837 implemented: shared records and Kernel-backed `mintId`, composable cha
 and `validateCharter` exported through the public barrel. Validation checks component inputs and references,
 not historical labels. The schema has verification tests; engine execution/integration belongs to later units.
 
+Unit 2838 implemented: `CommunicationNetwork` in `src/network.ts`, exported by the barrel, with a single
+directed tie store and `society.network.communication` declared in `kernel.json`. Includes structural exposure
+inputs, per-tie Kernel exponential clocks, endpoint rate scaling plus realised daily hour caps, opaque payload
+pass-through, reinforcement/decay, seek/avoid, cuts and observer graph measures. See README for the public API.
+Multi-kind convention: each episode names its kind; its T controls scalar decay until the next episode or seek.
+Poisson statistics apply when capacity is nonbinding; capped output is deliberately censored. Observer degree,
+clustering and components use the undirected projection. Clustering/homophily validation is specified in a test
+comment for later independent-data runs; host-engine integration is not claimed by this unit.
+
 ## Next
 Units 2837–2844 in order (see DESIGN §6): registry rows and quantities; network §1.1; organisations, collective
 choice and formation §1.2–§1.4; charter-forms data file; affordance port with Cognition; fixture village and

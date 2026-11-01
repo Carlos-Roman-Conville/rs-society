@@ -1,1 +1,20 @@
-{ "processes": [] }
+{
+  "processes": [
+    {
+      "id": "society.network.communication",
+      "reads": [
+        "settlement.residence",
+        "settlement.post_assignment",
+        "settlement.shared_hours",
+        "society.household",
+        "society.kinship",
+        "society.membership",
+        "society.meeting_attendance",
+        "mind.episode",
+        "mind.intention",
+        "mind.available_hours"
+      ],
+      "writes": ["society.comm_network"]
+    }
+  ]
+}
