@@ -2,26 +2,31 @@
   "processes": [
     {
       "id": "society.convention.payment_acceptance",
+      "mechanisms": ["society.convention.payment_acceptance"],
       "reads": ["economy.exchange_records", "economy.refusal_records", "society.membership", "society.household"],
       "writes": ["society.payment_acceptance_share"]
     },
     {
       "id": "society.affordance.offer",
+      "mechanisms": ["society.affordance.offer"],
       "reads": ["society.organisation", "society.membership", "society.comm_network", "society.meeting_attendance", "mind.intention", "settlement.balance_changes"],
       "writes": ["society.affordance"]
     },
     {
       "id": "society.institution.formation_dissolution",
+      "mechanisms": ["society.institution.formation_dissolution"],
       "reads": ["mind.intention", "society.comm_network", "society.organisation", "society.membership"],
       "writes": ["society.organisation", "society.membership", "society.organisation_event"]
     },
     {
       "id": "society.organisation.actors",
+      "mechanisms": ["society.organisation.actors"],
       "reads": ["mind.intention", "life.death", "life.departure", "life.illness_onset", "settlement.balance_changes", "economy.inventory"],
       "writes": ["society.organisation", "society.membership", "society.organisation_event"]
     },
     {
       "id": "society.network.communication",
+      "mechanisms": ["society.network.communication"],
       "reads": [
         "settlement.residence",
         "settlement.post_assignment",
@@ -39,6 +44,7 @@
     },
     {
       "id": "society.organisation.collective_choice",
+      "mechanisms": ["society.organisation.collective_choice"],
       "reads": ["mind.intention", "society.organisation", "society.membership", "society.meeting_attendance"],
       "writes": ["society.organisation_event"]
     }
