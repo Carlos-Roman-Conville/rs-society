@@ -1,0 +1,2037 @@
+[
+  {
+    "evidence": 3,
+    "id": "ts-1389-london-garlekhith",
+    "place": "Garlekhith (Garlickhithe), London",
+    "date": "founded 1375; return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return I (record CCCIX.6)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "pp. 4-5 (OCR page markers)"
+    },
+    "kind": "religious gild with mutual aid",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 80,
+        "stated": "6s 8d into the common box",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 2,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "quarterage 2d, four times a year, due before the masters' account day",
+        "stated_schedule": "quarterly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 20,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "feast on the Sunday after St James's day; each attendee 'appears to pay 20d' (reading uncertain)",
+        "stated_schedule": "yearly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "assembly of masters and brethren",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "four times a year",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "old_age_or_sickness",
+        "amount": 14,
+        "stated": "14d per week for life or until recovered, after seven years' membership",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "wrongful_imprisonment",
+        "amount": 14,
+        "stated": "the same 14d per week during wrongful imprisonment",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "meeting",
+        "activity": "annual feast",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "Sunday after St James's day",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "warden",
+        "type": null,
+        "term": null,
+        "stated": "wardens collect payments and render an annual account the day after the feast; how chosen and for how long: not stated",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 480,
+        "procedure": null,
+        "stated": "40s for a chosen warden who refuses office when warned",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "a member who rebels against the award of wardens and wise members, or is riotous or contentious, is expelled until he amends",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "New members swear on the written ordinances before the wardens; membership requires good repute toward God, the Church and neighbours.",
+      "Weekly aid is paid only after seven years' membership and performance of duties (a qualifying period), and recurs weekly for as long as the condition lasts; no component carries a qualifying period or a recurring payment.",
+      "Members must wear a livery suit each year at their own cost and may not dispose of the garment within a year.",
+      "Absence from the rites for a dead member (placebo, dirige, mass) costs 1 lb of wax unless excused by illness, royal service or residence overseas; a fine in wax (goods), and event-triggered attendance with no schedule.",
+      "Quarrels go first to the wardens and wise members for an award before any other remedy (internal dispute settlement).",
+      "Members who are able give voluntary gifts to the box as they wish."
+    ],
+    "notes": "Wardens' election, term and amendment are not stated in the return. Read through a summarising fetch of the archive.org OCR; verify amounts against the scan."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-london-st-katherine-aldersgate",
+    "place": "St Katherine's gild, St Botolph's, Aldersgate, London",
+    "date": "indenture dated 30 January 1389 (12 Ric. II)",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return II (record CCCIX.9)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "pp. 6-7 (OCR page markers)"
+    },
+    "kind": "religious gild with mutual aid and loans",
+    "components": [
+      {
+        "section": "admission",
+        "type": "vote",
+        "procedure": {
+          "type": "unanimity",
+          "electorate": "present",
+          "eligibility": {
+            "type": "members"
+          },
+          "quorum": {
+            "type": "count",
+            "value": null
+          }
+        },
+        "stated": "admission on assembly day 'with the assent of all' (reading: unanimity of those present)",
+        "label": "researched"
+      },
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": null,
+        "stated": "entry fee agreed between the masters and the entrant; no figure",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 3,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "quarterage 3d per quarter; a married couple pays 6d; a single woman pays as a brother",
+        "stated_schedule": "quarterly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "poverty_age_sickness_fire_water_theft",
+        "amount": 14,
+        "stated": "14d per week for poverty, age, sickness, fire, water, theft or similar misfortune unless caused by the member's own wretchedness",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "loan",
+        "event": "member_request",
+        "amount": null,
+        "repayment_period": null,
+        "stated": "loans from the box keepers against a pledge or sureties from within the brotherhood, capped; cap and repayment period not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "death_of_poor_member",
+        "amount": null,
+        "stated": "the box pays a poor member's burial; sum not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "master",
+        "type": null,
+        "term": null,
+        "stated": "masters for the next year chosen on St Katherine's day (that afternoon or the following Sunday); by whom: not stated",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "box_keeper",
+        "type": null,
+        "term": null,
+        "stated": "four men hold the goods (one keeps the box, one the key, two collect quarterage) and account on St Katherine's day before all members or six of the wisest",
+        "label": "researched"
+      },
+      {
+        "section": "amendment",
+        "type": "unanimity",
+        "electorate": "all_members",
+        "eligibility": {
+          "type": "members"
+        },
+        "quorum": {
+          "type": "count",
+          "value": null
+        },
+        "stated": "wardens may not make new statutes without the whole brotherhood's assent on assembly day (reading: unanimity)",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Entrants swear on a book to uphold the articles and exchange a kiss of love, charity and peace; admission only on assembly days.",
+      "Burial rite: members attend dirige and next morning's service unless reasonably excused; Friars Minor summoned and paid to say the dirige and a trental of masses; tapers renewed on a poor member's death (event-triggered rites paid from the box).",
+      "Wardens fetch a body dying within ten miles of London; costs from the box if the deceased lacked means, otherwise from his executors (a conditional cost-shifting rule).",
+      "Five wax tapers of 20 lb lit on high feasts, two at Sunday high mass (maintenance of lights).",
+      "Aid is withheld where the misfortune was the member's own wretchedness (a fault exclusion)."
+    ],
+    "notes": "Expulsion and exclusivity toward other gilds: not addressed in the return. Whether this return and Westlake's 'Holy Trinity' gild are the same body is not settled here."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-london-fabian-sebastian-aldersgate",
+    "place": "Sts Fabian and Sebastian gild, Aldersgate, London",
+    "date": "deed dated 1379; return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return III (record CCCIX.10)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "pp. 9-13 (OCR page markers)"
+    },
+    "kind": "religious gild with mutual aid and loans",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 80,
+        "stated": "entry fee 'appears to be half a mark' (half a mark = 6s 8d)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 3,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "quarterage 3d; a married couple 6d per quarter; a single woman as a brother",
+        "stated_schedule": "quarterly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "assembly on oath",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "attendance on oath on pain of a 40d fine",
+        "stated_schedule": "four fixed days a year: feast of Fabian and Sebastian, Sundays after Easter, Midsummer and Michaelmas",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "misfortune",
+        "amount": 14,
+        "stated": "14d per week for misfortune not the member's own fault",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "loan",
+        "event": "member_request",
+        "amount": null,
+        "repayment_period": null,
+        "stated": "pledges or sureties drawn only from the brotherhood; sum and term as for return II (not stated)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "death_of_poor_member",
+        "amount": null,
+        "stated": "poor members are buried from the box; sum not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "box_keeper",
+        "type": null,
+        "term": "yearly",
+        "stated": "four good men keep the goods and account on St Fabian's day before all members or six of the wisest; replaced yearly unless the company finds them more useful in office",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 40,
+        "procedure": null,
+        "stated": "40d for absence from an assembly day or a burial without a 'verray enchesoun'",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "a thief, common quarreller or person of bad repute, to the company's discredit, is expelled without delay",
+        "label": "researched"
+      },
+      {
+        "section": "amendment",
+        "type": "unanimity",
+        "electorate": "present",
+        "eligibility": {
+          "type": "members"
+        },
+        "quorum": {
+          "type": "count",
+          "value": null
+        },
+        "stated": "wardens need the whole brotherhood's assent, given on one of the four assembly days",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "A young able-bodied member in need is helped by fellow members' voluntary gifts, each within his means (informal mutual aid with no fixed amount).",
+      "Entrants swear on a book and exchange the kiss; entry only on assembly days.",
+      "Seven tapers (about 21 lb, figure partly garbled) lit on high feasts, two at Sunday high mass.",
+      "Property: two vestments, a chalice, a missal, silver in a pyx, and a tenement held by feoffees worth about 7 marks a year (13s quitrent) whose income supports lights, vestments and alms (endowment income, not member dues)."
+    ],
+    "notes": "The 'whole brotherhood' reading for amendment follows the return's wording only loosely."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-norwich-st-george",
+    "place": "Gild of St George, Norwich",
+    "date": "founded 1385; return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return VI (record CCCX.35)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "page not extracted from the OCR (Part I, Norwich returns)"
+    },
+    "kind": "religious gild with poor relief",
+    "components": [
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 0.25,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "weekly farthing per member to aid a poor brother or sister (farthing = 1/4 d)",
+        "stated_schedule": "weekly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "feast of St George with candles",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "yearly, St George's day",
+        "label": "researched"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "requiem mass",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "yearly, the day after the feast",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "poverty",
+        "amount": null,
+        "stated": "aid to a poor brother or sister from the weekly fund; amount not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      }
+    ],
+    "unmapped": [
+      "At a funeral members attend and offer a farthing, and a penny for masses (event-triggered attendance and offerings).",
+      "The surplus of the weekly fund goes to making an image of St George (residual use of the fund).",
+      "Candles offered on the feast day."
+    ],
+    "notes": "Officers, admission, sanctions and amendment: not found in the summarised text."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-norwich-peltyers",
+    "place": "Gild of the Peltyers (furriers), Norwich",
+    "date": "founded 1376; return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return XI (record CCCX.116)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "page not extracted from the OCR (Part I, Norwich returns)"
+    },
+    "kind": "craft gild with religious and poor-relief functions",
+    "components": [
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "mass on Trinity Monday after Pentecost",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "yearly",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "meeting",
+        "activity": "annual feast",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "yearly",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "need",
+        "amount": 0.25,
+        "stated": "weekly farthing for a member in need unless the trouble was his own folly (reading of the summary: whether this is a payment by each member or to the needy member is not clear)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      }
+    ],
+    "unmapped": [
+      "No lands; the gild is funded by levies and bequests; total goods £4 4s.",
+      "Absence from the mass costs 3 lb of wax; refusing office costs 3 lb of wax (fines in wax; position not otherwise described).",
+      "Four torches and four poor men attend a member's funeral (funeral provision with paid mourners).",
+      "Aid excluded where the trouble was the member's own folly."
+    ],
+    "notes": "A craft body whose return records the religious gild function; the craft itself imposes no trade rule in the summarised text."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-norwich-tailors",
+    "place": "Tailors' gild, Norwich",
+    "date": "founded 1350; return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return XII (record CCCX.120)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "page not extracted from the OCR (Part I, Norwich returns)"
+    },
+    "kind": "craft gild with religious and poor-relief functions",
+    "components": [
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "assembly on Holy Thursday with a candle",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "yearly",
+        "label": "researched"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "requiem",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "yearly, the Friday after",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "poverty",
+        "amount": 7,
+        "stated": "seven pence weekly help to members who fall into poverty, unless proved thieves",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "officer",
+        "type": null,
+        "term": null,
+        "stated": "officers chosen at a meeting in Easter week; by whom: not stated",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Absence from the Holy Thursday assembly costs half a pound of wax (fine in wax).",
+      "Funeral attendance with one halfpenny offered per member; members fetch bodies dying up to seven miles away.",
+      "A Latin certificate precedes the English ordinances (form of the return).",
+      "Aid is denied to those proved thieves (a conduct exclusion)."
+    ],
+    "notes": "Admission and fees: not found in the summarised text."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-norwich-poor-mens-gild",
+    "place": "Poor Men's Gild (St Augustine's), Norwich",
+    "date": "founded 1384 (text partly illegible); return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return XIV (records CCCX.212-217)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "p. 41 (fragment)"
+    },
+    "kind": "religious gild of poor craftsmen with sick pay",
+    "components": [
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "sickness",
+        "amount": 3,
+        "stated": "weekly aid of 3d 'til he be recured'",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "principal mass at St Augustine's",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "yearly, Sunday before his feast",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Members attend burials within seven miles of the city and pay for masses for the soul (figure garbled).",
+      "Candle offered at St Augustine's; the indorsement lists members and notes candles given by a separate Trinity gild.",
+      "Weekly payment continuing until recovery (recurring benefit with an end condition)."
+    ],
+    "notes": "The return is cut off before the full aid rules; the benefit is the part that survives."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-lynn-shipmen",
+    "place": "Shipmen's gild (Exaltation of the Holy Cross), Lynn",
+    "date": "founded September 1368; ordinances of 1381 and 1382 added; return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return CCCX.156",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "pp. 54-57 (OCR page markers)"
+    },
+    "kind": "occupational gild (mariners) with religious functions",
+    "components": [
+      {
+        "section": "admission",
+        "type": "sponsored",
+        "members": 2,
+        "stated": "entrants find two sureties (reading: two members as sponsors)",
+        "label": "researched"
+      },
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": null,
+        "stated": "house fees: alderman 4d, clerk 2d, dean 2d; no single total stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "general meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "three meetings a year; absence without leave costs a pound of wax",
+        "stated_schedule": "three times a year, more if needed",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "alderman",
+        "type": null,
+        "term": null,
+        "stated": "alderman, skeuyn, dean and clerk; election not stated in the summary",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "dean",
+        "type": null,
+        "term": null,
+        "stated": "the dean summons the brethren; failing to summon costs 3d per brother",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 36,
+        "procedure": null,
+        "stated": "a resigning alderman is fined 3s",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 12,
+        "procedure": null,
+        "stated": "a resigning skeuyn is fined 12d (partly garbled)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 3,
+        "procedure": null,
+        "stated": "dean's failure to summon costs 3d per brother",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "breaking the counsel of the gild costs two stone of wax or expulsion",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Absence without leave costs a pound of wax (fine in wax).",
+      "Dead member in town: candles at the dirge and offering at mass; dead member outside town: a bellman is sent and the brethren summoned (rites; ordinances of 1381-82 add default fine of 2 lb wax).",
+      "Each member pays 6d 'for ilk a fare' (context garbled; possibly a voyage levy).",
+      "Breaking the gild's counsel (secrecy) as a sanctioned offence."
+    ],
+    "notes": "Ordinances were added after the original foundation (1381, 1382): an amendment-in-practice with no procedure stated."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-lynn-st-thomas-1376",
+    "place": "Gild of St Thomas of Canterbury (St Nicholas), Lynn",
+    "date": "begun 1376; return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return CCCVIII.118",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "p. 48"
+    },
+    "kind": "religious gild",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": null,
+        "stated": "newcomers pay a fee; figure garbled, possibly 5s",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "general meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "four times a year",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "meeting",
+        "activity": "annual feast and solemn mass",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "feast of St Thomas after Midsummer",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "anyone guilty of false witness, theft or wrongdoing is expelled for life",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "A 2 lb candle burns at festivals.",
+      "Thirty masses sung for a dead member within three days, from gild funds (event-triggered rite paid by the gild).",
+      "Goods total 40s (stock held by the gild)."
+    ],
+    "notes": "Illustrates a Lynn returns pattern: four meetings, a fixed number of masses per death, expulsion for dishonesty."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-bishops-lynn-st-george-martyr",
+    "place": "Gild of St George the Martyr, Bishop's Lynn",
+    "date": "founded 1376; return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return CCCX.90",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "pp. 74-77"
+    },
+    "kind": "religious gild maintaining a priest",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 160,
+        "stated": "13s 4d (one mark), or sureties in its place; plus house fees alderman 2d, wax 1d, clerk 1d, dean 1d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "general meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "four times a year",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "clerk",
+        "type": null,
+        "term": null,
+        "stated": "clerk paid 3s 4d",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "dean",
+        "type": null,
+        "term": null,
+        "stated": "dean paid 2s",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "expulsion after repeated breaches",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Purpose: maintain a priest to sing at St George's altar (a hired chaplain as the gild's object).",
+      "Five candles on festivals; four torches at each brother's exequies.",
+      "Sixty masses for a dead member.",
+      "Members must wear the livery hood; non-wearers fined half a pound of wax.",
+      "Salaries to officers (clerk 40d, dean 24d) paid from the gild's funds.",
+      "Entry may be by money or by sureties (an alternative admission guarantee).",
+      "Goods about £2 3s (partly garbled)."
+    ],
+    "notes": "Officer salaries recorded as positions with stated pay in `stated`; no component carries a salary."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-bishops-lynn-st-thomas",
+    "place": "Gild of St Thomas of Canterbury, Bishop's Lynn",
+    "date": "return of 1389 (foundation date not in the summarised text)",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return CCCX.89",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "pp. 80-81"
+    },
+    "kind": "religious gild with conduct rules at the feast",
+    "components": [
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "general meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "absence costs 1d to the light",
+        "stated_schedule": "four times a year",
+        "label": "researched"
+      },
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": null,
+        "stated": "house fees: alderman 1d, clerk 1/2d, wax 1/2d, dean 1/2d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 2,
+        "procedure": null,
+        "stated": "a false charge against a brother costs 2d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 3,
+        "procedure": null,
+        "stated": "noise during feasts: rod penance or 3d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 1,
+        "procedure": null,
+        "stated": "sleeping, or hogging the ale cup, costs 1d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 2,
+        "procedure": null,
+        "stated": "entering the ale chamber without leave costs 2d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "betraying gild counsel costs a pound of wax or expulsion",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Dead member receives 24 masses.",
+      "Malicious insult costs half a pound of wax (fine in wax).",
+      "Resignation fines paid in wax: alderman 1 lb, skeuyn 1/2 lb, dean 1/4 lb.",
+      "Stewards must find sureties, with a 2 lb wax penalty for failure.",
+      "Conduct at the feast is regulated item by item (the gild's own table manners)."
+    ],
+    "notes": "Text breaks off in the summary after the ale-chamber rule."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-bishops-lynn-holy-cross",
+    "place": "Gild of the Holy Cross, Bishop's Lynn",
+    "date": "return of 1389 (opening cut off; foundation not visible)",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), return CCCX.123",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "pp. 83-84 (OCR page markers)"
+    },
+    "kind": "religious gild with sickness and pilgrimage aid",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 80,
+        "stated": "entry not less than 6s 8d, plus 6d fees",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "general meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "absence without excuse costs half a pound of wax",
+        "stated_schedule": "three times a year",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "goods",
+        "event": "sickness",
+        "good": "ale",
+        "quantity": 1,
+        "stated": "a gallon of ale for sickness",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "goods",
+        "event": "pilgrimage",
+        "good": "ale",
+        "quantity": 1,
+        "stated": "a gallon of ale for pilgrimage",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 1,
+        "procedure": null,
+        "stated": "late arrival after prime costs 1d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 1,
+        "procedure": null,
+        "stated": "sleeping during drink, or staying after the alderman rises, costs 1d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "alderman",
+        "type": null,
+        "term": null,
+        "stated": "officers chosen by picked men; stewards provide sureties and account at the general meeting",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Striking a member at a meeting or during drinking costs four pounds of wax.",
+      "A lawsuit against a member needs the alderman's leave (internal dispute-first rule).",
+      "Dead members: candles brought by the dean, a halfpenny offered by each member, and 30 masses.",
+      "Maintains a light for the Holy Cross and St Helen.",
+      "The editor notes a unique exemption of John Clerke from all payments.",
+      "Stewards who fail to produce goods pay a fine (figure unclear); a 2s penalty is attached to the stewards' sureties."
+    ],
+    "notes": "Amounts as read from a garbled OCR summary; the 'picked men' electoral rule has no component."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-north-lynn-st-james",
+    "place": "Gild of St James, North Lynn",
+    "date": "return of 1389 (foundation date not visible)",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), Part I, North Lynn (St James)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "page not extracted from the OCR"
+    },
+    "kind": "religious gild with small poor relief",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": null,
+        "stated": "entry house fees: alderman 2d, clerk 1d, dean 1d, wax 1d, plus sureties",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 0.5,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "a halfpenny per meeting for three candles",
+        "stated_schedule": "per meeting (four a year)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "general meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "Sundays after Michaelmas, Epiphany and St Barnabas, and after drinking",
+        "stated_schedule": "four times a year",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "misfortune",
+        "amount": 4,
+        "stated": "4d a week while in need",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 1,
+        "procedure": null,
+        "stated": "entering the ale chamber without leave costs 1d",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      }
+    ],
+    "unmapped": [
+      "Absence costs half a pound of wax; refusing office costs the alderman 1 lb, stewards 1/2 lb, dean 1/4 lb (fines in wax).",
+      "Tongue-rebellion costs half a pound of wax; wronging another costs 1 lb.",
+      "Thirty masses for a dead member; absent members pay 1d alms.",
+      "Dean's salary 4d yearly."
+    ],
+    "notes": "The editor records alderman John Knolles and no goods held."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-wiggenhall-assumption",
+    "place": "Gild of the Assumption, Wiggenhall (Norfolk)",
+    "date": "founded 8 Ric. II (1384-85); return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), Part I, Wiggenhall (Assumption)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "page not extracted from the OCR"
+    },
+    "kind": "small religious gild with search-and-burial duty",
+    "components": [
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "general meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "missing both costs an obol",
+        "stated_schedule": "two meetings a year",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "death_of_poor_member",
+        "amount": null,
+        "stated": "burial at gild cost if the member lacks means; sum not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      }
+    ],
+    "unmapped": [
+      "Sudden death by water or land: members search six miles for the body before burial (a duty of search tied to an event).",
+      "Nine masses the next Sunday; absence from a burial costs an obol to the light.",
+      "False accusation costs an obol.",
+      "Holdings: Robert Helys has 6s and some money; Thomas Drewre owes 40d (gild funds lodged with members)."
+    ],
+    "notes": "A very small village gild: the smallest composition in the file."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-east-winch-st-john",
+    "place": "Gild of St John Baptist, East Winch (Norfolk)",
+    "date": "return of 1389 (foundation not visible)",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), Part I, East Winch",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "page not extracted from the OCR"
+    },
+    "kind": "village religious gild with sickness help in kind",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 2,
+        "stated": "entry a penny for wax and a penny for the clerk (2d in all)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "general meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "St John's day, after Michaelmas, Christmas and after Holy Cross Day",
+        "stated_schedule": "four times a year",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "goods",
+        "event": "sickness",
+        "good": "bread_and_ale",
+        "quantity": 1,
+        "stated": "sick members receive a loaf and a pot of ale",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "alderman",
+        "type": null,
+        "term": null,
+        "stated": "alderman, two stewards and a clerk chosen by picked men",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Refusing office costs half a pound of wax (alderman) and a quarter pound (each steward).",
+      "Dead members: a farthing offering, another farthing for the soul, 13 masses; absent members pay 1d alms."
+    ],
+    "notes": "Entry is 1d for wax plus 1d for the clerk; recorded as 2d in all."
+  },
+  {
+    "evidence": 3,
+    "id": "ts-1389-oxburgh-st-peter",
+    "place": "Gild of St Peter, Oxburgh (Norfolk)",
+    "date": "founded 1378 (2 Ric. II); return of 1389",
+    "source": {
+      "citation": "Toulmin Smith, J. and Smith, L. T. (eds), English Gilds: the original ordinances of more than one hundred early English gilds (EETS o.s. 40, London, 1870), Part I (the returns of 1388-89), Part I, Oxburgh (St Peter)",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "page not extracted from the OCR"
+    },
+    "kind": "village religious gild holding barley stock",
+    "components": [
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 0.25,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "a farthing at mass, another to alms",
+        "stated_schedule": "at the annual mass",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "evensong on St Peter's day with a 6 lb wax torch",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "yearly",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "hardship",
+        "amount": 4,
+        "stated": "hardship: 4d a year (figure partly unclear)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "alderman",
+        "type": null,
+        "term": null,
+        "stated": "alderman William Mark and beadle John Skultoun",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Absence within five miles costs a pound of wax; betraying counsel costs a pound of wax.",
+      "On a death, each couple gives 3d.",
+      "Goods: five quarters of barley at 20d each (stock held in grain)."
+    ],
+    "notes": "Sister gild St John Baptist, Oxburgh (founded 1307) holds 20 quarters of barley at 20d each, with a mass penny, farthing offering and farthing to the poor; not separately entered."
+  },
+  {
+    "evidence": 3,
+    "id": "wl-1284-ludlow-palmers",
+    "place": "Palmers' gild, Ludlow (St Lawrence's church)",
+    "date": "founded 1284; chartered 1329",
+    "source": {
+      "citation": "Westlake, H. F., The Parish Gilds of Mediaeval England (SPCK, London, 1919), ch. II",
+      "url": "https://archive.org/details/cu31924032474722",
+      "pages": "pp. 18-19"
+    },
+    "kind": "religious gild with chantry, school and almshouse",
+    "components": [
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": null,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "members charge their houses a proportionate rent payable to the gild; rate not stated",
+        "stated_schedule": "not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "loss_by_robbery_fire_shipwreck",
+        "amount": null,
+        "stated": "a ruined member is helped, but only on three separate occasions; amount not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "false_imprisonment",
+        "amount": null,
+        "stated": "help after false imprisonment; amount not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "dowry",
+        "amount": null,
+        "stated": "a girl member entering religion or marrying receives a dowry if her parents cannot provide it; amount not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "warden",
+        "type": null,
+        "term": null,
+        "stated": "one warden",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "priest",
+        "type": null,
+        "term": null,
+        "stated": "seven priests, singers and choristers",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "The proportionate house rent pays for three daily-mass chaplains (living, dead, Holy Cross), a schoolmaster for a free grammar school, and 32 almsfolk (the gild runs a school and almshouse).",
+      "A benefit limited to three occasions per member (a lifetime cap on claims).",
+      "Rule for wakes: no hideous masks, no mockery of the dead, no indecent games; women may watch only if of the household (conduct at a funeral).",
+      "Gild holds vestments bequeathed by the Earl of March."
+    ],
+    "notes": "Entry fees, fine amounts and how decisions were made: not stated in the summarised passage."
+  },
+  {
+    "evidence": 3,
+    "id": "wl-1406-london-st-peter-cornhill",
+    "place": "Fraternity of St Peter, Cornhill, London",
+    "date": "licensed 1406 (Henry IV); English rule of 23 statutes, expanded to 37 in Latin about three months later",
+    "source": {
+      "citation": "Westlake, H. F., The Parish Gilds of Mediaeval England (SPCK, London, 1919), ch. VIII",
+      "url": "https://archive.org/details/cu31924032474722",
+      "pages": "pp. 79-84"
+    },
+    "kind": "parish fraternity with fishmongers' participation",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 80,
+        "stated": "a minimum of 6s 8d for each new member",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 3,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "quarterage of 3d",
+        "stated_schedule": "quarterly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 12,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "annual feast: 12d for a man, 8d for a wife, same for each guest",
+        "stated_schedule": "yearly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "quarterly meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "non-attendance costs half a pound of wax",
+        "stated_schedule": "three quarterly meetings",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "poverty",
+        "amount": null,
+        "stated": "poverty aid only for members of at least seven years' standing, after investigation and public hearing at a quarterly meeting; amount not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "loan",
+        "event": "member_request",
+        "amount": 480,
+        "repayment_period": null,
+        "stated": "loans of forty shillings, or four or five marks, for one to three months, against security (480d = 40s; 640-800d = 4-5 marks)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "meeting",
+        "activity": "annual feast",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "yearly",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "warden",
+        "type": null,
+        "term": null,
+        "stated": "wardens elected at the annual feast, half from fishmongers and half from parishioners",
+        "label": "researched"
+      },
+      {
+        "section": "admission",
+        "type": "vote",
+        "procedure": {
+          "type": "position_holder",
+          "role": "warden"
+        },
+        "stated": "candidates must be of good name and means; the wardens and six or seven senior brethren could veto admission (reading: veto by named office holders)",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "expulsion for evil life or for failure to pay quarterage",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 1,
+        "procedure": null,
+        "stated": "a priest absent beyond 40 days a year pays a penny a day over the limit",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      }
+    ],
+    "unmapped": [
+      "The parson and wardens choose the priest; if they disagree, the parson's side prevails (tie-break by a named office).",
+      "Priest required to say daily masses and requiems; stipend ten marks yearly in the Latin version (hired chaplain).",
+      "Members wear a common livery for two years and at set services.",
+      "The bedell is paid 12d by the dead member's friends for summoning the brethren.",
+      "Old wardens must account for at least 6s 8d per new member.",
+      "Disputes settled internally before any court action; wardens who fail to reconcile parties must testify against the wrongdoer in court.",
+      "Wardens come half from one occupation and half from the parish (a mixed-constituency electorate)."
+    ],
+    "notes": "The loan amount records the lowest stated sum; the range is in the stated field. Poverty aid is conditional on a public hearing of the claim."
+  },
+  {
+    "evidence": 3,
+    "id": "wl-c1450-london-holy-trinity-aldersgate-gild-book",
+    "place": "Holy Trinity gild, St Botolph's, Aldersgate, London (Gild Book rule)",
+    "date": "founded 1374 as a Corpus Christi gild; Gild Book rule c. 1450 compared with the 1389 return",
+    "source": {
+      "citation": "Westlake, H. F., The Parish Gilds of Mediaeval England (SPCK, London, 1919), ch. VII",
+      "url": "https://archive.org/details/cu31924032474722",
+      "pages": "pp. 66-73"
+    },
+    "kind": "parish gild with loans and priest",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 24,
+        "stated": "Gild Book: 2s (12d to the masters, 12d to the common box); the 1389 return had half a mark (80d)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 3,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "3d quarterly",
+        "stated_schedule": "quarterly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "assembly",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "absence fined 40d",
+        "stated_schedule": "four assembly days yearly",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "poverty_through_misfortune",
+        "amount": 14,
+        "stated": "1389 return: 'he sohal haue in the wyke xiiijd.' (14d a week)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "loan",
+        "event": "member_request",
+        "amount": 240,
+        "repayment_period": null,
+        "stated": "Gild Book: loans of 20s (240d), or two marks, for up to a quarter-year, against sufficient silver or gold security; repayment period of a quarter-year not applied to clock units",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "death_of_poor_member",
+        "amount": null,
+        "stated": "a brother without means is buried from the common box",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "master",
+        "type": null,
+        "term": null,
+        "stated": "masters chosen yearly from the parish (term of one year; clock units not applied)",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "box_keeper",
+        "type": null,
+        "term": null,
+        "stated": "two sufficient men keep the box, with a clerk (Gild Book); in 1389 four or six trusted men",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 120,
+        "procedure": null,
+        "stated": "refusing office: 10s; 20s if chosen again the next year",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "thieves, common gamblers or brawlers, or those of bad repute, are expelled; so are those who reveal the council's business to the gild's harm, unless they pay the fine",
+        "label": "researched"
+      },
+      {
+        "section": "amendment",
+        "type": "unanimity",
+        "electorate": "present",
+        "eligibility": {
+          "type": "members"
+        },
+        "quorum": {
+          "type": "count",
+          "value": null
+        },
+        "stated": "wardens could not make new statutes without the assent of all the brethren at an assembly",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "A body dying within ten miles of London (1389) was fetched at the gild's cost; the Gild Book reduces this to five miles; wardens' costs repaid from the box unless the deceased or his executors could pay.",
+      "Seven wax tapers (21 lb) in 1389; thirteen in the Gild Book.",
+      "A priest is hired at 'x marcs and di.' (ten and a half marks), obedient in the choir, with a double hood in the gild colour.",
+      "Able-bodied members in need are helped by the brethren voluntarily.",
+      "New members swear on a book and kiss the brethren; admission only on assembly days.",
+      "A master could not be re-elected within five years (a bar on re-election).",
+      "The Gild Book entry fee rule is cancelled in the margin (a rule revised in the record itself)."
+    ],
+    "notes": "Westlake treats the 1389 return and the Gild Book as one gild. Whether this is the same body as Toulmin Smith's return III (Fabian and Sebastian) is not settled; treated here as a separate dated composition."
+  },
+  {
+    "evidence": 3,
+    "id": "wl-1282-bury-dulse-st-nicholas",
+    "place": "Dulse (St Nicholas) gild, Bury St Edmunds",
+    "date": "founded 1282",
+    "source": {
+      "citation": "Westlake, H. F., The Parish Gilds of Mediaeval England (SPCK, London, 1919), ch. II",
+      "url": "https://archive.org/details/cu31924032474722",
+      "pages": "pp. 13-14"
+    },
+    "kind": "gild led by twelve priests",
+    "components": [
+      {
+        "section": "position",
+        "position": "governor",
+        "type": null,
+        "term": null,
+        "stated": "a governor elected; members swear not to act against the governing twelve",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "death_of_approved_poor_member",
+        "amount": null,
+        "stated": "funeral costs for poor members whose conduct had been approved; amount not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      }
+    ],
+    "unmapped": [
+      "Daily prayers by priests and lay members (three paternosters and three aves for the living and the dead); missed prayers atoned by two Holy Spirit masses a year (a substitution rule for prayers).",
+      "A substitute may attend for an absent brother.",
+      "Special collections for poor members.",
+      "Membership capped at twelve priests plus sixty (a size limit); who admits the sixty is not stated."
+    ],
+    "notes": "Governance details beyond 'twelve priests govern' are not in the summarised passage."
+  },
+  {
+    "evidence": 3,
+    "id": "wl-c1020-abbotsbury-st-peter",
+    "place": "Abbotsbury gild (St Peter), Dorset",
+    "date": "reign of Canute (1016-1035), endowed by Orcy",
+    "source": {
+      "citation": "Westlake, H. F., The Parish Gilds of Mediaeval England (SPCK, London, 1919), ch. I",
+      "url": "https://archive.org/details/cu31924032474722",
+      "pages": "pp. 3-4"
+    },
+    "kind": "frith-gild (pre-Conquest religious and mutual-aid gild)",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": null,
+        "stated": "joining required an entrance fee; amount not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 1,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "each brother gave a penny (or wax equivalent) three days before St Peter's mass",
+        "stated_schedule": "yearly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "steward",
+        "type": "position_holder",
+        "role": "steward",
+        "term": null,
+        "stated": "the steward held decision-making authority; he called everyone to attend a corpse and gave leave for extra guests",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "sickness_away",
+        "amount": null,
+        "stated": "if a brother fell sick within sixty miles, fifteen men were to fetch him",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      }
+    ],
+    "unmapped": [
+      "On St Peter's Eve each two brethren give one broad loaf; wood and wheat offered on fixed days; 'full brethren' paid more than others (two tiers of membership).",
+      "A brother who gave offence had to make amends to the injured brother and to the whole gild.",
+      "Guests at feasts limited in number unless the steward gave leave.",
+      "Death away from home: thirty men fetch the body; at Abbotsbury the steward called everyone to attend the corpse to the minster."
+    ],
+    "notes": "Earliest entry. Date is the reign, not a precise year."
+  },
+  {
+    "evidence": 3,
+    "id": "eden-1795-kirkby-lonsdale-union-friendly-society",
+    "place": "Union Friendly Society, Kirkby Lonsdale, Westmorland",
+    "date": "rules ending March 1795, reported in Eden 1797",
+    "source": {
+      "citation": "Eden, F. M., The State of the Poor (London, 1797), vol. III, parochial reports, Westmorland (Kirkby Lonsdale)",
+      "url": "https://archive.org/details/b28773135_0003",
+      "pages": "approx. pp. 774-776 (OCR page markers)"
+    },
+    "kind": "friendly society (pub club)",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 36,
+        "stated": "entry fee 3s for men over 18 and under 25 (36d), 4s for 25 to 30 (48d); plus 2d to the clerk and 2d to be spent",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 12,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "1s every fourth Monday: 10d into the box, 2d spent at the house where the box is kept",
+        "stated_schedule": "every fourth Monday",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "sickness",
+        "amount": 84,
+        "stated": "1s a day paid weekly, i.e. 7s (84d) a week, after nine months' membership if under 25 at entry or twelve months if over 25; the member still pays ordinary payments while sick",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "long_sickness",
+        "amount": 42,
+        "stated": "after nine months on the box with no prospect of recovery, 3s 6d a week (42d)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "age_60",
+        "amount": 48,
+        "stated": "at 60, a member who has paid all dues receives 4s a week for life (48d)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "death_of_member",
+        "amount": 720,
+        "stated": "£3 for a member's funeral",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "death_of_wife",
+        "amount": 720,
+        "stated": "£3 for the funeral of the wife he had at admission (or first wife after joining, for a bachelor)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "death_of_member_nominee",
+        "amount": 1200,
+        "stated": "£5 to a beneficiary named by will or orally before two witnesses; otherwise to widow, then children, then next or most needy relations",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "meeting",
+        "activity": "Whitsun-week church service and dinner",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "members pay 1s 4d for the dinner; the minister receives 10s 6d (126d) from the box",
+        "stated_schedule": "yearly, Tuesday of Whitsun week",
+        "label": "researched"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "Whitsun feast and church",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "members within 18 miles must attend decently dressed and sober, or forfeit 6d and still pay 1s 4d; farther than 18 miles, forfeit 6d but pay nothing",
+        "stated_schedule": "yearly",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "clerk",
+        "type": "simple_majority",
+        "electorate": "present",
+        "eligibility": {
+          "type": "members"
+        },
+        "quorum": {
+          "type": "count",
+          "value": null
+        },
+        "term": null,
+        "stated": "clerk serves one year, elected on the anniversary by a majority of members present; paid 14s a year from the box",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "president",
+        "type": null,
+        "term": null,
+        "stated": "a president and stewards are named; election and term not in the summarised passage",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 12,
+        "procedure": null,
+        "stated": "the clerk is fined 1s for absence at seven o'clock without a deputy",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": 6,
+        "procedure": null,
+        "stated": "6d forfeit for a Whitsun feast breach (drunk, unclean or absent)",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "sanction",
+        "type": "expulsion",
+        "procedure": null,
+        "stated": "a member who takes up a barred trade is expelled unless impressed or balloted; a clerk who neglects his duties is fined 1s or excluded; members who try to subvert Church or State are excluded",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "Applicants must have had smallpox; miners, soldiers, seamen, watchmen and militia members are barred (health and occupation exclusions).",
+      "No one may belong to another benefit society (exclusion of a whole class of other bodies, not named organisations).",
+      "A member impressed or balloted into a barred trade may rejoin without a fee if healthy and applying within three months of discharge.",
+      "The member declares sickness at the house; the landlord tells the stewards within 12 hours; the stewards visit within 24 hours if within three miles and may advance up to 3s (a claims procedure with deadlines and an advance).",
+      "Sick pay is cut to 3s 6d a week when the member can earn no more than half his former wage, confirmed by his apothecary and neighbours; light work allowed under that limit (benefit scaled to residual earnings).",
+      "A relapse within ten days of a declared recovery, before six months, joins the periods (benefit continuity rule).",
+      "The president and stewards attend a funeral within three miles and receive 1s 6d each.",
+      "Death benefit is paid at the first month-night after the death, free of deductions.",
+      "A surplus from the feast dinner is returned to each member in the liquor he prefers."
+    ],
+    "notes": "Articles 1 and 6-10 (and any amendment rule) are not in the summarised text. £ amounts converted at 240d to the pound; 1s 6d etc. as written."
+  },
+  {
+    "evidence": 3,
+    "id": "eden-c1795-kendal-free-society",
+    "place": "Free Society, Kendal, Westmorland",
+    "date": "reported in Eden 1797 (founding date not stated)",
+    "source": {
+      "citation": "Eden, F. M., The State of the Poor (London, 1797), vol. III, parochial reports, Westmorland (Kendal)",
+      "url": "https://archive.org/details/b28773135_0003",
+      "pages": "approx. pp. 770-772 (OCR page markers)"
+    },
+    "kind": "friendly society (pub club) with committee",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 66,
+        "stated": "admission fine 5s 6d; members must be under 36",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 12,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "meets monthly: 10d goes to the box and 2d is spent in liquor",
+        "stated_schedule": "monthly",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "monthly meeting",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated_schedule": "monthly",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "sickness",
+        "amount": 72,
+        "stated": "sick members receive 6s a week",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "age_blindness_incurable_lameness",
+        "amount": 36,
+        "stated": "aged, blind or incurably lame members receive 3s a week for life",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "steward",
+        "type": null,
+        "term": null,
+        "stated": "two stewards serve in rotation every three months",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "master",
+        "type": null,
+        "term": null,
+        "stated": "a master audits the accounts",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "clerk",
+        "type": null,
+        "term": "indefinite",
+        "stated": "a permanent clerk keeps the books",
+        "label": "researched"
+      },
+      {
+        "section": "position",
+        "position": "committee",
+        "type": "council",
+        "roles": [
+          "committee_member"
+        ],
+        "procedure": {
+          "type": "simple_majority",
+          "electorate": "present",
+          "eligibility": {
+            "type": "positions",
+            "roles": [
+              "committee_member"
+            ]
+          },
+          "quorum": {
+            "type": "count",
+            "value": null
+          }
+        },
+        "term": null,
+        "stated": "a committee of seven, chosen quarterly, settles disputes (voting rule not stated; simple majority is a reading)",
+        "label": "researched"
+      }
+    ],
+    "unmapped": [
+      "The sister Friendly Society at Kendal meets every four weeks with the same 10d and 2d split, a committee of the five oldest and five youngest members rotating every three months, sick pay 6s a week and 3s a week for the aged or incurable (a committee by age rank).",
+      "Stewards rotate by turn (rotation by seniority or turn rather than election).",
+      "Disputes settled by the committee (internal court)."
+    ],
+    "notes": "Described in prose in Eden, not as numbered articles. No amendment, expulsion or loan rules in the summarised text. The committee entry's voting rule is a reading and not stated."
+  },
+  {
+    "evidence": 3,
+    "id": "br-1628-arnstadt-shoe-servants",
+    "place": "Shoe-servants' (journeymen shoemakers') fraternity, Arnstadt, Thuringia",
+    "date": "1628 (articles re-confirmed after a fire destroyed the earlier articles)",
+    "source": {
+      "citation": "Brentano, L., 'On the History and Development of Gilds', preliminary essay in Toulmin Smith, J. (ed.), English Gilds (EETS o.s. 40, London, 1870), citing Berlepsch, Chronik der Gewerke, vol. IV",
+      "url": "https://archive.org/details/englishgildsorig00smit",
+      "pages": "Brentano's essay, citing Berlepsch vol. IV, pp. 67-72 (page in the Toulmin Smith volume not extracted)"
+    },
+    "kind": "journeymen's fraternity",
+    "components": [
+      {
+        "section": "admission",
+        "type": "fee",
+        "amount": 1,
+        "stated": "entrance fee of one groschen",
+        "unit": "groschen",
+        "label": "researched"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 6,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "fortnightly contribution of six pfennigen",
+        "stated_schedule": "fortnightly",
+        "unit": "pfennig",
+        "label": "researched"
+      },
+      {
+        "section": "obligation",
+        "type": "dues",
+        "amount": 1,
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "quarterly payment of one groschen",
+        "stated_schedule": "quarterly",
+        "unit": "groschen",
+        "label": "researched"
+      },
+      {
+        "section": "obligation",
+        "type": "attendance",
+        "activity": "fortnightly meeting opened with a religious service and a social cup",
+        "schedule": {
+          "first": null,
+          "period": null
+        },
+        "stated": "late arrivals are fined",
+        "stated_schedule": "fortnightly",
+        "label": "researched"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "sickness",
+        "amount": null,
+        "stated": "sick members receive support, which must be repaid if they recover; amount not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "benefit",
+        "type": "transfer",
+        "event": "death_of_member",
+        "amount": null,
+        "stated": "burial paid for by the fraternity; sum not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      },
+      {
+        "section": "position",
+        "position": "elder",
+        "type": null,
+        "term": null,
+        "stated": "two elders preside; annually elected masters' deputies must be present for decisions",
+        "label": "researched"
+      },
+      {
+        "section": "sanction",
+        "type": "fine",
+        "amount": null,
+        "procedure": null,
+        "stated": "fines for drinking, gaming, insults and late arrival; amounts not stated",
+        "label": "researched",
+        "unit": "penny (English d.)"
+      }
+    ],
+    "unmapped": [
+      "Lodging at the inn for four pfennige and a meal for two groschen are fixed by the fraternity (price-setting for travelling members).",
+      "Members who break the rules may be 'reviled' and placed on a black list (reputational sanction).",
+      "The articles were confirmed on the masters' request (approval of a fraternity's rules by an outside body, the masters).",
+      "Sick support repayable if the member recovers (a repayable benefit, i.e. a loan triggered by sickness).",
+      "All members attend funerals."
+    ],
+    "notes": "Currency in groschen and pfennige as stated; no pence conversion attempted. A later German example from Brentano's essay; the Toulmin Smith volume is the carrier, Berlepsch the original."
+  }
+]
