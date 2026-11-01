@@ -1,4 +1,6 @@
 import { simTime } from "@rex/kernel";
+import { amendmentTargets } from "./amendment.ts";
+import { proposalProcedure } from "./choice.ts";
 import { FORMATION_PROCESS, mintOrder, type FoundIntention } from "./formation.ts";
 import type { NetworkTie, Pair } from "./network.ts";
 import type { DueObligation, Organisation } from "./organisation.ts";
@@ -109,13 +111,6 @@ function eligible(org: Organisation, person: PersonId, procedure: DecisionProced
     && (!ballot || rule.electorate === "all_members" || present);
 }
 
-function procedureFor(org: Organisation, payload?: Readonly<Record<string, unknown>>): DecisionProcedure | undefined {
-  if (payload?.action === "admit") return org.charter.admission?.find((r) => r.type === "vote")?.procedure;
-  if (payload?.action === "elect") return org.charter.positions?.find((p) => p.position === payload.role);
-  if (payload?.action === "sanction" && typeof payload.component === "number") return org.charter.sanctions?.[payload.component]?.procedure;
-  return org.charter.decision_procedure;
-}
-
 /** DESIGN §1.13, §2.2 (IF-46): the single writer's pure projection, rebuilt on
  * every call. Offering is not choosing. Terms describe sources; the host must
  * deliver charter observations/testimony separately, and recheck every attempt.
@@ -164,12 +159,24 @@ export function offers(person: PersonId, t: number, state: AffordanceState): rea
         add("propose", org.id, source, { ...terms, procedure }, payload);
       }
     }
+    if (org.charter.amendment && eligible(org, person, org.charter.amendment, false, attendance.length > 0)) {
+      for (const { value, ...target } of amendmentTargets(org.charter)) {
+        if (value !== null && Number.isFinite(value)) {
+          // IF-46: numeric terms only; the organisation id is the target. The
+          // member supplies the proposed value, without an engine default.
+          add("propose", org.id, source, { value }, { action: "amend", ...target });
+        }
+      }
+    }
     for (const entry of [...state.proposals].sort((a, b) => mintOrder(a.id, b.id))) {
       if (entry.status !== "open" || entry.proposal.kind !== "propose" || entry.proposal.target !== org.id || entry.proposal.t > t) continue;
-      const procedure = procedureFor(org, entry.proposal.payload);
+      const procedure = proposalProcedure(org.charter, entry.proposal.payload);
       if (!procedure || !eligible(org, person, procedure, true, attendance.length > 0)) continue;
       for (const kind of ["support", "oppose", "abstain"] as const) {
-        add(kind, entry.id, source, { ...terms, proposal: entry.proposal, procedure });
+        const value = entry.proposal.payload?.value;
+        add(kind, entry.id, source, entry.proposal.payload?.action === "amend"
+          ? typeof value === "number" && Number.isFinite(value) ? { value } : {}
+          : { ...terms, proposal: entry.proposal, procedure });
       }
     }
   }

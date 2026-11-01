@@ -3,7 +3,8 @@ import { found, merge, split, secede, dissolve, SplitRefusal, type LifecycleHost
   type SplitInput, type SecessionInput } from "./formation.ts";
 import type { CommunicationNetwork } from "./network.ts";
 import { validateCharter } from "./charter.ts";
-import { collectiveChoice, type ChoiceEvent } from "./choice.ts";
+import { collectiveChoice, proposalProcedure, type ChoiceEvent } from "./choice.ts";
+import { amendmentDraft } from "./amendment.ts";
 import type { InventoryPort, LedgerPort, OrganisationFacts, ViewsPort } from "./ports.ts";
 import { mintId, type Charter, type CharterCapabilities, type DecisionProcedure, type OrganisationEvent,
   type OrganisationEventPayload, type OrgId, type PersonId, type Schedule, type SocialIntention } from "./types.ts";
@@ -407,16 +408,31 @@ export class OrganisationStore {
     const sanction = action === "sanction" && typeof component === "number" && Number.isSafeInteger(component)
       ? org.charter.sanctions?.[component] : undefined;
     const office = action === "elect" ? org.charter.positions?.find((p) => p.position === intention.payload?.role) : undefined;
-    const procedure = sanction?.procedure ?? office ?? org.charter.decision_procedure;
+    const procedure = proposalProcedure(org.charter, intention.payload);
+    if (action === "amend" && !procedure) return this.#refuse(org.id, "no amendment component", [intention]);
     if (!procedure) return this.#refuse(org.id, "no decision procedure", [intention]);
+    const amendment = action === "amend" ? amendmentDraft(org.charter, intention.payload) : undefined;
+    if (amendment && "reason" in amendment) return this.#refuse(org.id, amendment.reason, [intention]);
+    if (amendment) {
+      const errors = this.#errors(amendment.charter);
+      if (errors.length) return this.#emit(org.id, "refused", "invalid amended charter", [intention],
+        { outcome: "refused", reason: "invalid amended charter", errors });
+    }
     const person = intention.payload?.person as PersonId;
     if (action === "sanction" && (!sanction || !org.members.some((m) => m.person === person))) return this.#refuse(org.id, "sanction requires a declared rule and current member", [intention]);
     if (action === "elect" && (!office || !this.#active(org, person))) return this.#refuse(org.id, "election requires a declared position and active member", [intention]);
     // Other mechanisms may consume generic acts; they cannot mutate this store.
-    if (action !== "sanction" && action !== "elect" && action !== "dissolve" && action !== "act") return this.#refuse(org.id, "unsupported proposal action", [intention]);
+    if (action !== "amend" && action !== "sanction" && action !== "elect" && action !== "dissolve" && action !== "act") return this.#refuse(org.id, "unsupported proposal action", [intention]);
     const result = this.#choice(org, { ...decision, proposal: intention }, procedure);
     this.#state.decisions.push(decision.proposalId);
     if (result.payload.outcome !== "accepted") return structuredClone(result);
+    if (amendment) {
+      org.charter = amendment.charter;
+      // IF-46 B: publication is an observable act, retaining the proposal and
+      // tally. Hosts deliver it through observation/testimony (DESIGN §2.2).
+      return this.#emit(org.id, "act", "charter amended", result.intentions,
+        { ...result.payload, ...amendment.change, previous: amendment.previous, amendmentApplied: true });
+    }
     if (action === "dissolve") this.#dissolve(org, "passed dissolution", result.intentions);
     if (office) {
       const position = org.positions.find((p) => p.role === office.position)!;

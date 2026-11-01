@@ -1,7 +1,19 @@
 import type { RandomStreams } from "@rex/kernel";
-import type { DecisionProcedure, OrganisationEvent, OrgId, PersonId, SocialIntention } from "./types.ts";
+import type { Charter, DecisionProcedure, OrganisationEvent, OrgId, PersonId, SocialIntention } from "./types.ts";
 
 export const CHOICE_PROCESS = "society.organisation.collective_choice";
+
+/** DESIGN §1.3: amendment authority comes only from the amendment component,
+ * never from the ordinary decision rule. Offers and attempts share this lookup.
+ */
+export function proposalProcedure(charter: Charter, payload: SocialIntention["payload"]): DecisionProcedure | undefined {
+  if (payload?.action === "amend") return charter.amendment;
+  if (payload?.action === "admit") return charter.admission?.find((r) => r.type === "vote")?.procedure;
+  if (payload?.action === "elect") return charter.positions?.find((p) => p.position === payload.role);
+  if (payload?.action === "sanction") return typeof payload.component === "number" && Number.isSafeInteger(payload.component)
+    ? charter.sanctions?.[payload.component]?.procedure : undefined;
+  return charter.decision_procedure;
+}
 export interface PositionHolder { readonly role: string; readonly holder: PersonId | null }
 export interface ChoiceInput {
   readonly org: OrgId;

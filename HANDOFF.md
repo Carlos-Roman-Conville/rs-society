@@ -1,6 +1,7 @@
 # HANDOFF: society
 
 ## State
+- 5162: executable `propose` / `action: "amend"` for existing numeric obligation/benefit parameters, decided only by the charter's amendment procedure; validated before execution, numeric offers and observable change/tally evidence. Later dues/claims read the amended charter. Regression coverage in `test/amendment.test.ts`.
 - 2836-2839: Approved DESIGN; package scaffold/smoke/fences; shared records, Kernel ids, composable validation; network/clocks/exposure/decay/observer measures; 24 sourced historical compositions and vocabulary gaps.
 - 2840-2844: Reference verification; authority/obligations/atomic resource-view ports; collective choice/tie-breaks/pairwise cycle witnesses; intention-led founding/lifecycle, observer-only institution label; CHECK.md independent invariants (unit lists unchecked).
 - 2913: Null diagnostics, typed institution evidence, declared-parameter DUP-58 (3) check.
@@ -19,7 +20,7 @@
 - 5065: pending kernel pin to v0.1.1; waits on kernel unit 5153.
 
 ## Blocked
-- D5: charter-amendment execution path in OrganisationStore.#propose (it runs only act/dissolve/elect/sanction) plus host transport; a src change, needs the keeper.
+- D5: engine amendment execution is available (5162); bench host transport and rerun remain for 5163. Proposal payload: `{ action: "amend", section: "obligations" | "benefits", component: index, parameter: "amount" | "quantity" | "hours" | "repayment_period", value: number | null }`. Missing values refuse; offers supply the current numeric `terms.value`, leaving the proposed value to the member. Structural component/schedule replacement is outside this proposal shape. As with existing payments, unpaid dues use the charter amount at payment time.
 - split/secession not transported by the bench host.
 - D6/D7 inverted signs (relief foundings above baseline): fixture permits solitary founding and shock costs drain the founding purse; model/fixture design question for the keeper, not tuning.
 - bench/d-soc-1/results.json is 21.5 MB and committed (the report test hashes it): keeper rules whether it stays in git.
