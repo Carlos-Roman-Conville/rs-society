@@ -1,4 +1,5 @@
 node_modules/
+.reg.log
 .gate.log
 tmp/
 bench/d-soc-1/results/

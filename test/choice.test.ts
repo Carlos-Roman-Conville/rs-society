@@ -321,7 +321,8 @@ describe("choice input integrity and deterministic trace", () => {
   it("declares its process and observable event output in kernel.json", () => {
     const manifest = JSON.parse(readFileSync(new URL("../kernel.json", import.meta.url), "utf8"));
     expect(manifest.processes.filter((p: { id: string }) => p.id === CHOICE_PROCESS)).toEqual([{
-      id: CHOICE_PROCESS, reads: ["mind.intention", "society.organisation", "society.membership", "society.meeting_attendance"],
+      id: CHOICE_PROCESS, mechanisms: ["society.organisation.collective_choice"],
+      reads: ["mind.intention", "society.organisation", "society.membership", "society.meeting_attendance"],
       writes: ["society.organisation_event"],
     }]);
   });
