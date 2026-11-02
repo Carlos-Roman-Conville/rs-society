@@ -423,6 +423,20 @@ Two quantities proposed for registration:
   as a graph (§1.6). Writer `society.household.structure` (not built yet; until then a host supplies the facts
   through the `kinship` port in `src/ports.ts`). Readers: network communication, admission by kinship.
 
+Contract fields: `society.affordance.offer`
+
+- **Rate limiter:** offers open only as fast as their sources change: membership and charters (§1.2), meetings a
+  charter schedules (§1.3), contacts on the network for a founding circle (§1.1, §1.4) and balances for a fee. Computing
+  offers is a stateless projection, so it is unlimited; an offer never acts. Taking one is the person's own intention,
+  limited by their hours (§1.1) and re-checked against true state at the attempt (IF-46 amendment A).
+- **Failure mode:** a rule that needs an amount or a fact the host did not supply (a fee amount, a sponsor count,
+  sponsor, kinship or occupation facts, a founding-circle window) refuses with an error naming it; never a default and
+  never a silently dropped offer. A source with no open rule offers nothing. An offer the true state no longer allows is
+  refused at the attempt as an outcome event the mind observes.
+
+Registry rows for Rate limiter and Failure mode follow the same pattern as collective choice §1.3 (table rows) and
+payment acceptance §1.17 (bullets).
+
 **`contract.available_hours`** (`h·d⁻¹`, per person per day; §1.1, §1.14 4) replaces **`mind.available_hours`**: it is
 not a mind quantity. No Society mechanism writes it: the host composes it from waking hours (`body.hours_awake`) minus
 post hours (`settlement.post_assignment`, `settlement.config.hours_per_day`), with offered hours from Life's
