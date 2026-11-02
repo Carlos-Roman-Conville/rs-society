@@ -99,8 +99,8 @@ describe("one content-agnostic network (DESIGN §1.1, DUP-60)", () => {
     expect(writers).toHaveLength(1);
     expect(writers[0]).toMatchObject({ id: NETWORK_PROCESS, writes: ["society.comm_network"] });
     expect(writers[0].reads).toEqual(expect.arrayContaining([
-      "settlement.shared_hours", "society.household", "society.kinship", "society.meeting_attendance",
-      "mind.episode", "mind.intention",
+      "settlement.post_filledby", "settlement.labour.hours_assigned", "society.household", "society.kinship",
+      "society.meeting_attendance", "mind.episode", "mind.intention", "economy.events",
     ]));
     const source = readFileSync(new URL("../src/network.ts", import.meta.url), "utf8");
     expect(source).not.toMatch(/trust|source_credibility|mind\.belief/);

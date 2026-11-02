@@ -3,7 +3,7 @@
     {
       "id": "society.convention.payment_acceptance",
       "mechanisms": ["society.convention.payment_acceptance"],
-      "reads": ["economy.exchange_records", "economy.refusal_records", "society.membership", "society.household"],
+      "reads": ["economy.events", "society.membership", "society.household"],
       "writes": ["society.payment_acceptance_share"]
     },
     {
@@ -21,22 +21,23 @@
     {
       "id": "society.organisation.actors",
       "mechanisms": ["society.organisation.actors"],
-      "reads": ["mind.intention", "life.death", "life.departure", "life.illness_onset", "settlement.balance_changes", "economy.inventory"],
+      "reads": ["mind.intention", "body.crisis", "settlement.assignment", "body.medicine_outputs", "settlement.balance_changes", "contract.have"],
       "writes": ["society.organisation", "society.membership", "society.organisation_event"]
     },
     {
       "id": "society.network.communication",
       "mechanisms": ["society.network.communication"],
       "reads": [
-        "settlement.residence",
-        "settlement.post_assignment",
-        "settlement.shared_hours",
+        "settlement.assignment",
+        "settlement.post_holder",
+        "settlement.post_filledby",
+        "settlement.labour.hours_assigned",
         "society.household",
         "society.kinship",
         "society.membership",
         "society.meeting_attendance",
         "mind.episode",
-        "economy.exchange_records",
+        "economy.events",
         "mind.intention",
         "contract.available_hours"
       ],

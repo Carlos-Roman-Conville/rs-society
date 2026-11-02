@@ -429,6 +429,22 @@ post hours (`settlement.post_assignment`, `settlement.config.hours_per_day`), wi
 `LabourSupply` (IF-27), and passes it as the network's `availableHours`. Registered like the other host-supplied
 contract quantities (writer null, written by the host).
 
+**Read ids.** Registered ids that `kernel.json` reads in place of earlier unregistered names (port names in `src/` are
+unchanged; the host adapts these records to the ports):
+
+| Old | New |
+|---|---|
+| `economy.exchange_records` | `economy.events` (types sold, bought, exchanged, offerFilled) |
+| `economy.refusal_records` | `economy.events` (type refused) |
+| `economy.inventory` | `contract.have` |
+| `settlement.residence` | `settlement.assignment` (rows of kind residence) |
+| `settlement.post_assignment` | `settlement.post_holder` (standing assignment) and `settlement.post_filledby` (who worked the post that day) |
+| `settlement.shared_hours` | `settlement.post_filledby` and `settlement.labour.hours_assigned` (co-presence) |
+| `life.death` | `body.crisis` (records resolved died) |
+| `life.illness_onset` | `body.medicine_outputs` (the step where diseases.\<id\> becomes 2) |
+| `life.departure` | `settlement.assignment` (a residence change) |
+| `mind.available_hours` | `contract.available_hours` (§1.1, §1.14 4) |
+
 ## 2. The interfaces
 
 ### 2.1 Kernel
