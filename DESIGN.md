@@ -387,6 +387,15 @@ A specialisation of `society.norm.sanction` (§1.9), not a new gear. Measured fr
 - **Output:** quantity `society.payment_acceptance_share` (unit 1, nullable) on an out port: a view for hosts,
   reports and tests. It is **never fed into minds**; minds learn acceptance from exchanges they observe and
   testimony on the network (IF-46 amendment B).
+- **Rate limiter:** the share moves only as fast as members trade: each observation is a completed exchange or a
+  `not-accepted` refusal, which needs a trade contact (§1.1: contact rates, waking hours), and only observations
+  inside the caller's window count. Recomputing is unlimited: the share is a stateless projection of the records,
+  so computing it again changes nothing (keeper ruling, 2026-11-01).
+- **Failure mode:** no member observed (including when Economy supplies no records) → `null`, never 0: "not
+  observed" is not "nobody accepts". A null, missing, non-finite or reversed window, a group id with no supplied
+  membership, or a record with a non-finite day → the call refuses with an error naming the cause; never a default
+  or a skipped record. Records that are neither an exchange leg of the asset nor a `not-accepted` refusal of it are
+  not observations and are ignored (keeper ruling, 2026-11-01).
 - **Network:** each completed exchange is a contact of tie kind `trade` between its parties on the one network
   (§1.1, DUP-60); its λ0, α and half-life are inputs (null refuses). No second network.
 - **Norms:** a refusal is an observable event. A sanction occurs only as a named person's or organisation's own act
