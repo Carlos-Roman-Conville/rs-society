@@ -14,7 +14,7 @@
     },
     {
       "id": "society.institution.formation_dissolution",
-      "mechanisms": ["society.institution.formation_dissolution"],
+      "mechanisms": ["society.institution.formation_dissolution", "society.organisation.actors"],
       "reads": ["mind.intention", "society.comm_network", "society.organisation", "society.membership"],
       "writes": ["society.organisation", "society.membership", "society.organisation_event"]
     },
@@ -38,13 +38,13 @@
         "mind.episode",
         "economy.exchange_records",
         "mind.intention",
-        "mind.available_hours"
+        "contract.available_hours"
       ],
       "writes": ["society.comm_network"]
     },
     {
       "id": "society.organisation.collective_choice",
-      "mechanisms": ["society.organisation.collective_choice"],
+      "mechanisms": ["society.organisation.collective_choice", "society.organisation.actors"],
       "reads": ["mind.intention", "society.organisation", "society.membership", "society.meeting_attendance"],
       "writes": ["society.organisation_event"]
     }

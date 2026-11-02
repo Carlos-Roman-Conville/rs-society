@@ -404,6 +404,31 @@ A specialisation of `society.norm.sanction` (§1.9), not a new gear. Measured fr
   unobserved and refusal on a null window; no mind state read (fence); trade ties only as a tie kind on the one
   network; no sanction without a named actor's act; changing a share changes no price, balance or transfer.
 
+### 1.18 Registry ownership (REG-34)
+
+One writer per quantity (proposed to the registry keeper, 2026-11-01). `society.organisation`,
+`society.membership` and `society.organisation_event` are written only by `society.organisation.actors`: the
+organisation store commits every change in one kernel transaction per act. Formation and dissolution (§1.4) and
+collective choice (§1.3) compute acts that the store commits, so their processes list `society.organisation.actors`
+among their mechanisms. **Proposed:** move `society.organisation_event`'s writer from
+`society.institution.formation_dissolution` to `society.organisation.actors` in the registry row (the lane's
+`kernel.json` already reflects the store as the sole writer of all three quantities).
+
+Two quantities proposed for registration:
+
+- **`society.meeting_attendance`** `{org, person, activity, t}`: a member's recorded attendance at an organisation's
+  meeting or activity, recorded only from that person's own `attend` intention. Writer `society.organisation.actors`.
+  Readers: affordance offer, collective choice, network communication.
+- **`society.kinship`** `{person, relative, relation, since}`: kin relations (parent, child, sibling, spouse, affine)
+  as a graph (§1.6). Writer `society.household.structure` (not built yet; until then a host supplies the facts
+  through the `kinship` port in `src/ports.ts`). Readers: network communication, admission by kinship.
+
+**`contract.available_hours`** (`h·d⁻¹`, per person per day; §1.1, §1.14 4) replaces **`mind.available_hours`**: it is
+not a mind quantity. No Society mechanism writes it: the host composes it from waking hours (`body.hours_awake`) minus
+post hours (`settlement.post_assignment`, `settlement.config.hours_per_day`), with offered hours from Life's
+`LabourSupply` (IF-27), and passes it as the network's `availableHours`. Registered like the other host-supplied
+contract quantities (writer null, written by the host).
+
 ## 2. The interfaces
 
 ### 2.1 Kernel
