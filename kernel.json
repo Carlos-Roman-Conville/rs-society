@@ -3,8 +3,8 @@
     {
       "id": "society.household.structure",
       "mechanisms": ["society.household.structure"],
-      "reads": ["body.crisis", "settlement.assignment"],
-      "writes": ["society.household", "society.kinship"]
+      "reads": ["body.crisis", "settlement.assignment", "contract.right_of_use"],
+      "writes": ["society.household", "society.kinship", "society.household_arrangement", "society.draw_authorisation"]
     },
     {
       "id": "society.convention.payment_acceptance",

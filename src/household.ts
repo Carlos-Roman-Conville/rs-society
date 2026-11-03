@@ -1,5 +1,6 @@
 import { simTime, transaction, type Participant } from "@rex/kernel";
 import type { HouseholdId, PersonId } from "./types.ts";
+import { validateArrangement, type HouseholdArrangement } from "./arrangement.ts";
 
 export const HOUSEHOLD_PROCESS = "society.household.structure";
 
@@ -11,6 +12,7 @@ export interface HouseholdRecord {
   residence: string | null;
   formed_at: number;
   dissolved_at: number | null;
+  arrangement?: HouseholdArrangement;
 }
 export type KinshipRelation = "parent" | "child" | "sibling" | "spouse" | "affine";
 export interface KinshipRecord {
@@ -42,6 +44,10 @@ export function loadHouseholds(fixture: HouseholdFixture, facts?: HouseholdFacts
     if (ids.has(row.id)) throw new Error(`duplicate household id: ${row.id}`);
     ids.add(row.id);
     if (!row.relation?.trim()) throw new Error(`empty household relation: ${row.id}`);
+    if (row.arrangement !== undefined) {
+      const errors = validateArrangement(row.arrangement);
+      if (errors.length) throw new Error(`household ${row.id} arrangement: ${errors.join("; ")}`);
+    }
     simTime(row.formed_at, `household ${row.id} formed_at`);
     const members = [...new Set(row.members)];
     if (facts?.residenceOf) for (const person of members) {
@@ -151,7 +157,12 @@ export class HouseholdStore implements Participant {
     return structuredClone(this.#state.households.find((row) => row.id === id));
   }
   members(id: HouseholdId): PersonId[] { return this.household(id)?.members ?? []; }
-  isMember(person: PersonId, household: HouseholdId): boolean {
+  /** A detached declaration; membership events never change its terms (PLAN H6). */
+  arrangement(household: HouseholdId): HouseholdArrangement | undefined {
+    return structuredClone(this.#state.households.find((row) => row.id === household)?.arrangement);
+  }
+  isMember(person: PersonId, household: HouseholdId, t?: number): boolean {
+    if (t !== undefined) return this.householdsOf(person, t).includes(household);
     return this.#state.households.some((row) => row.id === household && row.members.includes(person));
   }
   kin(person: PersonId): KinshipRecord[] {

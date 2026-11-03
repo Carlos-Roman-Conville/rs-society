@@ -8,6 +8,8 @@ export type { OpenProposal } from "./open-proposals.ts";
 export type { AmendmentTarget, AmendmentPayload } from "./amendment.ts";
 export * from "./ports.ts";
 export * from "./household.ts";
+export { authoriseDraw, validateArrangement } from "./arrangement.ts";
+export type { ArrangementEntry, HouseholdArrangement, DrawQuery, DrawFacts, DrawAuthorisation } from "./arrangement.ts";
 export * from "./organisation.ts";
 export * from "./affordance.ts";
 export { FORMATION_PROCESS, type FoundIntention, type SplitInput, type SecessionInput } from "./formation.ts";
