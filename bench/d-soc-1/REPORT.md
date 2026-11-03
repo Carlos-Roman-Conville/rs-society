@@ -1,7 +1,7 @@
 # D-SOC-1 — DESIGN §1.16 sourced rerun
 
 Run status: REFUSED
-Source SHA256: f54d305f436c0dd8aba2e831c637596f57c2a0ca9d318efab24abfe75351466b
+Source SHA256: 4d7e9b04ae74987f691ce5b5214ab0ab33b5667f7703a159f2637c0f551a5de8
 Study inputs SHA256: 4a421718ec8e1091d5f39fedcd9449b57c330ed2a6400363411258b352f80228
 Seed count: 30
 Seeds: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30

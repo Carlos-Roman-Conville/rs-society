@@ -1,5 +1,5 @@
 import type { Participant } from "@rex/kernel";
-import type { OrgId, PersonId } from "./types.ts";
+import type { OrgId, PersonId, HouseholdId } from "./types.ts";
 import { acceptance } from "./acceptance.ts";
 
 /** DESIGN §1.17: observer out port, dimensionless and nullable when unobserved. */
@@ -13,7 +13,7 @@ export const paymentAcceptancePort: PaymentAcceptancePort = Object.freeze({
   quantity: "society.payment_acceptance_share", unit: "1", nullable: true, read: acceptance,
 });
 
-export type AccountId = OrgId | PersonId;
+export type AccountId = OrgId | PersonId | HouseholdId;
 
 /** DESIGN §2.3: adapters own balances, rows and command cursors. Snapshots must
  * be detached; restore must not throw. Transfers are synchronous and either

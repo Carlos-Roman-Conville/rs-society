@@ -1,6 +1,12 @@
 {
   "processes": [
     {
+      "id": "society.household.structure",
+      "mechanisms": ["society.household.structure"],
+      "reads": ["body.crisis", "settlement.assignment"],
+      "writes": ["society.household", "society.kinship"]
+    },
+    {
       "id": "society.convention.payment_acceptance",
       "mechanisms": ["society.convention.payment_acceptance"],
       "reads": ["economy.events", "society.membership", "society.household"],

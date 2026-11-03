@@ -7,6 +7,7 @@ export * from "./choice.ts";
 export type { OpenProposal } from "./open-proposals.ts";
 export type { AmendmentTarget, AmendmentPayload } from "./amendment.ts";
 export * from "./ports.ts";
+export * from "./household.ts";
 export * from "./organisation.ts";
 export * from "./affordance.ts";
 export { FORMATION_PROCESS, type FoundIntention, type SplitInput, type SecessionInput } from "./formation.ts";
