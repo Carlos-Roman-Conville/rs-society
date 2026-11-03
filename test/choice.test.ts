@@ -39,7 +39,7 @@ describe("collective choice applies the charter (DESIGN §1.3)", () => {
   });
   it("simple majority rejects at half and distinguishes a tie from rejection", () => {
     expect(choose(["support", "support", "oppose", "abstain"]).payload.outcome).toBe("rejected");
-    expect(choose(["support", "oppose"]).payload).toMatchObject({ outcome: "no_act", reason: "tie with no tie-break" });
+    expect(choose(["support", "oppose"]).payload).toMatchObject({ outcome: "unresolved", reason: "tie; procedure silent" });
     expect(choose([]).kind).toBe("refused");
   });
   it("present and all-member denominators differ, with remote votes only for all-member rules", () => {
@@ -130,7 +130,7 @@ describe("collective choice applies the charter (DESIGN §1.3)", () => {
     const procedure: DecisionProcedure = { type: "council", roles: ["chair", "clerk"], procedure: {
       ...majority, quorum: { type: "fraction", value: 1 },
     } };
-    expect(choose(["support", "oppose", "support", "support"], { procedure }).payload.reason).toBe("tie with no tie-break");
+    expect(choose(["support", "oppose", "support", "support"], { procedure }).payload.reason).toBe("tie; procedure silent");
     expect(choose(["support", "support"], { procedure, present: [a, c, d, e] }).payload.reason).toBe("no quorum");
   });
   it("eligibility governs both proposers and ballots; outsiders cannot supply quorum", () => {
@@ -147,8 +147,8 @@ describe("only declared tie-breaks may resolve equal support and opposition", ()
   it("a named chair's expressed side breaks a tie, but an absent or abstaining chair does not", () => {
     const procedure = { ...majority, tie_break: { type: "position_holder", role: "chair" } } as const;
     expect(choose(tie, { present: [a, b], procedure }).payload).toMatchObject({ outcome: "accepted", tieBreak: { type: "position_holder", person: a } });
-    expect(choose(["abstain", "support", "oppose"], { procedure }).payload.reason).toBe("no decision");
-    expect(choose(["support", "oppose"], { procedure, intentions: ballots(tie, [b, c]), present: [b, c] }).payload.reason).toBe("no decision");
+    expect(choose(["abstain", "support", "oppose"], { procedure }).payload.reason).toBe("chair gave no casting choice");
+    expect(choose(["support", "oppose"], { procedure, intentions: ballots(tie, [b, c]), present: [b, c] }).payload.reason).toBe("chair gave no casting choice");
   });
   it("lots use exactly the organisation's Kernel stream and replay after restore", () => {
     const random = streams(27), reference = streams(27);
@@ -212,7 +212,7 @@ describe("May's conditions for simple majority on two expressed alternatives", (
     }
   });
   it("neutrality: exchanging the alternatives exchanges the outcome and preserves ties", () => {
-    const opposite = { accepted: "rejected", rejected: "accepted", no_act: "no_act" };
+    const opposite = { accepted: "rejected", rejected: "accepted", no_act: "no_act", unresolved: "unresolved" };
     for (const profile of profiles) {
       expect(binary(profile.map((v) => v === "support" ? "oppose" : "support"))).toBe(opposite[binary(profile)]);
     }
@@ -260,7 +260,7 @@ describe("pairwise majority reports cycles instead of imposing an agenda (DESIGN
     expect(pairwiseCollectiveChoice({ ...input, present: [] }).payload.reason).toBe("no quorum");
     expect(pairwiseCollectiveChoice({ ...input, proposals: input.proposals.map((p, i) => i === 2 ? { ...p, intention: { ...p.intention, person: outsider } } : p) }).payload.reason).toBe("ineligible proposer");
     expect(() => pairwiseCollectiveChoice({ ...input, comparisons: input.comparisons.slice(1) })).toThrow("exactly one");
-    expect(pairwiseCollectiveChoice({ ...input, comparisons: input.comparisons.map((p) => ({ ...p, intentions: [] })) }).payload.reason).toBe("no pairwise winner");
+    expect(pairwiseCollectiveChoice({ ...input, comparisons: input.comparisons.map((p) => ({ ...p, intentions: [] })) }).payload.reason).toBe("tie; procedure silent");
     expect(() => pairwiseCollectiveChoice({ ...input, procedure: { ...majority, tie_break: { type: "lots" } } })).toThrow("without a tie-break");
   });
 });

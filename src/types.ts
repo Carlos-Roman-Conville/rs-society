@@ -88,7 +88,8 @@ export type DecisionProcedure =
   | { readonly type: "position_holder"; readonly role: string }
   | ({ readonly type: "simple_majority"; readonly base: MajorityBase; readonly tie_break?:
       | { readonly type: "position_holder"; readonly role: string }
-      | { readonly type: "lots" } } & VotingConditions)
+      | { readonly type: "lots" }
+      | { readonly type: "no_act" } } & VotingConditions)
   | ({ readonly type: "qualified_majority"; readonly base: MajorityBase; readonly threshold: Parameter } & VotingConditions)
   | ({ readonly type: "unanimity" } & VotingConditions)
   | { readonly type: "council"; readonly roles: readonly string[]; readonly procedure: DecisionProcedure };

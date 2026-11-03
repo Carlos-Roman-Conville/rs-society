@@ -135,7 +135,7 @@ describe("DESIGN §1.14 2: every majority explicitly declares its denominator", 
     expect(vote("cast", { intentions: [
       { person: a, kind: "support", target: "proposal.1", t: 1 },
       { person: b, kind: "oppose", target: "proposal.1", t: 1 },
-    ] }).payload.reason).toBe("tie with no tie-break");
+    ] }).payload.reason).toBe("tie; procedure silent");
     const { base: _, ...conditions } = majority;
     expect(validateCharter({ ...draft, decision_procedure: { ...conditions, type: "unanimity" } }, capabilities)).toEqual([]);
   });

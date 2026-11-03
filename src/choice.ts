@@ -46,12 +46,13 @@ export interface ChoiceTally {
   readonly denominator: number;
   readonly quorumRequired: number;
 }
-export type NoActReason = "no quorum" | "tie with no tie-break" | "ineligible proposer" | "no decision";
+export type NoActReason = "no quorum" | "tie; declared no act" | "ineligible proposer" | "no decision";
+export type UnresolvedReason = "tie; procedure silent" | "chair gave no casting choice";
 export type ChoiceEvent = OrganisationEvent & {
   readonly payload: {
     readonly proposalId: string;
-    readonly outcome: "accepted" | "rejected" | "no_act";
-    readonly reason?: NoActReason;
+    readonly outcome: "accepted" | "rejected" | "no_act" | "unresolved";
+    readonly reason?: NoActReason | UnresolvedReason;
     readonly tally: ChoiceTally;
     readonly tieBreak?: { readonly type: "position_holder"; readonly person: PersonId }
       | { readonly type: "lots"; readonly draw: number };
@@ -99,7 +100,7 @@ function validateProcedure(rule: DecisionProcedure, positions: readonly Position
       if (rule.type === "qualified_majority") parameter(rule.threshold, "threshold", true);
       if (rule.type === "simple_majority" && rule.tie_break) {
         if (rule.tie_break.type === "position_holder") role(rule.tie_break.role);
-        else if (rule.tie_break.type !== "lots") throw new Error("unsupported tie-break");
+        else if (rule.tie_break.type !== "lots" && rule.tie_break.type !== "no_act") throw new Error("unsupported tie-break");
       }
       return;
     default: throw new Error("unsupported decision procedure");
@@ -171,9 +172,9 @@ export function collectiveChoice(input: ChoiceInput): ChoiceEvent {
       : rule.base === "present" ? present.length : eligible.length,
     quorumRequired,
   };
-  const event = (outcome: ChoiceEvent["payload"]["outcome"], reason?: NoActReason,
+  const event = (outcome: ChoiceEvent["payload"]["outcome"], reason?: NoActReason | UnresolvedReason,
     tieBreak?: ChoiceEvent["payload"]["tieBreak"]): ChoiceEvent => ({
-    org: input.org, t: input.t, kind: outcome === "no_act" ? "refused" : "act", cause: CHOICE_PROCESS,
+    org: input.org, t: input.t, kind: outcome === "no_act" || outcome === "unresolved" ? "refused" : "act", cause: CHOICE_PROCESS,
     intentions: [proposal, ...ballots],
     payload: { proposalId: input.proposalId, outcome, tally, ...(reason ? { reason } : {}), ...(tieBreak ? { tieBreak } : {}) },
   });
@@ -187,14 +188,18 @@ export function collectiveChoice(input: ChoiceInput): ChoiceEvent {
   // the threshold product upward (e.g. 0.14 * 100 may round above 14).
   if (rule.type === "qualified_majority") return event(yes / total >= rule.threshold! ? "accepted" : "rejected");
   if (rule.type === "unanimity") return event(yes === total ? "accepted" : "rejected");
+  // PLAN §8.5: an empty denominator remains a no-decision, not a tied choice.
+  if (!total) return event("no_act", "no decision");
   if (yes !== no) return event(yes > total / 2 ? "accepted" : "rejected");
-  if (!rule.tie_break) return event("no_act", "tie with no tie-break");
+  // PLAN §3 C / §8.5 (DC-16): silence does not declare a no-act rule.
+  if (!rule.tie_break) return event("unresolved", "tie; procedure silent");
+  if (rule.tie_break.type === "no_act") return event("no_act", "tie; declared no act");
   if (rule.tie_break.type === "position_holder") {
     const role = rule.tie_break.role;
     const person = positions.find((p) => p.role === role)!.holder;
-    if (person === null || !eligible.includes(person) || !input.present.includes(person)) return event("no_act", "no decision");
+    if (person === null || !eligible.includes(person) || !input.present.includes(person)) return event("unresolved", "chair gave no casting choice");
     const ballot = votes.find((v) => v.person === person);
-    if (!ballot || ballot.kind === "abstain") return event("no_act", "no decision");
+    if (!ballot || ballot.kind === "abstain") return event("unresolved", "chair gave no casting choice");
     return event(ballot.kind === "support" ? "accepted" : "rejected", undefined, { type: "position_holder", person });
   }
   if (!input.streams) throw new Error("lots tie-break requires Kernel streams");
@@ -213,9 +218,9 @@ export interface PairwiseChoiceInput extends Omit<ChoiceInput, "proposalId" | "p
 }
 export type PairwiseChoiceEvent = OrganisationEvent & {
   readonly payload: {
-    readonly outcome: "accepted" | "no_act";
+    readonly outcome: "accepted" | "no_act" | "unresolved";
     readonly winner?: string;
-    readonly reason?: NoActReason | "majority cycle" | "no pairwise winner";
+    readonly reason?: NoActReason | UnresolvedReason | "majority cycle" | "no pairwise winner";
     readonly cycle?: readonly string[];
     readonly comparisons: readonly { first: string; second: string; event: ChoiceEvent }[];
   };
@@ -277,6 +282,9 @@ export function pairwiseCollectiveChoice(input: PairwiseChoiceInput): PairwiseCh
     if (cycle) return finish({ outcome: "no_act", reason: "majority cycle", cycle: cycle.map((n) => ids[n]), comparisons: results });
   }
   const winner = edges.findIndex((outgoing) => outgoing.length === ids.length - 1);
+  if (winner < 0 && results.some((r) => r.event.payload.outcome === "unresolved")) {
+    return finish({ outcome: "unresolved", reason: "tie; procedure silent", comparisons: results });
+  }
   return winner >= 0 ? finish({ outcome: "accepted", winner: ids[winner], comparisons: results })
     : finish({ outcome: "no_act", reason: "no pairwise winner", comparisons: results });
 }

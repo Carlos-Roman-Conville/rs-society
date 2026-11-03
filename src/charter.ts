@@ -98,7 +98,8 @@ export function validateCharter(charter: Charter, capabilities: CharterCapabilit
         if (value.type === "simple_majority" && value.tie_break !== undefined && object(value.tie_break, `${path}.tie_break`)) {
           switch (value.tie_break.type) {
             case "position_holder": role(value.tie_break.role, `${path}.tie_break.role`); break;
-            case "lots": break;
+            case "lots":
+            case "no_act": break;
             default: unsupported(value.tie_break, `${path}.tie_break`);
           }
         }
@@ -236,7 +237,7 @@ export function validateReference(reference: unknown): string[] {
   const known = new Set([...Object.values(sections).flat(), "members", "positions", "count", "fraction", "lots"]);
   const nestedTypes: Record<string, readonly string[]> = {
     procedure: procedures, eligibility: ["members", "positions"], quorum: ["count", "fraction"],
-    tie_break: ["position_holder", "lots"],
+    tie_break: ["position_holder", "lots", "no_act"],
   };
   const walk = (value: unknown, path: string, annotated = false, types?: readonly string[]): void => {
     if (value === null) {
