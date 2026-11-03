@@ -1,0 +1,29 @@
+{
+  "_label": "Declared test values only — M1a scenario (England 1270, cereals, catalogue CAT-13; PLAN H6). Two co-resident members; person.m1a.visitor is a declared non-member for arrangement tests.",
+  "constraints": {
+    "onePerPerson": true
+  },
+  "persons": [
+    "person.m1a.member.a",
+    "person.m1a.member.b"
+  ],
+  "nonMember": "person.m1a.visitor",
+  "households": [
+    {
+      "id": "household.m1a",
+      "relation": "co-resident domestic group",
+      "members": [
+        "person.m1a.member.a",
+        "person.m1a.member.b"
+      ],
+      "residence": "fixture:m1a-dwelling",
+      "formed_at": 0,
+      "arrangement": {
+        "kind": "collective",
+        "entries": [],
+        "label": "fixture"
+      }
+    }
+  ],
+  "kinship": []
+}
