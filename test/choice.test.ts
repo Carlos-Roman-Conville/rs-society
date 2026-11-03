@@ -3,7 +3,9 @@ import { streams } from "@rex/kernel";
 import { readFileSync } from "node:fs";
 import { CHOICE_PROCESS, collectiveChoice, pairwiseCollectiveChoice, type ChoiceInput, type PairwiseChoiceInput } from "../src/choice.ts";
 import { validateCharter } from "../src/charter.ts";
+import { OrganisationStore } from "../src/organisation.ts";
 import { mintId, type DecisionProcedure, type PersonId, type SocialIntention } from "../src/types.ts";
+import { a as la, b as lb, c as lc, d as ld, charter, capabilities, foundFixture, setup, vote as lifecycleVote } from "./lifecycle-fixture.ts";
 
 // All counts, times, thresholds and seeds in this file are fixture (test only).
 const people = Array.from({ length: 6 }, (_, person) => mintId({ person }, "person").id);
@@ -139,6 +141,81 @@ describe("collective choice applies the charter (DESIGN §1.3)", () => {
     expect(choose([], { procedure, proposal: { ...proposal, person: c } }).payload.reason).toBe("ineligible proposer");
     expect(choose([], { proposal: { ...proposal, person: outsider } }).payload.reason).toBe("ineligible proposer");
     expect(choose(["support"], { procedure, present: [outsider] }).payload.reason).toBe("no quorum");
+  });
+});
+
+describe("hand-worked tie outcomes under simple majority (PLAN §3 C, DC-16)", () => {
+  const twoTwo = ["support", "support", "oppose", "oppose"] as const;
+  const four = [a, b, c, d] as const;
+  const tied = (extra: Partial<ChoiceInput> = {}) => choose(twoTwo, {
+    members: [...four], present: [...four], intentions: ballots(twoTwo, four),
+    positions: [{ role: "chair", holder: a }, { role: "clerk", holder: b }],
+    ...extra,
+  });
+  it("simple majority with no tie_break: a 2–2 tie is unresolved (tie; procedure silent)", () => {
+    expect(tied().payload).toMatchObject({ outcome: "unresolved", reason: "tie; procedure silent",
+      tally: { support: [a, b], oppose: [c, d], denominator: 4 } }); // fixture (test only)
+  });
+  it("simple majority with tie_break no_act: the same 2–2 ballots give no_act (tie; declared no act)", () => {
+    const procedure = { ...majority, tie_break: { type: "no_act" } } as const; // fixture (test only)
+    expect(tied({ procedure }).payload).toMatchObject({ outcome: "no_act", reason: "tie; declared no act" });
+  });
+  it("position_holder tie_break with a vacant chair leaves the tie unresolved (chair gave no casting choice)", () => {
+    const procedure = { ...majority, tie_break: { type: "position_holder", role: "chair" } } as const; // fixture (test only)
+    expect(tied({ procedure, positions: [{ role: "chair", holder: null }, { role: "clerk", holder: b }] }).payload.reason)
+      .toBe("chair gave no casting choice");
+  });
+  it("position_holder tie_break with an absent chair leaves the tie unresolved (chair gave no casting choice)", () => {
+    const procedure = { ...majority, tie_break: { type: "position_holder", role: "chair" } } as const; // fixture (test only)
+    const voters = [b, c, d, e] as const;
+    expect(choose(["support", "support", "oppose", "oppose"], {
+      members: [a, ...voters], present: [...voters], procedure,
+      intentions: ballots(["support", "support", "oppose", "oppose"], voters),
+      positions: [{ role: "chair", holder: a }, { role: "clerk", holder: b }],
+    }).payload.reason).toBe("chair gave no casting choice");
+  });
+  it("position_holder tie_break with an abstaining chair leaves the tie unresolved (chair gave no casting choice)", () => {
+    const procedure = { ...majority, tie_break: { type: "position_holder", role: "chair" } } as const; // fixture (test only)
+    expect(choose(["abstain", "support", "oppose"], { members: four, present: four, procedure }).payload.reason)
+      .toBe("chair gave no casting choice");
+  });
+  it("position_holder tie_break with the chair present and voting: the chair's side wins", () => {
+    const procedure = { ...majority, tie_break: { type: "position_holder", role: "chair" } } as const; // fixture (test only)
+    expect(choose(["support", "oppose"], { members: [a, b], present: [a, b], positions: [{ role: "chair", holder: a }], procedure }).payload)
+      .toMatchObject({ outcome: "accepted", tieBreak: { type: "position_holder", person: a } });
+  });
+  it("simple majority with base cast: an empty denominator stays no decision (unchanged)", () => {
+    const procedure = { ...majority, base: "cast" } as const; // fixture (test only)
+    expect(choose(["abstain", "abstain"], { members: [a, b], present: [a, b], positions: [], procedure }).payload.reason).toBe("no decision");
+  });
+  it("an unresolved close commits nothing through the store (membership and charter unchanged)", () => {
+    const dues = { action: "amend", section: "obligations", component: 0, parameter: "amount", value: 99 };
+    const rules = { ...charter, decision_interval: 4,
+      amendment: { ...lifecycleVote, base: "present" as const }, // fixture (test only)
+      obligations: [{ type: "dues" as const, amount: 2, schedule: { first: 4, period: 4 } }] };
+    const { ledger, views } = setup();
+    const store = new OrganisationStore({ start: 0, counters: {}, ledger, views, capabilities, streams: streams(27) });
+    const org = foundFixture(store, [la, lb, lc, ld], rules);
+    const charterBefore = structuredClone(store.get(org)!.charter);
+    const membersBefore = [la, lb, lc, ld].map((person) => store.memberships(person));
+    const request = { proposalId: "proposal.1", proposal: { person: la, kind: "propose" as const, target: org, t: 0,
+      payload: dues }, ballots: [] as SocialIntention[] };
+    store.attempt(request.proposal, { decision: request });
+    store.advanceTo(1);
+    for (const person of [la, lb, lc, ld]) {
+      store.attempt({ person, kind: "attend", target: "proposal.1", t: 1 });
+    }
+    store.advanceTo(2);
+    for (const person of [la, lb, lc, ld]) {
+      const kind = person === la || person === lb ? "support" : "oppose"; // fixture (test only)
+      store.attempt({ person, kind, target: "proposal.1", t: 2 });
+    }
+    store.advanceTo(4);
+    const closed = store.proposals.find((p) => p.id === "proposal.1")!.result!;
+    expect(closed.payload).toMatchObject({ outcome: "unresolved", reason: "tie; procedure silent" });
+    expect(store.get(org)!.charter).toEqual(charterBefore);
+    expect([la, lb, lc, ld].map((person) => store.memberships(person))).toEqual(membersBefore);
+    expect(store.events.some((e) => e.payload?.amendmentApplied)).toBe(false);
   });
 });
 

@@ -311,7 +311,8 @@ world, no fiction value); each is recorded here as the keeper's ruling, evidence
    - `members`: all eligible members.
 
    `tie_break` stays optional; absent means a tie is a recorded no-act. Historical ordinances differ on both, so
-   both are charter data.
+   both are charter data. Superseded 2026-11-02 (PLAN.md §3 C, agreed with Government, DC-16): a tie with no
+   declared tie rule is `unresolved`; a declared `no_act` tie rule gives a no-act.
 3. **Founding (§1.4).** `founding.window` (a duration) and `founding.min_members` are required fields of a draft
    charter, chosen by the founder; there are no engine defaults. `classifyInstitution` is exported from the package
    barrel for observers and History; no other `src/` module imports it (enforced by a test).
